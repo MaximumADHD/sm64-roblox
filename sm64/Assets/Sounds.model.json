@@ -1,0 +1,502 @@
+{
+	"className": "Folder",
+
+	"children": [
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_BONK"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_FLYING_FAST"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_HEAVY_LANDING"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_HIT"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_METAL_BONK"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_METAL_HEAVY_LANDING"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_METAL_LANDING"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_METAL_STEP"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_PAT_BACK"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_SIDE_FLIP"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_SPIN"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_BODY_HIT_GROUND"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_LANDING_DEFAULT"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_LANDING_GRASS"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_LANDING_ICE"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_LANDING_METAL"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_LANDING_SAND"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_LANDING_SNOW"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_LANDING_SPOOKY"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_LANDING_STONE"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_LANDING_WATER"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_STEP_DEFAULT"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_STEP_GRASS"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_STEP_ICE"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_STEP_METAL"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_STEP_SAND"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_STEP_SNOW"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_STEP_SPOOKY"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_STEP_STONE"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TERRAIN_STEP_WATER"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_THROW"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "ACTION_TWIRL"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_ATTACKED"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_DIE"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_DOH"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_GROUND_POUND_WAH"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_HAHA"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_HOO"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_HOOHOO"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_IMA_TIRED"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_JUMP_HOO"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_JUMP_WAH"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_MAMA_MIA"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_ON_FIRE"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_OOOF"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_PANTING"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_PUNCH_HOO"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_PUNCH_WAH"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_PUNCH_YAH"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_SNORING1"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_SNORING2"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_SNORING3"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_THROW_YAH"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_UH"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_UH2"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_WAAAOOOW"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_WAH"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_WAHA"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_WHOA"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_YAH"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_YAHOO"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_YAWNING"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MARIO_YIPPEE"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MOVING_FLYING"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MOVING_LAVA_BURN"
+		},
+		{
+			"className": "Sound",
+			"properties": {
+				"SoundId": ""
+			},
+			"name": "MOVING_TERRAIN_SLIDE"
+		},
+		{
+			"className": "Configuration",
+			"name": "ACTION_TERRAIN_JUMP"
+		},
+		{
+			"className": "Configuration",
+			"name": "ACTION_TERRAIN_LANDING"
+		},
+		{
+			"className": "Configuration",
+			"name": "ACTION_TERRAIN_STEP"
+		},
+		{
+			"className": "Configuration",
+			"name": "MARIO_JUMP"
+		},
+		{
+			"className": "Configuration",
+			"attributes": {
+				"MARIO_WAHA": 1,
+				"MARIO_YAHOO": 3,
+				"MARIO_YIPPEE": 1
+			},
+			"name": "MARIO_YAHOO_WAHA_YIPPEE"
+		},
+		{
+			"className": "Configuration",
+			"attributes": {
+				"MARIO_YAH": 1,
+				"MARIO_HOO": 1,
+				"MARIO_WAH": 1
+			},
+			"name": "MARIO_YAH_WAH_HOO"
+		}
+	]
+}

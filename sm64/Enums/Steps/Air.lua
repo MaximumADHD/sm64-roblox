@@ -1,0 +1,13 @@
+--!strict
+
+return {
+	NONE = 0,
+	LANDED = 1,
+	HIT_WALL = 2,
+	GRABBED_LEDGE = 3,
+	GRABBED_CEILING = 4,
+	HIT_LAVA_WALL = 6,
+
+	CHECK_LEDGE_GRAB = 1,
+	CHECK_HANG = 2,
+}

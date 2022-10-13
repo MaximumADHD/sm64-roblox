@@ -1,0 +1,26 @@
+--!strict
+
+return {
+	STATIONARY = bit32.lshift(1, 9),
+	MOVING = bit32.lshift(1, 10),
+	AIR = bit32.lshift(1, 11),
+	INTANGIBLE = bit32.lshift(1, 12),
+	SWIMMING = bit32.lshift(1, 13),
+	METAL_WATER = bit32.lshift(1, 14),
+	SHORT_HITBOX = bit32.lshift(1, 15),
+	RIDING_SHELL = bit32.lshift(1, 16),
+	INVULNERABLE = bit32.lshift(1, 17),
+	BUTT_OR_STOMACH_SLIDE = bit32.lshift(1, 18),
+	DIVING = bit32.lshift(1, 19),
+	ON_POLE = bit32.lshift(1, 20),
+	HANGING = bit32.lshift(1, 21),
+	IDLE = bit32.lshift(1, 22),
+	ATTACKING = bit32.lshift(1, 23),
+	ALLOW_VERTICAL_WIND_ACTION = bit32.lshift(1, 24),
+	CONTROL_JUMP_HEIGHT = bit32.lshift(1, 25),
+	ALLOW_FIRST_PERSON = bit32.lshift(1, 26),
+	PAUSE_EXIT = bit32.lshift(1, 27),
+	SWIMMING_OR_FLYING = bit32.lshift(1, 28),
+	WATER_OR_TEXT = bit32.lshift(1, 29),
+	THROWING = bit32.lshift(1, 31),
+}

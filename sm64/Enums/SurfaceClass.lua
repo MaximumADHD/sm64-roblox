@@ -1,0 +1,8 @@
+--!strict
+
+return {
+	DEFAULT = 0x0000,
+	VERY_SLIPPERY = 0x0013,
+	SLIPPERY = 0x0014,
+	NOT_SLIPPERY = 0x0015,
+}

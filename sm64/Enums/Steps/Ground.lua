@@ -1,0 +1,9 @@
+--!strict
+
+return {
+	LEFT_GROUND = 0,
+	NONE = 1,
+	HIT_WALL = 2,
+	HIT_WALL_STOP_QSTEPS = 3,
+	HIT_WALL_CONTINUE_QSTEPS = 4,
+}

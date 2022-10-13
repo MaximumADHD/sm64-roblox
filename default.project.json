@@ -1,0 +1,53 @@
+{
+    "name": "Super Mario 64",
+
+    "tree": {
+        "$className": "DataModel",
+        "$ignoreUnknownInstances": true,
+        
+        "ReplicatedFirst": {
+            "$className": "ReplicatedFirst",
+            "$ignoreUnknownInstances": true,
+
+            "SM64": {
+                "$path": "SM64",
+                "$ignoreUnknownInstances": true
+            }
+        },
+
+        "ServerScriptService": {
+            "$className": "ServerScriptService",
+            "$ignoreUnknownInstances": true,
+
+            "LazyNetworking": {
+                "$path": "rbx/LazyNetworking.server.lua"
+            }
+        },
+
+        "StarterPlayer": {
+            "$className": "StarterPlayer",
+            "$ignoreUnknownInstances": true,
+
+            "StarterCharacterScripts": {
+                "$className": "StarterCharacterScripts",
+                "$ignoreUnknownInstances": true,
+
+                "Animate": {
+                    "$className": "Hole"
+                },
+
+                "Sound": {
+                    "$className": "Hole"
+                },
+
+                "Health": {
+                    "$className": "Hole"
+                },
+
+                "Character": {
+                    "$path": "rbx/Character.server.lua"
+                }
+            }
+        }
+    }
+}
