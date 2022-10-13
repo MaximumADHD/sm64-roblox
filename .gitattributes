@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Syntax highlighting for Roblox XML files
+*.rbxmx linguist-language=XML
+*.rbxlx linguist-language=XML
