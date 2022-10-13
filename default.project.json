@@ -21,12 +21,20 @@
 
             "LazyNetworking": {
                 "$path": "rbx/LazyNetworking.server.lua"
+            },
+
+            "StarterCharacter": {
+                "$path": "rbx/StarterCharacter"
             }
         },
 
         "StarterPlayer": {
             "$className": "StarterPlayer",
             "$ignoreUnknownInstances": true,
+
+            "$properties": {
+                "EnableMouseLockOption": false
+            },
 
             "StarterCharacterScripts": {
                 "$className": "StarterCharacterScripts",
@@ -44,8 +52,8 @@
                     "$className": "Hole"
                 },
 
-                "Character": {
-                    "$path": "rbx/Character.server.lua"
+                "Appearance": {
+                    "$path": "rbx/Appearance.server.lua"
                 }
             }
         }

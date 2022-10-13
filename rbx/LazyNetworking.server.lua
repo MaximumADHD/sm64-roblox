@@ -56,5 +56,3 @@ local function onNetworkReceive(player: Player, cmd: string, ...)
 end
 
 lazy.OnServerEvent:Connect(onNetworkReceive)
-PhysicsService:CreateCollisionGroup("Player")
-PhysicsService:CollisionGroupSetCollidable("Default", "Player", false)

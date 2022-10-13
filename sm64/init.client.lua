@@ -1,12 +1,12 @@
 --!strict
 
-local Players = game:GetService("Players") :: Players
-local RunService = game:GetService("RunService") :: RunService
-local StarterGui = game:GetService("StarterGui") :: StarterGui
-local TweenService = game:GetService("TweenService") :: TweenService
-local UserInputService = game:GetService("UserInputService") :: UserInputService
-local ReplicatedStorage = game:GetService("ReplicatedStorage") :: ReplicatedStorage
-local ContextActionService = game:GetService("ContextActionService") :: ContextActionService
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local StarterGui = game:GetService("StarterGui")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ContextActionService = game:GetService("ContextActionService")
 
 local Sounds = require(script.Sounds)
 local Enums = require(script.Enums)
@@ -238,11 +238,18 @@ local enumMap = {}
 local goalCF: CFrame
 local activeTrack: AnimationTrack?
 local peakSpeed = 0
+local emptyId = ""
 
 local reset = Instance.new("BindableEvent")
 reset.Archivable = false
 reset.Parent = script
 reset.Name = "Reset"
+
+if RunService:IsStudio() then
+	local dummySequence = Instance.new("KeyframeSequence")
+	local provider = game:GetService("KeyframeSequenceProvider")
+	emptyId = provider:RegisterKeyframeSequence(dummySequence)
+end
 
 while not player.Character do
 	player.CharacterAdded:Wait()
@@ -328,6 +335,14 @@ local function update()
 			end
 
 			if not activeTrack and anim then
+				if anim.AnimationId == "" then
+					if RunService:IsStudio() then
+						warn("!! FIXME: Empty AnimationId for", anim.Name, "will break in live games!")
+					end
+
+					anim.AnimationId = emptyId
+				end
+
 				local track = animator:LoadAnimation(anim)
 				track:Play(animSpeed, 1, 0)
 				activeTrack = track

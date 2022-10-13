@@ -15,7 +15,7 @@ argv = argv[index:]
 offset = argv[0]
 name = argv[1]
 
-romfileSrc = open("C:/Users/clone/Downloads/Super Mario 64 (USA)/sm64.z64", 'rb')
+romfileSrc = open("sm64.z64", 'rb')
 mario_geo = bpy.data.objects['mario_geo']
 
 levelParsed = sm64_level_parser.parseLevelAtPointer(romfileSrc, sm64_level_parser.level_pointers[bpy.context.scene.levelAnimImport])

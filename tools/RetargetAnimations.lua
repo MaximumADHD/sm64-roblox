@@ -1,5 +1,7 @@
---!strict
+-- This script was written (quite rigidly) for use in the provided RetargetAnimations.rbxl place.
+-- KeyframeSequences are not provided as mentioned in the README, you'll have to extract them yourself :)
 
+--!strict
 local ServerStorage = game:GetService("ServerStorage")
 local StarterCharacter = workspace.StarterCharacter
 

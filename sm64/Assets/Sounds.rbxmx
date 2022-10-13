@@ -1,0 +1,501 @@
+<roblox version="4">
+	<Item class="Folder">
+		<Properties>
+			<string name="Name">Sounds</string>
+		</Properties>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_BONK</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_FLYING_FAST</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_HEAVY_LANDING</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_HIT</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_METAL_BONK</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_METAL_HEAVY_LANDING</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_METAL_LANDING</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_METAL_STEP</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_PAT_BACK</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_SIDE_FLIP</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_SPIN</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_BODY_HIT_GROUND</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_LANDING_DEFAULT</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_LANDING_GRASS</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_LANDING_ICE</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_LANDING_METAL</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_LANDING_SAND</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_LANDING_SNOW</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_LANDING_SPOOKY</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_LANDING_STONE</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_LANDING_WATER</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_STEP_DEFAULT</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_STEP_GRASS</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_STEP_ICE</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_STEP_METAL</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_STEP_SAND</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_STEP_SNOW</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_STEP_SPOOKY</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_STEP_STONE</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TERRAIN_STEP_WATER</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_THROW</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">ACTION_TWIRL</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_ATTACKED</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_DIE</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_DOH</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_GROUND_POUND_WAH</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_HAHA</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_HOO</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_HOOHOO</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_IMA_TIRED</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_JUMP_HOO</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_JUMP_WAH</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_MAMA_MIA</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_ON_FIRE</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_OOOF</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_PANTING</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_PUNCH_HOO</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_PUNCH_WAH</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_PUNCH_YAH</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_SNORING1</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_SNORING2</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_SNORING3</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_THROW_YAH</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_UH</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_UH2</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_WAAAOOOW</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_WAH</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_WAHA</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_WHOA</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_YAH</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_YAHOO</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_YAWNING</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MARIO_YIPPEE</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MOVING_FLYING</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MOVING_LAVA_BURN</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Sound">
+			<Properties>
+				<float name="EmitterSize">8</float>
+				<string name="Name">MOVING_TERRAIN_SLIDE</string>
+				<float name="xmlRead_MaxDistance_3">128</float>
+			</Properties>
+		</Item>
+		<Item class="Configuration">
+			<Properties>
+				<string name="Name">ACTION_TERRAIN_JUMP</string>
+			</Properties>
+		</Item>
+		<Item class="Configuration">
+			<Properties>
+				<string name="Name">ACTION_TERRAIN_LANDING</string>
+			</Properties>
+		</Item>
+		<Item class="Configuration">
+			<Properties>
+				<string name="Name">ACTION_TERRAIN_STEP</string>
+			</Properties>
+		</Item>
+		<Item class="Configuration">
+			<Properties>
+				<string name="Name">MARIO_JUMP</string>
+			</Properties>
+		</Item>
+		<Item class="Configuration">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[AwAAAAoAAABNQVJJT19XQUhBBgAAAAAAAPA/CwAAAE1BUklPX1lBSE9PBgAAAAAAAAhADAAAAE1BUklPX1lJUFBFRQYAAAAAAADwPw==]]></BinaryString>
+				<string name="Name">MARIO_YAHOO_WAHA_YIPPEE</string>
+			</Properties>
+		</Item>
+		<Item class="Configuration">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[AwAAAAkAAABNQVJJT19IT08GAAAAAAAA8D8JAAAATUFSSU9fV0FIBgAAAAAAAPA/CQAAAE1BUklPX1lBSAYAAAAAAADwPw==]]></BinaryString>
+				<string name="Name">MARIO_YAH_WAH_HOO</string>
+			</Properties>
+		</Item>
+	</Item>
+</roblox>

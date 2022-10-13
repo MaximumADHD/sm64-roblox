@@ -1,0 +1,1229 @@
+<!--
+	The animations here are empty, but define the following attributes:
+	* bool    Loop
+	* int     NumFrames
+	* string  StartAddress
+	* string  UploadHash
+-->
+
+<roblox version="4">
+	<Item class="Folder">
+		<Properties>
+			<string name="Name">Animations</string>
+		</Properties>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY2RkRDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">AIRBORNE_ON_STOMACH</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI5MEU0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">AIR_KICK</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAAPA/DAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY0RTdDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">A_POSE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAEBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEVGRUQ0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">BACKFLIP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgEhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTVDOUYwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">BACKWARDS_WATER_KB</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwFNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEVEMUU4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">BACKWARD_AIR_KB</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAD1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTQ2REU4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">BACKWARD_KB</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNFNjhDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">BACKWARD_SPINNING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTJFN0JDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">BEING_GRABBED</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAD1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTJBRDI4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">BEND_KNESS_RIDING_SHELL</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAIGNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTIwNTk0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">BOTTOM_STUCK_IN_GROUND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNFODA0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">BREAKDANCE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEZDREU4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CLIMB_DOWN_LEDGE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAFZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEYwOEMwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CLIMB_UP_POLE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAFZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTExNTA0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">COUGHING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAwFZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU4OTdDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CRAWLING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwF1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTAzNTNDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CREDITS_LOOK_BACK_THEN_RUN</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAD1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEZEODgwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CREDITS_LOOK_UP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgEBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTAwMERDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CREDITS_LOWER_HAND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwFtADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTA5OTI0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CREDITS_PEACE_SIGN</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgFdADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEZFM0Y0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CREDITS_RAISE_HAND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEZERjkwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CREDITS_RETURN_FROM_LOOK_UP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwFhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTAxNDEwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CREDITS_START_WALK_LOOK_UP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTAwQzI0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CREDITS_TAKE_OFF_CAP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgEBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEZEMjA4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CREDITS_WAVING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAFZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU3REEwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CROUCHING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAC5ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY1NkVDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CROUCH_FROM_FAST_LONGJUMP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU0NTQwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CROUCH_FROM_SLIDE_KICK</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY1Qzk4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">CROUCH_FROM_SLOW_LONGJUMP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTUyMjI0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">DIVE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI4MjZDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">DOUBLE_JUMP_FALL</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAABBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI5ODI0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">DOUBLE_JUMP_RISE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwFNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTVGRjg4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">DROWNING_PART1</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAQFFADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTYxNEI4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">DROWNING_PART2</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgFdADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTE1NjA0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">DYING_FALL_OVER</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwFhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTQxNDFDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">DYING_IN_QUICKSAND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgE9ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEVFQ0FDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">DYING_ON_BACK</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgEZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTBFQTBDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">DYING_ON_STOMACH</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAEpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTQ1QkY4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">ELECTROCUTION</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU1MjE0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FALL_FROM_SLIDE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTJBNDYwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FALL_FROM_SLIDE_KICK</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI0Rjc4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FALL_FROM_SLIDING_WITH_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTY0NTU4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FALL_FROM_WATER</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAC5ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI0OTQwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FALL_LAND_WITH_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwFNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEVEMUQwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FALL_OVER_BACKWARDS</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAPA/DAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI0RTEwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FALL_WITH_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAC5ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTE4MjE4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FAST_LEDGE_GRAB</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY2MkQ0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FAST_LONGJUMP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTBDMjU0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FIRE_LAVA_BURN</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAFZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTcwQ0IwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FIRST_PERSON</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAABBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNDMUI0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FIRST_PUNCH</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNDNkI0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FIRST_PUNCH_FAST</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTY1NjEwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FLUTTERKICK</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTVFMTY0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FLUTTERKICK_WITH_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTMwN0YwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FLY_FROM_CANNON</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwFNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTBEMzA0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FORWARD_AIR_KB</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAC5ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI3MjQ4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FORWARD_FLIP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAD1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTQ3ODM0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FORWARD_KB</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNFNjc0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FORWARD_SPINNING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgERADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTc4QzgwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">FORWARD_SPINNING_FLIP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAADZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTJFMDc4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">GENERAL_FALL</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BQAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTJFMDkwCgAAAFN0YXJ0RnJhbWUGAAAAAAAAAAAKAAAAVXBsb2FkSGFzaAIAAAAA]]></BinaryString>
+				<string name="Name">GENERAL_LAND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAEJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTJFRDBDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">GRAB_HEAVY_OBJECT</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEYyMDc4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">GRAB_POLE_SHORT</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEYyNTA4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">GRAB_POLE_SWING_PART1</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEYyNTIwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">GRAB_POLE_SWING_PART2</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgENADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTUyODNDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">GROUND_BONK</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNCOTA0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">GROUND_KICK</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BQAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTIwMTc4CgAAAFN0YXJ0RnJhbWUGAAAAAAAAIkAKAAAAVXBsb2FkSGFzaAIAAAAA]]></BinaryString>
+				<string name="Name">GROUND_POUND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAABBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTFGOTBDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">GROUND_POUND_LANDING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNCMTRDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">GROUND_THROW</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAgEFADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEYzOEYwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">HANDSTAND_IDLE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY0M0Y0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">HANDSTAND_JUMP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgEhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTczQ0Y4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">HANDSTAND_LEFT</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgEhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTc0NDkwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">HANDSTAND_RIGHT</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAEpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTE4ODQwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">HANG_ON_CEILING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgENADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTBDQkE4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">HANG_ON_OWL</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAIGNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTFDNzc0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">HEAD_STUCK_IN_GROUND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTZDNDJDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">HEAVY_THROW</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAD1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTczNDRDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">IDLE_HEAD_CENTER</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAD1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTcyMkY0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">IDLE_HEAD_LEFT</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAD1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTcyQkEwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">IDLE_HEAD_RIGHT</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgENADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTQ4MjQ0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">IDLE_HEAVY_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAwFhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTQyNzU4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">IDLE_IN_QUICKSAND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAgEhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTE3NUVDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">IDLE_ON_LEDGE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAwFtADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY0QTY0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">IDLE_ON_POLE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAAE5ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTIzMzhDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">IDLE_WITH_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI0MEI4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">JUMP_LAND_WITH_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAABhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI3ODcwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">JUMP_RIDING_SHELL</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI0NjE0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">JUMP_WITH_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI3QkVDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">LAND_FROM_DOUBLE_JUMP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BQAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAEJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI4NjM4CgAAAFN0YXJ0RnJhbWUGAAAAAAAAO0AKAAAAVXBsb2FkSGFzaAIAAAAA]]></BinaryString>
+				<string name="Name">LAND_FROM_SINGLE_JUMP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwFNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTBEMkVDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">LAND_ON_STOMACH</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwGJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTJCMzYwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">LEGS_STUCK_IN_GROUND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAIGNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTMxNzYwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">MISSING_CAP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAYGJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTQzMjBDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">MOVE_IN_QUICKSAND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTMxMUQ0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">MOVE_ON_WIRE_NET_LEFT</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTMwQkQ0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">MOVE_ON_WIRE_NET_RIGHT</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNDRkZDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">PICK_UP_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAC5ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNFMEYwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">PLACE_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAE1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTM0N0M0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">PULL_DOOR_WALK_IN</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAADpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNENEJDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">PUSHING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgEhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTM1QzlDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">PUSH_DOOR_WALK_IN</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgEZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTE5N0NDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">PUT_CAP_ON</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTFDMzE0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">QUICKLY_PUT_CAP_ON</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAEBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNBM0U4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">REACH_POCKET</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgElADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEYyQkYwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">RETURN_FROM_HANDSTAND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTc4NUI4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">RETURN_FROM_STAR_DANCE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTZBNDc4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">RETURN_FROM_WATER_STAR_DANCE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTVDMTQ0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">RETURN_STAR_APPROACH_DOOR</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI1OEVDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">RIDING_SHELL</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAgFFADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNGMTM4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">RUNNING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAgFFADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNGMTUwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">RUNNING_UNUSED</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAwFJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY4NzBDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">RUN_WITH_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAAhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNDNDRDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SECOND_PUNCH</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAChADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNDQUM0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SECOND_PUNCH_FAST</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgE9ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEZDMUE4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SHIVERING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEZCQzE4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SHIVERING_RETURN_TO_IDLE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAQFVADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEZBNjE4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SHIVERING_WARMING_HAND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAABBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTQ2QjQwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SHOCKED</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAgE9ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTQ5QTg0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SIDESTEP_LEFT</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAgE9ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTRBOUMwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SIDESTEP_RIGHT</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAEJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI4NjIwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SINGLE_JUMP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY0RkUwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SKID_ON_GROUND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAgENADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTUwQzMwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SLEEP_IDLE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAgEhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTUxQUY0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SLEEP_LYING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgENADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTUwRTg4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SLEEP_START_LYING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAABhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU1NzFDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SLIDE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BQAAAAQAAABGbGlwAwEEAAAATG9vcAMACQAAAE51bUZyYW1lcwYAAAAAAAA2QAwAAABTdGFy
+dEFkZHJlc3MCBgAAADU2RUVBQwoAAABVcGxvYWRIYXNoAgAAAAA=]]></BinaryString>
+				<string name="Name">SLIDEFLIP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BQAAAAQAAABGbGlwAwEEAAAATG9vcAMACQAAAE51bUZyYW1lcwYAAAAAAAAiQAwAAABTdGFy
+dEFkZHJlc3MCBgAAADU2RUFBMAoAAABVcGxvYWRIYXNoAgAAAAA=]]></BinaryString>
+				<string name="Name">SLIDEFLIP_LAND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTc2OUQwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SLIDEJUMP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTUyMjNDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SLIDE_DIVE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAABhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU0MUE0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SLIDE_KICK</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU0QTk0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SLIDE_MOTIONLESS</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI1MzE4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SLIDING_ON_BOTTOM_WITH_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAEJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTJGQTBDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SLOW_LAND_FROM_DIVE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgEBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEVDNjkwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SLOW_LEDGE_GRAB</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY2QTc4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SLOW_LONGJUMP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwFhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY5M0EwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SLOW_WALK_WITH_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTQwMzVDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SOFT_BACK_KB</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTQwQkE0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SOFT_FRONT_KB</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTBCRDRDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">STAND_UP_FROM_LAVA_BOOST</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI1MzMwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">STAND_UP_FROM_SLIDING_WITH_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAABhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTVBOTkwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_CRAWLING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAABBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU3QUVDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_CROUCHING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI5QURDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_FORWARD_SPINNING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTIwMTYwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_GROUND_POUND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY0NDBDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_HANDSTAND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTM5RkVDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_REACH_POCKET</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNEQUQ0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_RIDING_SHELL</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgEhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTRCQjZDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_SLEEP_IDLE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgFBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTRDRDU0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_SLEEP_SCRATCH</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgE9ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTRGODg4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_SLEEP_SITTING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAE1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTRFNEY0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_SLEEP_YAWN</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAD1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTc2MEVDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_TIPTOE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAABBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU3NTA0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_TWIRL</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTc2OUU4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">START_WALLKICK</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgE5ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTc3MDY0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">STAR_DANCE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAABhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTVBNUY4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">STOP_CRAWLING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU3NzMwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">STOP_CROUCHING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAD1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTVFQ0NDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">STOP_GRAB_OBJ_WATER</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTNBQjU4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">STOP_REACH_POCKET</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BQAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY0RkY4CgAAAFN0YXJ0RnJhbWUGAAAAAAAAGEAKAAAAVXBsb2FkSGFzaAIAAAAA]]></BinaryString>
+				<string name="Name">STOP_SKID</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU0QUFDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">STOP_SLIDE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAEJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTUzNEY0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">STOP_SLIDE_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwFhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTBGNkY0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SUFFOCATING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgE9ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTVBRDFDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SUMMON_STAR</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAChADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTY0RDJDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SWIM_PART1</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTY1MjBDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SWIM_PART2</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAC5ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTVEQUFDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SWIM_WITH_OBJ_PART1</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTVERUM4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">SWIM_WITH_OBJ_PART2</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwFhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTFBNzU0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">TAKE_CAP_OFF_THEN_ON</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAQGFADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTEyQjRDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">THROW_CATCH_KEY</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI5RkRDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">THROW_LIGHT_OBJECT</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAgFxADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU1OTNDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">TIPTOE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgEFADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTcwMUY4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">TRIPLE_JUMP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACpADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTc5ODI4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">TRIPLE_JUMP_FLY</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAC5ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTFGQjk4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">TRIPLE_JUMP_GROUND_POUND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAD5ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTZGNzUwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">TRIPLE_JUMP_LAND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTZFMzdDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">TURNING_PART1</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BQAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTZFMzk0CgAAAFN0YXJ0RnJhbWUGAAAAAAAAGEAKAAAAVXBsb2FkSGFzaAIAAAAA]]></BinaryString>
+				<string name="Name">TURNING_PART2</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAPA/DAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU3M0EwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">TWIRL</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTU3MDMwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">TWIRL_LAND</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAQGJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTM2RDY0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">UNLOCK_DOOR</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTc1ODQ0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WAKE_FROM_LYING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTc1MEMwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WAKE_FROM_SLEEP</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAAFNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTI1RDQ4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WALKING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADNADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTZDRDU0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WALK_PANTING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAFhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTZEMjQ0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WALK_WITH_HEAVY_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAwFhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANEY3NDk0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WALK_WITH_LIGHT_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTY1REQwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WATER_ACTION_END</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADZADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTVFNjEwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WATER_ACTION_END_WITH_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgENADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTYyN0Y0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WATER_DYING</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgEhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTYzNEZDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WATER_FORWARD_KB</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAABBADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTY3NDdDCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WATER_GRAB_OBJ_PART1</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADhADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTY2QUY4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WATER_GRAB_OBJ_PART2</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAD1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTY4MUQwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WATER_IDLE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAAD1ADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTVGODAwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WATER_IDLE_WITH_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAACJADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTY2NjI4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WATER_PICK_UP_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAgFRADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTY4QTA0CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WATER_STAR_DANCE</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwAJAAAATnVtRnJhbWVzBgAAAAAAADtADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTY3NzQ4CgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WATER_THROW_OBJ</string>
+			</Properties>
+		</Item>
+		<Item class="Animation">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BAAAAAQAAABMb29wAwEJAAAATnVtRnJhbWVzBgAAAAAAgENADAAAAFN0YXJ0QWRkcmVzcwIGAAAANTBDNUIwCgAAAFVwbG9hZEhhc2gCAAAAAA==]]></BinaryString>
+				<string name="Name">WING_CAP_FLY</string>
+			</Properties>
+		</Item>
+	</Item>
+</roblox>

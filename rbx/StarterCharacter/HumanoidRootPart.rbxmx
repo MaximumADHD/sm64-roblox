@@ -1,0 +1,269 @@
+<roblox version="4">
+	<Item class="Part" referent="RBX0">
+		<Properties>
+			<string name="Name">HumanoidRootPart</string>
+			<CoordinateFrame name="PivotOffset">
+				<X>0</X>
+				<Y>-4</Y>
+				<Z>0</Z>
+				<R00>1</R00>
+				<R01>0</R01>
+				<R02>0</R02>
+				<R10>0</R10>
+				<R11>1</R11>
+				<R12>0</R12>
+				<R20>0</R20>
+				<R21>0</R21>
+				<R22>1</R22>
+			</CoordinateFrame>
+			<Vector3 name="size">
+				<X>2.6</X>
+				<Y>2.6</Y>
+				<Z>1.4</Z>
+			</Vector3>
+			<float name="Transparency">1</float>
+		</Properties>
+		<Item class="AlignOrientation" referent="RBX1">
+			<Properties>
+				<Ref name="Attachment0">RBX4</Ref>
+				<token name="Mode">0</token>
+				<float name="Responsiveness">200</float>
+				<bool name="RigidityEnabled">true</bool>
+			</Properties>
+		</Item>
+		<Item class="AlignPosition" referent="RBX2">
+			<Properties>
+				<Ref name="Attachment0">RBX4</Ref>
+				<token name="Mode">0</token>
+				<float name="Responsiveness">50</float>
+				<bool name="RigidityEnabled">true</bool>
+			</Properties>
+		</Item>
+		<Item class="Vector3Value" referent="RBX3">
+			<Properties>
+				<string name="Name">OriginalSize</string>
+				<Vector3 name="Value">
+					<X>2</X>
+					<Y>2</Y>
+					<Z>1</Z>
+				</Vector3>
+			</Properties>
+		</Item>
+		<Item class="Attachment" referent="RBX4">
+			<Properties>
+				<CoordinateFrame name="CFrame">
+					<X>0</X>
+					<Y>-4</Y>
+					<Z>0</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<string name="Name">Particles</string>
+			</Properties>
+			<Item class="ParticleEmitter" referent="RBX5">
+				<Properties>
+					<ColorSequence name="Color">0 0.807843 0.807843 0.807843 0 1 0.807843 0.807843 0.807843 0 </ColorSequence>
+					<bool name="Enabled">false</bool>
+					<NumberRange name="Lifetime">1 1 </NumberRange>
+					<float name="LightInfluence">1</float>
+					<string name="Name">DUST</string>
+					<float name="Rate">16</float>
+					<NumberRange name="RotSpeed">-360 360 </NumberRange>
+					<NumberRange name="Rotation">0 360 </NumberRange>
+					<NumberSequence name="Size">0 2 0 1 2 0 </NumberSequence>
+					<NumberRange name="Speed">3 3 </NumberRange>
+					<Vector2 name="SpreadAngle">
+						<X>360</X>
+						<Y>360</Y>
+					</Vector2>
+					<Content name="Texture"><url>rbxasset://textures/particles/smoke_main.dds</url></Content>
+					<NumberSequence name="Transparency">0 0.5 0 0.8 0.5 0 1 1 0 </NumberSequence>
+				</Properties>
+			</Item>
+			<Item class="Fire" referent="RBX6">
+				<Properties>
+					<bool name="Enabled">false</bool>
+					<string name="Name">FIRE</string>
+					<float name="heat_xml">20</float>
+					<float name="size_xml">10</float>
+				</Properties>
+			</Item>
+			<Item class="ParticleEmitter" referent="RBX7">
+				<Properties>
+					<Vector3 name="Acceleration">
+						<X>0</X>
+						<Y>60</Y>
+						<Z>0</Z>
+					</Vector3>
+					<BinaryString name="AttributesSerialize">AQAAAAQAAABFbWl0BgAAAAAAAAhA</BinaryString>
+					<float name="Brightness">5</float>
+					<ColorSequence name="Color">0 1 1 0 0 1 1 1 0 0 </ColorSequence>
+					<float name="Drag">12</float>
+					<token name="EmissionDirection">2</token>
+					<bool name="Enabled">false</bool>
+					<NumberRange name="Lifetime">0.5 0.5 </NumberRange>
+					<float name="LightEmission">1</float>
+					<string name="Name">HORIZONTAL_STAR</string>
+					<token name="Orientation">2</token>
+					<float name="Rate">20</float>
+					<NumberRange name="RotSpeed">-360 360 </NumberRange>
+					<NumberSequence name="Size">0 2 0 1 0 0 </NumberSequence>
+					<NumberRange name="Speed">60 60 </NumberRange>
+					<Vector2 name="SpreadAngle">
+						<X>0</X>
+						<Y>360</Y>
+					</Vector2>
+					<NumberSequence name="Squash">0 0 0 1 0 1 </NumberSequence>
+					<NumberSequence name="Transparency">0 0 0 0.9 0 0 1 1 0 </NumberSequence>
+				</Properties>
+			</Item>
+			<Item class="ParticleEmitter" referent="RBX8">
+				<Properties>
+					<Vector3 name="Acceleration">
+						<X>0</X>
+						<Y>-60</Y>
+						<Z>0</Z>
+					</Vector3>
+					<BinaryString name="AttributesSerialize">AQAAAAQAAABFbWl0BgAAAAAAABhA</BinaryString>
+					<float name="Brightness">3</float>
+					<ColorSequence name="Color">0 1 1 0 0 1 1 1 0 0 </ColorSequence>
+					<float name="Drag">6</float>
+					<token name="EmissionDirection">2</token>
+					<bool name="Enabled">false</bool>
+					<NumberRange name="Lifetime">0.5 0.5 </NumberRange>
+					<float name="LightEmission">1</float>
+					<string name="Name">VERTICAL_STAR</string>
+					<token name="Orientation">2</token>
+					<float name="Rate">20</float>
+					<NumberRange name="RotSpeed">-360 360 </NumberRange>
+					<NumberSequence name="Size">0 2 0 1 0 0 </NumberSequence>
+					<NumberRange name="Speed">30 70 </NumberRange>
+					<Vector2 name="SpreadAngle">
+						<X>90</X>
+						<Y>90</Y>
+					</Vector2>
+					<NumberSequence name="Squash">0 0 0.175 1 0 0.1 </NumberSequence>
+					<NumberSequence name="Transparency">0 0 0 0.9 0 0 1 1 0 </NumberSequence>
+				</Properties>
+			</Item>
+			<Item class="ParticleEmitter" referent="RBX9">
+				<Properties>
+					<Vector3 name="Acceleration">
+						<X>0</X>
+						<Y>-1</Y>
+						<Z>0</Z>
+					</Vector3>
+					<BinaryString name="AttributesSerialize">AQAAAAQAAABFbWl0BgAAAAAAADlA</BinaryString>
+					<ColorSequence name="Color">0 0.807843 0.807843 0.807843 0 1 0.807843 0.807843 0.807843 0 </ColorSequence>
+					<float name="Drag">3</float>
+					<token name="EmissionDirection">5</token>
+					<bool name="Enabled">false</bool>
+					<NumberRange name="Lifetime">0.5 0.5 </NumberRange>
+					<float name="LightInfluence">1</float>
+					<string name="Name">MIST_CIRCLE</string>
+					<float name="Rate">100</float>
+					<NumberRange name="RotSpeed">-360 360 </NumberRange>
+					<NumberRange name="Rotation">0 360 </NumberRange>
+					<NumberSequence name="Size">0 2 0 1 2 0 </NumberSequence>
+					<NumberRange name="Speed">20 20 </NumberRange>
+					<Vector2 name="SpreadAngle">
+						<X>0</X>
+						<Y>360</Y>
+					</Vector2>
+					<Content name="Texture"><url>rbxasset://textures/particles/smoke_main.dds</url></Content>
+					<NumberSequence name="Transparency">0 1 0 0.1 0.75 0 0.5 0.75 0 1 1 0 </NumberSequence>
+				</Properties>
+			</Item>
+			<Item class="Vector3Value" referent="RBX10">
+				<Properties>
+					<string name="Name">OriginalPosition</string>
+					<Vector3 name="Value">
+						<X>0</X>
+						<Y>-3</Y>
+						<Z>0</Z>
+					</Vector3>
+				</Properties>
+			</Item>
+		</Item>
+		<Item class="Attachment" referent="RBX11">
+			<Properties>
+				<CoordinateFrame name="CFrame">
+					<X>0</X>
+					<Y>-1.3</Y>
+					<Z>0</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<string name="Name">RootRigAttachment</string>
+			</Properties>
+			<Item class="Vector3Value" referent="RBX12">
+				<Properties>
+					<string name="Name">OriginalPosition</string>
+					<Vector3 name="Value">
+						<X>0</X>
+						<Y>-0.35</Y>
+						<Z>0</Z>
+					</Vector3>
+				</Properties>
+			</Item>
+		</Item>
+		<Item class="BillboardGui" referent="RBX13">
+			<Properties>
+				<bool name="Active">true</bool>
+				<bool name="AlwaysOnTop">true</bool>
+				<float name="Brightness">1</float>
+				<bool name="ClipsDescendants">true</bool>
+				<bool name="Enabled">false</bool>
+				<float name="LightInfluence">1</float>
+				<string name="Name">Action</string>
+				<UDim2 name="Size">
+					<XS>0</XS>
+					<XO>400</XO>
+					<YS>0</YS>
+					<YO>100</YO>
+				</UDim2>
+				<Vector3 name="StudsOffsetWorldSpace">
+					<X>0</X>
+					<Y>5</Y>
+					<Z>0</Z>
+				</Vector3>
+				<token name="ZIndexBehavior">1</token>
+			</Properties>
+			<Item class="TextLabel" referent="RBX14">
+				<Properties>
+					<float name="BackgroundTransparency">1</float>
+					<token name="Font">4</token>
+					<string name="Name">Label</string>
+					<UDim2 name="Size">
+						<XS>1</XS>
+						<XO>0</XO>
+						<YS>1</YS>
+						<YO>0</YO>
+					</UDim2>
+					<string name="Text"></string>
+					<Color3 name="TextColor3">
+						<R>1</R>
+						<G>1</G>
+						<B>1</B>
+					</Color3>
+					<bool name="TextScaled">true</bool>
+					<float name="TextStrokeTransparency">0</float>
+				</Properties>
+			</Item>
+		</Item>
+	</Item>
+</roblox>
