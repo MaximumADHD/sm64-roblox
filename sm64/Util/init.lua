@@ -1,6 +1,7 @@
 --!strict
 
 local Util = {
+	TruncateRaycasts = true,
 	GlobalTimer = 0,
 	Scale = 1 / 16,
 }
@@ -103,18 +104,22 @@ function Util.RaycastSM64(pos: Vector3, dir: Vector3, rayParams: RaycastParams?,
 end
 
 function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
-	local trunc = Vector3int16.new(pos.X, pos.Y, pos.Z)
-	local height = -11000
+	local newPos = pos
 
-	if math.abs(trunc.X) >= 0x2000 then
-		return height, nil
+	if Util.TruncateRaycasts then
+		local trunc = Vector3int16.new(pos.X, pos.Y, pos.Z)
+
+		if math.abs(trunc.X) >= 0x2000 then
+			return -11000, nil
+		end
+
+		if math.abs(trunc.Z) >= 0x2000 then
+			return -11000, nil
+		end
+
+		newPos = Vector3.new(trunc.X, trunc.Y, trunc.Z)
 	end
 
-	if math.abs(trunc.Z) >= 0x2000 then
-		return height, nil
-	end
-
-	local newPos = Vector3.new(trunc.X, trunc.Y, trunc.Z)
 	local result = Util.RaycastSM64(newPos + (Vector3.yAxis * 100), -Vector3.yAxis * 10000)
 
 	if result then
