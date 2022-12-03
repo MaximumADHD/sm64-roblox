@@ -237,25 +237,37 @@ end
 function Mario.PlayLandingSound(m: Mario, sound: Instance?)
 	local sound = sound or Sounds.ACTION_TERRAIN_LANDING
 
-	local landSound = if m.Flags:Has(MarioFlags.METAL_CAP) then Sounds.ACTION_METAL_LANDING else sound
+	-- stylua: ignore
+	local landSound = if m.Flags:Has(MarioFlags.METAL_CAP)
+		then Sounds.ACTION_METAL_LANDING 
+		else sound
 
 	m:PlaySoundAndSpawnParticles(landSound, 1)
 end
 
 function Mario.PlayLandingSoundOnce(m: Mario, sound: Instance?)
-	local landSound = if m.Flags:Has(MarioFlags.METAL_CAP) then Sounds.ACTION_METAL_LANDING else sound
+	-- stylua: ignore
+	local landSound = if m.Flags:Has(MarioFlags.METAL_CAP)
+		then Sounds.ACTION_METAL_LANDING
+		else sound
 
 	m:PlayActionSound(landSound, 1)
 end
 
 function Mario.PlayHeavyLandingSound(m: Mario, sound: Instance?)
-	local landSound = if m.Flags:Has(MarioFlags.METAL_CAP) then Sounds.ACTION_METAL_HEAVY_LANDING else sound
+	-- stylua: ignore
+	local landSound = if m.Flags:Has(MarioFlags.METAL_CAP)
+		then Sounds.ACTION_METAL_HEAVY_LANDING
+		else sound
 
 	m:PlaySoundAndSpawnParticles(landSound, 1)
 end
 
 function Mario.PlayHeavyLandingSoundOnce(m: Mario, sound: Instance?)
-	local landSound = if m.Flags:Has(MarioFlags.METAL_CAP) then Sounds.ACTION_METAL_HEAVY_LANDING else sound
+	-- stylua: ignore
+	local landSound = if m.Flags:Has(MarioFlags.METAL_CAP)
+		then Sounds.ACTION_METAL_HEAVY_LANDING
+		else sound
 
 	m:PlayActionSound(landSound, 1)
 end
@@ -266,7 +278,10 @@ function Mario.PlayMarioSound(m: Mario, actionSound: Instance, marioSound: Insta
 	end
 
 	if actionSound == Sounds.ACTION_TERRAIN_JUMP then
-		local sound = if m.Flags:Has(MarioFlags.METAL_CAP) then Sounds.ACTION_METAL_JUMP else actionSound
+		-- stylua: ignore
+		local sound = if m.Flags:Has(MarioFlags.METAL_CAP)
+			then Sounds.ACTION_METAL_JUMP
+			else actionSound
 
 		m:PlayActionSound(sound)
 	else
