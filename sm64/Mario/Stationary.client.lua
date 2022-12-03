@@ -596,10 +596,13 @@ DEF_ACTION(Action.LONG_JUMP_LAND_STOP, function(m: Mario)
 	if checkCommonLandingCancels(m, Action.JUMP) then
 		return true
 	end
-
-	landingStep(
-		m,
-		if m.LongJumpIsSlow then Animations.CROUCH_FROM_FAST_LONGJUMP else Animations.CROUCH_FROM_SLOW_LONGJUMP,
+			
+	-- stylua: ignore
+	landingStep(m,
+		if m.LongJumpIsSlow
+			then Animations.CROUCH_FROM_FAST_LONGJUMP 
+			else Animations.CROUCH_FROM_SLOW_LONGJUMP,
+		
 		Action.CROUCHING
 	)
 
