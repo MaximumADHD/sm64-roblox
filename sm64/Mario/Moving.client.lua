@@ -1414,11 +1414,11 @@ DEF_ACTION(Action.LONG_JUMP_LAND, function(m: Mario)
 	if not m.Input:Has(InputFlags.NONZERO_ANALOG) then
 		m:PlaySoundIfNoFlag(Sounds.MARIO_UH, MarioFlags.MARIO_SOUND_PLAYED)
 	end
-
-	commonLandingAction(
-		m,
-		if m.LongJumpIsSlow then Animations.CROUCH_FROM_FAST_LONGJUMP else Animations.CROUCH_FROM_SLOW_LONGJUMP
-	)
+	
+	-- stylua: ignore
+	commonLandingAction(m, if m.LongJumpIsSlow
+		then Animations.CROUCH_FROM_FAST_LONGJUMP
+		else Animations.CROUCH_FROM_SLOW_LONGJUMP)
 
 	return false
 end)
