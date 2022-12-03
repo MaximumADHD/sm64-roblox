@@ -57,10 +57,11 @@ end
 
 function Util.ToRotation(v: Vector3int16): CFrame
 	local angle = Util.ToEulerAngles(v)
-
-	local matrix = CFrame.fromAxisAngle(Vector3.yAxis, angle.Y)
-		* CFrame.fromAxisAngle(Vector3.xAxis, -angle.X)
-		* CFrame.fromAxisAngle(Vector3.zAxis, -angle.Z)
+	
+	-- stylua: ignore
+	local matrix = CFrame.fromAxisAngle(Vector3.yAxis,  angle.Y)
+	             * CFrame.fromAxisAngle(Vector3.xAxis, -angle.X)
+	             * CFrame.fromAxisAngle(Vector3.zAxis, -angle.Z)
 
 	return matrix
 end
