@@ -305,8 +305,8 @@ local function updateFlying(m: Mario)
 end
 
 local function commonAirActionStep(m: Mario, landAction: number, anim: Animation, stepArg: number): number
-	local stepResult
-	do
+	-- stylua: ignore
+	local stepResult do
 		updateAirWithoutTurn(m)
 		stepResult = m:PerformAirStep(stepArg)
 	end
@@ -397,8 +397,8 @@ local function commonAirKnockbackStep(
 	anim: Animation,
 	speed: number
 )
-	local stepResult
-	do
+	-- stylua: ignore
+	local stepResult do
 		m:SetForwardVel(speed)
 		stepResult = m:PerformAirStep()
 	end
