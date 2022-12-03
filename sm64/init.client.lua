@@ -53,8 +53,11 @@ local function processAction(id: string, state: Enum.UserInputState)
 		if state == Enum.UserInputState.Begin then
 			local isDebug = not script.Util:GetAttribute("Debug")
 			local character = player.Character
-
-			local rootPart = if character then character.PrimaryPart else nil
+			
+			-- stylua: ignore
+			local rootPart = if character
+				then character.PrimaryPart
+				else nil
 
 			if rootPart then
 				local action = rootPart:FindFirstChild("Action")
@@ -84,8 +87,11 @@ end
 local function updateCollisions()
 	for i, player in Players:GetPlayers() do
 		assert(player:IsA("Player"))
-
-		local rootPart = if player.Character then player.Character.PrimaryPart else nil
+			
+		-- stylua: ignore
+		local rootPart = if player.Character
+			then player.Character.PrimaryPart
+			else nil
 
 		if rootPart then
 			local parts = rootPart:GetConnectedParts(true)
@@ -146,8 +152,11 @@ assert(lazyNetwork:IsA("RemoteEvent"), "bad lazyNetwork!")
 function Commands.PlaySound(player: Player, name: string)
 	local sound: Sound? = Sounds[name]
 	local character = player.Character
-
-	local rootPart = if character then character.PrimaryPart else nil
+			
+	-- stylua: ignore
+	local rootPart = if character
+		then character.PrimaryPart
+		else nil
 
 	if rootPart and sound then
 		local oldSound: Instance? = rootPart:FindFirstChild(name)
@@ -168,13 +177,19 @@ end
 
 function Commands.SetParticle(player: Player, name: string, set: boolean)
 	local character = player.Character
-
-	local rootPart = if character then character.PrimaryPart else nil
+				
+	-- stylua: ignore
+	local rootPart = if character
+		then character.PrimaryPart
+		else nil
 
 	if rootPart then
 		local particles = rootPart:FindFirstChild("Particles")
-
-		local inst = if particles then particles:FindFirstChild(name) else nil
+						
+		-- stylua: ignore
+		local inst = if particles
+			then particles:FindFirstChild(name)
+			else nil
 
 		if inst and PARTICLE_CLASSES[inst.ClassName] then
 			local particle = inst :: ParticleEmitter
@@ -191,8 +206,11 @@ end
 
 function Commands.SetAngle(player: Player, angle: Vector3int16)
 	local character = player.Character
-
-	local waist = if character then character:FindFirstChild("Waist", true) else nil
+						
+	-- stylua: ignore
+	local waist = if character
+		then character:FindFirstChild("Waist", true)
+		else nil
 
 	if waist and waist:IsA("Motor6D") then
 		local props = { C1 = Util.ToRotation(-angle) + waist.C1.Position }
@@ -296,8 +314,11 @@ local function update()
 
 	local now = os.clock()
 	local gfxRot = CFrame.identity
-
-	local humanoid = if character then character:FindFirstChildOfClass("Humanoid") else nil
+							
+	-- stylua: ignore
+	local humanoid = if character
+		then character:FindFirstChildOfClass("Humanoid")
+		else nil
 
 	local simSpeed = tonumber(script:GetAttribute("TimeScale") or nil) or 1
 	local frames = math.floor((now - lastUpdate) * (STEP_RATE * simSpeed))
@@ -383,15 +404,24 @@ local function update()
 				cf = cf:Lerp(goalCF, interp)
 				alignCF.CFrame = cf.Rotation
 			end
-
-			local debugLabel = if action then action:FindFirstChildOfClass("TextLabel") else nil
+										
+			-- stylua: ignore
+			local debugLabel = if action
+				then action:FindFirstChildOfClass("TextLabel")
+				else nil
 
 			if debugLabel then
 				local actionId = mario.Action()
-
-				local anim = if activeTrack then activeTrack.Animation else nil
-
-				local animName = if anim then anim.Name else nil
+												
+				-- stylua: ignore
+				local anim = if activeTrack
+					then activeTrack.Animation
+					else nil
+													
+				-- stylua: ignore
+				local animName = if anim
+					then anim.Name
+					else nil
 
 				local debugText = "Action: "
 					.. Enums.GetName(Action, actionId)
