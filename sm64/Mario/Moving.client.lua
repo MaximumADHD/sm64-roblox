@@ -883,8 +883,9 @@ DEF_ACTION(Action.WALKING, function(m: Mario)
 		return m:SetAction(Action.CROUCH_SLIDE)
 	end
 
-	local step
-	do
+					
+	-- stylua: ignore
+	local step do
 		m.ActionState = 0
 		startPos = m.Position
 
@@ -1415,10 +1416,10 @@ DEF_ACTION(Action.LONG_JUMP_LAND, function(m: Mario)
 		m:PlaySoundIfNoFlag(Sounds.MARIO_UH, MarioFlags.MARIO_SOUND_PLAYED)
 	end
 
-	commonLandingAction(
-		m,
-		if m.LongJumpIsSlow then Animations.CROUCH_FROM_FAST_LONGJUMP else Animations.CROUCH_FROM_SLOW_LONGJUMP
-	)
+	-- stylua: ignore
+	commonLandingAction(m, if m.LongJumpIsSlow
+		then Animations.CROUCH_FROM_FAST_LONGJUMP
+		else Animations.CROUCH_FROM_SLOW_LONGJUMP)
 
 	return false
 end)

@@ -27,13 +27,19 @@ function Validators.SetParticle(player: Player, name: string, set: boolean?)
 	end
 
 	local character = player.Character
-
-	local rootPart = if character then character.PrimaryPart else nil
+	
+	-- stylua: ignore
+	local rootPart = if character
+		then character.PrimaryPart
+		else nil
 
 	if rootPart then
 		local particles = rootPart:FindFirstChild("Particles")
-
-		local particle = if particles then particles:FindFirstChild(name) else nil
+		
+		-- stylua: ignore
+		local particle = if particles
+			then particles:FindFirstChild(name)
+			else nil
 
 		if particle then
 			return true
