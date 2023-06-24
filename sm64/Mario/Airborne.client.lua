@@ -700,13 +700,17 @@ DEF_ACTION(Action.GROUND_POUND, function(m: Mario)
 		m.Velocity = Util.SetY(m.Velocity, -50)
 		m:SetForwardVel(0)
 
-		m:SetAnimation(if m.ActionArg == 0 then Animations.START_GROUND_POUND else Animations.TRIPLE_JUMP_GROUND_POUND)
+		-- stylua: ignore
+		m:SetAnimation(if m.ActionArg == 0
+			then Animations.START_GROUND_POUND
+			else Animations.TRIPLE_JUMP_GROUND_POUND)
 
 		if m.ActionTimer == 0 then
 			m:PlaySound(Sounds.ACTION_SPIN)
 		end
 
 		m.ActionTimer += 1
+		m.GfxAngle = Vector3int16.new(0, m.FaceAngle.Y, 0)
 
 		if m.ActionTimer >= m.AnimFrameCount + 4 then
 			m:PlaySound(Sounds.MARIO_GROUND_POUND_WAH)
