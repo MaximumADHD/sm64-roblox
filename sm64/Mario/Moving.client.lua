@@ -682,7 +682,7 @@ local function commonSlideAction(m: Mario, endAction: number, airAction: number,
 			slideBonk(m, Action.GROUND_BONK, endAction)
 		elseif wall then
 			local wallAngle = Util.Atan2s(wall.Normal.Z, wall.Normal.X)
-			local slideSpeed = math.sqrt(m.SlideVelX ^ 2 * m.SlideVelZ ^ 2) * 0.9
+			local slideSpeed = math.sqrt(m.SlideVelX ^ 2 + m.SlideVelZ ^ 2) * 0.9
 
 			if slideSpeed < 4 then
 				slideSpeed = 4
