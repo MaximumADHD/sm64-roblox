@@ -1235,9 +1235,9 @@ DEF_ACTION(Action.CROUCH_SLIDE, function(m: Mario)
 
 	if m.Input:Has(InputFlags.B_PRESSED) then
 		if m.ForwardVel >= 10 then
-			m:SetAction(Action.SLIDE_KICK)
+			return m:SetAction(Action.SLIDE_KICK)
 		else
-			m:SetAction(Action.MOVE_PUNCHING, 9)
+			return m:SetAction(Action.MOVE_PUNCHING, 9)
 		end
 	end
 
