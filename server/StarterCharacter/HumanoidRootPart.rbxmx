@@ -49,7 +49,7 @@
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="Attachment" referent="RBX4">
+		<Item class="Bone" referent="RBX4">
 			<Properties>
 				<CoordinateFrame name="CFrame">
 					<X>0</X>
@@ -74,10 +74,10 @@
 					<NumberRange name="Lifetime">1 1 </NumberRange>
 					<float name="LightInfluence">1</float>
 					<string name="Name">DUST</string>
-					<float name="Rate">16</float>
+					<float name="Rate">64</float>
 					<NumberRange name="RotSpeed">-360 360 </NumberRange>
 					<NumberRange name="Rotation">0 360 </NumberRange>
-					<NumberSequence name="Size">0 2 0 1 2 0 </NumberSequence>
+					<NumberSequence name="Size">0 3 0 1 3 0 </NumberSequence>
 					<NumberRange name="Speed">3 3 </NumberRange>
 					<Vector2 name="SpreadAngle">
 						<X>360</X>
@@ -189,6 +189,26 @@
 						<Y>-3</Y>
 						<Z>0</Z>
 					</Vector3>
+				</Properties>
+			</Item>
+			<Item class="ParticleEmitter" referent="RBX13">
+				<Properties>
+					<ColorSequence name="Color">0 0.807843 0.807843 0.807843 0 1 0.807843 0.807843 0.807843 0 </ColorSequence>
+					<bool name="Enabled">false</bool>
+					<NumberRange name="Lifetime">1 1 </NumberRange>
+					<float name="LightInfluence">1</float>
+					<string name="Name">DIRT</string>
+					<float name="Rate">128</float>
+					<NumberRange name="RotSpeed">-360 360 </NumberRange>
+					<NumberRange name="Rotation">0 360 </NumberRange>
+					<NumberSequence name="Size">0 3 0 1 3 0 </NumberSequence>
+					<NumberRange name="Speed">3 3 </NumberRange>
+					<Vector2 name="SpreadAngle">
+						<X>360</X>
+						<Y>360</Y>
+					</Vector2>
+					<Content name="Texture"><url>rbxassetid://1349050856</url></Content>
+					<NumberSequence name="Transparency">0 0.5 0 0.8 0.5 0 1 1 0 </NumberSequence>
 				</Properties>
 			</Item>
 		</Item>

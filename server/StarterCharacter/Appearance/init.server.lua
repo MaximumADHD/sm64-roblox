@@ -1,41 +1,84 @@
 --!strict
 local Players = game:GetService("Players")
 
-local character: any = script.Parent
-local player = Players:GetPlayerFromCharacter(character)
+local character: Instance = assert(script.Parent)
+assert(character:IsA("Model"), "Not a character")
 
-if not player then
-	return
-end
+local player = Players:GetPlayerFromCharacter(character)
+assert(player, "No player!")
 
 local userId = player.UserId
 local hDesc: HumanoidDescription?
 
-local function patchCollision(desc: Instance)
-	if desc:IsA("BasePart") and desc.CollisionGroup ~= "Player" then
-		local canCollide = desc:GetPropertyChangedSignal("CanCollide")
-		desc.CollisionGroup = "Player"
-		desc.CanQuery = false
-		desc.CanTouch = false
-		desc.Massless = true
+local metalPointers = {} :: {
+	[MeshPart]: {
+		Metal: SurfaceAppearance?,
+	},
+}
 
-		canCollide:Connect(function()
+local function updateMetal(part: MeshPart)
+	local isMetal = character:GetAttribute("Metal")
+	local ptr = metalPointers[part]
+
+	if ptr == nil then
+		ptr = {}
+		metalPointers[part] = ptr
+	end
+
+	if isMetal and not ptr.Metal then
+		local surface = script.METAL_MARIO:Clone()
+		surface.Parent = part
+		ptr.Metal = surface
+	elseif ptr.Metal and not isMetal then
+		ptr.Metal:Destroy()
+		ptr.Metal = nil
+	end
+end
+
+local function onMetalChanged()
+	for meshPart in metalPointers do
+		updateMetal(meshPart)
+	end
+end
+
+local function onDescendantAdded(desc: Instance)
+	if desc:IsA("BasePart") then
+		if desc.CollisionGroup ~= "Player" then
+			local canCollide = desc:GetPropertyChangedSignal("CanCollide")
+			desc.CollisionGroup = "Player"
+			desc.CanQuery = false
+			desc.CanTouch = false
+			desc.Massless = true
+
+			canCollide:Connect(function()
+				desc.CanCollide = false
+			end)
+
 			desc.CanCollide = false
-		end)
+		end
 
-		desc.CanCollide = false
+		if desc:IsA("MeshPart") then
+			updateMetal(desc)
+		end
 	end
 end
 
-local function patchAllCollision()
-	for i, desc in character:GetDescendants() do
-		task.spawn(patchCollision, desc)
+local function onDescendantRemoving(desc: Instance)
+	if desc:IsA("MeshPart") then
+		metalPointers[desc] = nil
 	end
 end
 
-task.spawn(patchAllCollision)
-character.DescendantAdded:Connect(patchCollision)
+local metalListener = character:GetAttributeChangedSignal("Metal")
+metalListener:Connect(onMetalChanged)
+
+for i, desc in character:GetDescendants() do
+	task.spawn(onDescendantAdded, desc)
+end
+
 character:SetAttribute("TimeScale", 1)
+character.DescendantAdded:Connect(onDescendantAdded)
+character.DescendantRemoving:Connect(onDescendantRemoving)
 
 local function reload()
 	character:ScaleTo(1)

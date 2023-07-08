@@ -20,7 +20,8 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": ""
+				"SoundId": "rbxassetid://224339308",
+				"Volume": 2
 			}
 		},
         
@@ -31,7 +32,14 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/action_jump_land.mp3"
+				"SoundId": "rbxassetid://9114589043",
+				"Volume": 1,
+
+				"PlaybackRegion": {
+					"NumberRange": [0.6, 1.25]
+				},
+
+				"PlaybackRegionsEnabled": true
 			}
 		},
         
@@ -53,7 +61,8 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": ""
+				"SoundId": "rbxassetid://9125670740",
+				"Volume": 2
 			}
 		},
         
@@ -64,7 +73,13 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": ""
+				"SoundId": "rbxassetid://9116887596",
+
+				"PlaybackRegion": {
+					"NumberRange": [0.25, 60000]
+				},
+
+				"PlaybackRegionsEnabled": true
 			}
 		},
         
@@ -75,7 +90,18 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": ""
+				"SoundId": "rbxassetid://9116519870"
+			}
+		},
+
+		{
+			"name": "ACTION_METAL_JUMP",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://9116519870"
 			}
 		},
         
@@ -86,7 +112,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": ""
+				"SoundId": "rbxassetid://5946029627"
 			}
 		},
         
@@ -130,7 +156,8 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxassetid://268933841"
+				"SoundId": "rbxasset://sounds/action_jump_land.mp3",
+				"Volume": 1
 			}
 		},
         
@@ -151,7 +178,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/flashbulb.wav"
+				"SoundId": "rbxassetid://5761648082"
 			}
 		},
         
@@ -162,7 +189,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/flashbulb.wav"
+				"SoundId": "rbxassetid://7340372339"
 			}
 		},
         
@@ -173,7 +200,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/flashbulb.wav"
+				"SoundId": "rbxassetid://9114861568"
 			}
 		},
         
@@ -184,7 +211,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/flashbulb.wav"
+				"SoundId": "rbxassetid://5946029627"
 			}
 		},
         
@@ -195,7 +222,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/flashbulb.wav"
+				"SoundId": "rbxassetid://8453417974"
 			}
 		},
         
@@ -206,7 +233,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/flashbulb.wav"
+				"SoundId": "rbxassetid://9119313820"
 			}
 		},
         
@@ -217,7 +244,8 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/flashbulb.wav"
+				"SoundId": "rbxassetid://6703174876",
+				"Volume": 0.25
 			}
 		},
         
@@ -228,7 +256,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/flashbulb.wav"
+				"SoundId": "rbxassetid://5761648082"
 			}
 		},
         
@@ -239,7 +267,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/flashbulb.wav"
+				"SoundId": "rbxassetid://9120584645"
 			}
 		},
         
@@ -277,7 +305,14 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/flashbulb.wav"
+				"SoundId": "rbxassetid://9114861568",
+				
+				"PlaybackRegion": {
+					"NumberRange": [0, 0.25]
+				},
+				
+				"PlaybackRegionsEnabled": true,
+				"Volume": 0.25
 			}
 		},
         
@@ -288,7 +323,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/flashbulb.wav"
+				"SoundId": "rbxassetid://5946029627"
 			}
 		},
         
@@ -299,7 +334,8 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxassetid://8453417974"
+				"SoundId": "rbxassetid://8453417974",
+				"Volume": 1
 			}
 		},
         
@@ -310,7 +346,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/flashbulb.wav"
+				"SoundId": "rbxassetid://9119313820"
 			}
 		},
         
@@ -321,7 +357,8 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxassetid://6703174876"
+				"SoundId": "rbxassetid://6703174876",
+				"Volume": 0.25
 			}
 		},
         
@@ -343,7 +380,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxasset://sounds/switch.wav"
+				"SoundId": "rbxassetid://9120584645"
 			}
 		},
         
@@ -409,7 +446,8 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": ""
+				"SoundId": "rbxassetid://14000781869",
+				"Volume": 3
 			}
 		},
         
@@ -689,7 +727,13 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": "rbxassetid://11276297854"
+				"SoundId": "rbxassetid://11276297854",
+
+				"PlaybackRegion": {
+					"NumberRange": [0.1, 60000]
+				},
+
+				"PlaybackRegionsEnabled": true
 			}
 		},
         
@@ -744,7 +788,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": ""
+				"SoundId": "rbxassetid://9119462210"
 			}
 		},
         
@@ -766,7 +810,7 @@
 			"properties": {
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
-				"SoundId": ""
+				"SoundId": "rbxassetid://9118770924"
 			}
 		}
 	]

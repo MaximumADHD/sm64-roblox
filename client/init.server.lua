@@ -238,9 +238,26 @@ bindInput(
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 local Commands = {}
+local soundDecay = {}
 
 local lazyNetwork = ReplicatedStorage:WaitForChild("LazyNetwork")
 assert(lazyNetwork:IsA("RemoteEvent"), "bad lazyNetwork!")
+
+local function stepDecay(sound: Sound)
+	local decay = soundDecay[sound]
+
+	if decay then
+		task.cancel(decay)
+	end
+
+	soundDecay[sound] = task.delay(0.1, function()
+		sound:Stop()
+		sound:Destroy()
+		soundDecay[sound] = nil
+	end)
+
+	sound.Playing = true
+end
 
 function Commands.PlaySound(player: Player, name: string)
 	local sound: Sound? = Sounds[name]
@@ -249,17 +266,44 @@ function Commands.PlaySound(player: Player, name: string)
 
 	if rootPart and sound then
 		local oldSound: Instance? = rootPart:FindFirstChild(name)
+		local canPlay = true
 
-		if oldSound and oldSound:IsA("Sound") and name:find("MARIO") then
-			oldSound.TimePosition = 0
-		else
+		if oldSound and oldSound:IsA("Sound") then
+			canPlay = false
+
+			if name:sub(1, 5) == "MARIO" then
+				-- Restart mario sound if a 30hz interval passed.
+				local now = os.clock()
+				local lastPlay = oldSound:GetAttribute("LastPlay") or 0
+
+				if now - lastPlay >= 2 / STEP_RATE then
+					oldSound.TimePosition = 0
+					oldSound:SetAttribute("LastPlay", now)
+				end
+			elseif name:sub(1, 6) == "MOVING" then
+				-- Keep decaying audio alive.
+				stepDecay(oldSound)
+			else
+				-- Allow stacking.
+				canPlay = true
+			end
+		end
+
+		if canPlay then
 			local newSound: Sound = sound:Clone()
 			newSound.Parent = rootPart
 			newSound:Play()
 
+			if name:find("MOVING") then
+				-- Audio will decay if PlaySound isn't continuously called.
+				stepDecay(newSound)
+			end
+
 			newSound.Ended:Connect(function()
 				newSound:Destroy()
 			end)
+
+			newSound:SetAttribute("LastPlay", os.clock())
 		end
 	end
 end
@@ -270,7 +314,7 @@ function Commands.SetParticle(player: Player, name: string, set: boolean)
 
 	if rootPart then
 		local particles = rootPart:FindFirstChild("Particles")
-		local inst = particles and particles:FindFirstChild(name)
+		local inst = particles and particles:FindFirstChild(name, true)
 
 		if inst and PARTICLE_CLASSES[inst.ClassName] then
 			local particle = inst :: ParticleEmitter
@@ -422,7 +466,7 @@ local function update()
 	
 	-- stylua: ignore
 	local scale = character:GetScale()
-	Util.Scale = scale / 16 -- HACK! Should this be instanced?
+	Util.Scale = scale / 24 -- HACK! Should this be instanced?
 
 	local pos = character:GetPivot().Position
 	local dist = (Util.ToRoblox(mario.Position) - pos).Magnitude
@@ -438,10 +482,14 @@ local function update()
 
 	if character:GetAttribute("WingCap") or Core:GetAttribute("WingCap") then
 		mario.Flags:Add(MarioFlags.WING_CAP)
-		mario.Flags:Remove(MarioFlags.NORMAL_CAP)
 	else
-		mario.Flags:Add(MarioFlags.NORMAL_CAP)
 		mario.Flags:Remove(MarioFlags.WING_CAP)
+	end
+
+	if character:GetAttribute("Metal") then
+		mario.Flags:Add(MarioFlags.METAL_CAP)
+	else
+		mario.Flags:Remove(MarioFlags.METAL_CAP)
 	end
 
 	subframe = math.min(subframe, 4) -- Prevent execution runoff

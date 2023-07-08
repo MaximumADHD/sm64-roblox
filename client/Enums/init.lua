@@ -16,6 +16,7 @@ local Enums = {
 	WaterStep = require(script.Steps.Water),
 	GroundStep = require(script.Steps.Ground),
 
+	FloorType = require(script.FloorType),
 	InputFlags = require(script.InputFlags),
 	ModelFlags = require(script.ModelFlags),
 	SurfaceClass = require(script.SurfaceClass),

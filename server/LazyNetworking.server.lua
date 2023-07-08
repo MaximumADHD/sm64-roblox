@@ -33,7 +33,7 @@ function Validators.SetParticle(player: Player, name: string, set: boolean?)
 
 	if rootPart then
 		local particles = rootPart:FindFirstChild("Particles")
-		local particle = particles and particles:FindFirstChild(name)
+		local particle = particles and particles:FindFirstChild(name, true)
 
 		if particle then
 			return true
