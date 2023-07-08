@@ -5,55 +5,32 @@
         "$className": "DataModel",
         "$ignoreUnknownInstances": true,
         
-        "ReplicatedFirst": {
-            "$className": "ReplicatedFirst",
+        "Workspace": {
+            "$className": "Workspace",
             "$ignoreUnknownInstances": true,
 
             "SM64": {
-                "$path": "SM64",
-                "$ignoreUnknownInstances": true
-            }
-        },
-
-        "ServerScriptService": {
-            "$className": "ServerScriptService",
-            "$ignoreUnknownInstances": true,
-
-            "LazyNetworking": {
-                "$path": "rbx/LazyNetworking.server.lua"
-            },
-
-            "StarterCharacter": {
-                "$path": "rbx/StarterCharacter"
-            }
-        },
-
-        "StarterPlayer": {
-            "$className": "StarterPlayer",
-            "$ignoreUnknownInstances": true,
-
-            "$properties": {
-                "EnableMouseLockOption": false
-            },
-
-            "StarterCharacterScripts": {
-                "$className": "StarterCharacterScripts",
-                "$ignoreUnknownInstances": true,
-
-                "Animate": {
-                    "$className": "Hole"
+                "$className": "Folder",
+                
+                "$attributes": {
+                    "TimeScale": 1,
+                    "WingCap": false,
+                    "HotLoading": false,
+                    "DebugToggle": true,
+                    "TruncateBounds": true,
+                    "ToolAssistedInput": true
                 },
 
-                "Sound": {
-                    "$className": "Hole"
+                "Client": {
+                    "$path": "client"
                 },
 
-                "Health": {
-                    "$className": "Hole"
+                "Server": {
+                    "$path": "server"
                 },
 
-                "Appearance": {
-                    "$path": "rbx/Appearance.server.lua"
+                "Shared": {
+                    "$path": "shared"
                 }
             }
         }

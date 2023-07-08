@@ -105,8 +105,9 @@ export type MarioState = {
 	AnimDirty: boolean,
 	AnimReset: boolean,
 	AnimSetFrame: number,
-	AnimSkipInterp: boolean?,
+	AnimSkipInterp: number,
 }
 
-local result = { Flags = Flags }
-return table.freeze(result)
+return table.freeze({
+	Flags = Flags,
+})

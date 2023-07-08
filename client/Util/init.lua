@@ -1,13 +1,14 @@
 --!strict
+local Core = script.Parent.Parent
 
 local Util = {
-	TruncateRaycasts = true,
 	GlobalTimer = 0,
 	Scale = 1 / 16,
 }
 
 local rayParams = RaycastParams.new()
-rayParams.CollisionGroup = "Player"
+rayParams.RespectCanCollide = true
+rayParams.IgnoreWater = true
 
 local SHORT_TO_RAD = (2 * math.pi) / 0x10000
 local VECTOR3_XZ = Vector3.one - Vector3.yAxis
@@ -57,18 +58,18 @@ end
 
 function Util.ToRotation(v: Vector3int16): CFrame
 	local angle = Util.ToEulerAngles(v)
-	
-	-- stylua: ignore
-	local matrix = CFrame.fromAxisAngle(Vector3.yAxis,  angle.Y)
-	             * CFrame.fromAxisAngle(Vector3.xAxis, -angle.X)
-	             * CFrame.fromAxisAngle(Vector3.zAxis, -angle.Z)
+
+	local matrix = CFrame.fromAxisAngle(Vector3.yAxis, angle.Y)
+		* CFrame.fromAxisAngle(Vector3.xAxis, -angle.X)
+		* CFrame.fromAxisAngle(Vector3.zAxis, -angle.Z)
 
 	return matrix
 end
 
-function Util.Raycast(pos: Vector3, dir: Vector3, rayParams: RaycastParams?, worldRoot: WorldRoot?): RaycastResult?
+function Util.Raycast(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, worldRoot: WorldRoot?): RaycastResult?
 	local root = worldRoot or workspace
-	local result: RaycastResult? = root:Raycast(pos, dir)
+	local params = maybeParams or rayParams
+	local result: RaycastResult? = root:Raycast(pos, dir, params)
 
 	if script:GetAttribute("Debug") then
 		local color = Color3.new(result and 0 or 1, result and 1 or 0, 0)
@@ -106,16 +107,17 @@ end
 
 function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 	local newPos = pos
+	local height = -11000
 
-	if Util.TruncateRaycasts then
+	if Core:GetAttribute("EmulateLimits") then
 		local trunc = Vector3int16.new(pos.X, pos.Y, pos.Z)
 
 		if math.abs(trunc.X) >= 0x2000 then
-			return -11000, nil
+			return height, nil
 		end
 
 		if math.abs(trunc.Z) >= 0x2000 then
-			return -11000, nil
+			return height, nil
 		end
 
 		newPos = Vector3.new(trunc.X, trunc.Y, trunc.Z)
@@ -124,7 +126,7 @@ function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 	local result = Util.RaycastSM64(newPos + (Vector3.yAxis * 100), -Vector3.yAxis * 10000)
 
 	if result then
-		local height = Util.SignedShort(result.Position.Y)
+		height = Util.SignedShort(result.Position.Y)
 		result.Position = Vector3.new(pos.X, height, pos.Z)
 
 		return height, result
@@ -134,8 +136,8 @@ function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 end
 
 function Util.FindCeil(pos: Vector3, height: number?): (number, RaycastResult?)
-	local pos = Vector3.new(pos.X, (height or pos.Y) + 80, pos.Z)
-	local result = Util.RaycastSM64(pos, Vector3.yAxis * 10000)
+	local head = Vector3.new(pos.X, (height or pos.Y) + 80, pos.Z)
+	local result = Util.RaycastSM64(head, Vector3.yAxis * 10000)
 
 	if result then
 		return result.Position.Y, result
@@ -146,7 +148,6 @@ end
 
 function Util.FindWallCollisions(pos: Vector3, offset: number, radius: number): (Vector3, RaycastResult?)
 	local origin = pos + Vector3.new(0, offset, 0)
-	local walls: { RaycastResult } = {}
 	local lastWall: RaycastResult?
 	local disp = Vector3.zero
 
@@ -158,8 +159,8 @@ function Util.FindWallCollisions(pos: Vector3, offset: number, radius: number): 
 
 			if math.abs(normal.Y) < 0.01 then
 				local surface = contact.Position
-				local offset = (surface - pos) * VECTOR3_XZ
-				local dist = offset.Magnitude
+				local move = (surface - pos) * VECTOR3_XZ
+				local dist = move.Magnitude
 
 				if dist < radius then
 					disp += (contact.Normal * VECTOR3_XZ) * (radius - dist)
@@ -215,17 +216,23 @@ function Util.ApproachInt(current: number, target: number, inc: number, dec: num
 end
 
 function Util.Sins(short: number): number
-	short = Util.SignedShort(short)
-	return math.sin(short * SHORT_TO_RAD)
+	local value = Util.SignedShort(short)
+	value = math.floor(value / 16) * 16
+
+	return math.sin(value * SHORT_TO_RAD)
 end
 
 function Util.Coss(short: number): number
-	short = Util.SignedShort(short)
+	local value = Util.SignedShort(short)
+	value = math.floor(value / 16) * 16
+
 	return math.cos(short * SHORT_TO_RAD)
 end
 
 local function atan2_lookup(y: number, x: number)
-	return math.atan2(y, x) / SHORT_TO_RAD
+	local value = math.atan2(y, x) / SHORT_TO_RAD
+	value = math.floor(value / 16) * 16
+	return Util.SignedShort(value)
 end
 
 function Util.Atan2s(y: number, x: number): number
@@ -270,4 +277,4 @@ function Util.Atan2s(y: number, x: number): number
 	return Util.SignedShort(ret)
 end
 
-return table.freeze(Util)
+return Util

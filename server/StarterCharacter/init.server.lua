@@ -1,8 +1,9 @@
 --!strict
 
-local PhysicsService = game:GetService("PhysicsService")
-local StarterPlayer = game:GetService("StarterPlayer")
 local Players = game:GetService("Players")
+local StarterPlayer = game:GetService("StarterPlayer")
+local PhysicsService = game:GetService("PhysicsService")
+local StarterCharacterScripts = StarterPlayer.StarterCharacterScripts
 
 local hDesc = Instance.new("HumanoidDescription")
 hDesc.HeightScale = 1.3
@@ -27,15 +28,38 @@ if bodyColors then
 	bodyColors:Destroy()
 end
 
-local newRoot = script.HumanoidRootPart:Clone()
+local newRoot = script.HumanoidRootPart
 newRoot.Parent = character :: any
 
 local humanoid = assert(character:FindFirstChildOfClass("Humanoid"))
 humanoid:BuildRigFromAttachments()
 
+local dummyScripts = {
+	"Animate",
+	"Health",
+	"Sound",
+}
+
+for _, dummy in dummyScripts do
+	local stub = Instance.new("Hole", StarterCharacterScripts)
+	stub.Name = dummy
+end
+
+for _, child in script:GetChildren() do
+	child.Parent = StarterCharacterScripts
+
+	if child:IsA("Script") then
+		child.Disabled = false
+	end
+end
+
 character.Name = "StarterCharacter"
 character.PrimaryPart = newRoot
 character.Parent = StarterPlayer
 
-PhysicsService:CreateCollisionGroup("Player")
+PhysicsService:RegisterCollisionGroup("Player")
 PhysicsService:CollisionGroupSetCollidable("Default", "Player", false)
+
+for _, player in Players:GetPlayers() do
+	task.spawn(player.LoadCharacter, player)
+end

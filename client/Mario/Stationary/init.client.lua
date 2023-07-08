@@ -7,14 +7,9 @@ local Enums = System.Enums
 local Util = System.Util
 
 local Action = Enums.Action
-local ActionFlags = Enums.ActionFlags
-local ActionGroup = Enums.ActionGroups
-
-local AirStep = Enums.AirStep
 local MarioEyes = Enums.MarioEyes
 local InputFlags = Enums.InputFlags
 local MarioFlags = Enums.MarioFlags
-local ParticleFlags = Enums.ParticleFlags
 
 type Mario = System.Mario
 
@@ -545,6 +540,8 @@ DEF_ACTION(Action.SIDE_FLIP_LAND_STOP, function(m: Mario)
 	end
 
 	landingStep(m, Animations.SLIDEFLIP_LAND, Action.IDLE)
+	--m.GfxAngle += Vector3int16.new(0, 0x8000, 0)
+
 	return false
 end)
 
@@ -562,7 +559,7 @@ DEF_ACTION(Action.TRIPLE_JUMP_LAND_STOP, function(m: Mario)
 		return true
 	end
 
-	landingStep(m, Animations.GENERAL_LAND, Action.IDLE)
+	landingStep(m, Animations.TRIPLE_JUMP_LAND, Action.IDLE)
 	return false
 end)
 
@@ -596,13 +593,10 @@ DEF_ACTION(Action.LONG_JUMP_LAND_STOP, function(m: Mario)
 	if checkCommonLandingCancels(m, Action.JUMP) then
 		return true
 	end
-			
-	-- stylua: ignore
-	landingStep(m,
-		if m.LongJumpIsSlow
-			then Animations.CROUCH_FROM_FAST_LONGJUMP 
-			else Animations.CROUCH_FROM_SLOW_LONGJUMP,
-		
+
+	landingStep(
+		m,
+		if m.LongJumpIsSlow then Animations.CROUCH_FROM_FAST_LONGJUMP else Animations.CROUCH_FROM_SLOW_LONGJUMP,
 		Action.CROUCHING
 	)
 

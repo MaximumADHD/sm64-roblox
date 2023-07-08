@@ -3,13 +3,15 @@ local Validators: { [string]: (Player, ...any) -> boolean } = {}
 type Echo = () -> ()
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local PhysicsService = game:GetService("PhysicsService")
-local Sounds = require(ReplicatedFirst.SM64.Sounds)
+local Core = script.Parent.Parent
+
+local Shared = require(Core.Shared)
+local Sounds = Shared.Sounds
 
 local lazy = Instance.new("RemoteEvent")
 lazy.Parent = ReplicatedStorage
 lazy.Name = "LazyNetwork"
+lazy.Archivable = false
 
 function Validators.PlaySound(player: Player, name: string)
 	local sound: Instance? = Sounds[name]
@@ -27,19 +29,11 @@ function Validators.SetParticle(player: Player, name: string, set: boolean?)
 	end
 
 	local character = player.Character
-	
-	-- stylua: ignore
-	local rootPart = if character
-		then character.PrimaryPart
-		else nil
+	local rootPart = character and character.PrimaryPart
 
 	if rootPart then
 		local particles = rootPart:FindFirstChild("Particles")
-		
-		-- stylua: ignore
-		local particle = if particles
-			then particles:FindFirstChild(name)
-			else nil
+		local particle = particles and particles:FindFirstChild(name)
 
 		if particle then
 			return true

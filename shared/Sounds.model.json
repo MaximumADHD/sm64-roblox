@@ -1,0 +1,773 @@
+{
+	"className": "Folder",
+	
+	"children": [
+		{
+			"name": "ACTION_BONK",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/hit.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_FLYING_FAST",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "ACTION_HEAVY_LANDING",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/action_jump_land.mp3"
+			}
+		},
+        
+		{
+			"name": "ACTION_HIT",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://9117969584"
+			}
+		},
+        
+		{
+			"name": "ACTION_METAL_BONK",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "ACTION_METAL_HEAVY_LANDING",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "ACTION_METAL_LANDING",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "ACTION_METAL_STEP",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "ACTION_PAT_BACK",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "ACTION_SIDE_FLIP",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://6552141879"
+			}
+		},
+        
+		{
+			"name": "ACTION_SPIN",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://6552141879"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_BODY_HIT_GROUND",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://268933841"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_JUMP",
+			"className": "Configuration"
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_LANDING",
+			"className": "Configuration"
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_LANDING_DEFAULT",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/flashbulb.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_LANDING_GRASS",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/flashbulb.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_LANDING_ICE",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/flashbulb.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_LANDING_METAL",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/flashbulb.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_LANDING_SAND",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/flashbulb.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_LANDING_SNOW",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/flashbulb.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_LANDING_SPOOKY",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/flashbulb.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_LANDING_STONE",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/flashbulb.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_LANDING_WATER",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/flashbulb.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_STEP",
+			"className": "Configuration"
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_STEP_DEFAULT",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://5761648082"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_STEP_GRASS",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://7340372339"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_STEP_ICE",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/flashbulb.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_STEP_METAL",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/flashbulb.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_STEP_SAND",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://8453417974"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_STEP_SNOW",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/flashbulb.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_STEP_SPOOKY",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://6703174876"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_STEP_STONE",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://5761648082"
+			}
+		},
+        
+		{
+			"name": "ACTION_TERRAIN_STEP_WATER",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/switch.wav"
+			}
+		},
+        
+		{
+			"name": "ACTION_THROW",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "ACTION_TWIRL",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "MARIO_ATTACKED",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "MARIO_DIE",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "MARIO_DOH",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276169318"
+			}
+		},
+        
+		{
+			"name": "MARIO_GROUND_POUND_WAH",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "MARIO_HAHA",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276161775"
+			}
+		},
+        
+		{
+			"name": "MARIO_HOO",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11277164346"
+			}
+		},
+        
+		{
+			"name": "MARIO_HOOHOO",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276429582"
+			}
+		},
+        
+		{
+			"name": "MARIO_IMA_TIRED",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276995011"
+			}
+		},
+        
+		{
+			"name": "MARIO_JUMP",
+			"className": "Configuration"
+		},
+        
+		{
+			"name": "MARIO_JUMP_HOO",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276348319"
+			}
+		},
+        
+		{
+			"name": "MARIO_JUMP_WAH",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276772310"
+			}
+		},
+        
+		{
+			"name": "MARIO_MAMA_MIA",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276475451"
+			}
+		},
+        
+		{
+			"name": "MARIO_ON_FIRE",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276465437"
+			}
+		},
+        
+		{
+			"name": "MARIO_OOOF",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276487760"
+			}
+		},
+        
+		{
+			"name": "MARIO_PANTING",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "MARIO_PUNCH_HOO",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276348319"
+			}
+		},
+        
+		{
+			"name": "MARIO_PUNCH_WAH",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276374733"
+			}
+		},
+        
+		{
+			"name": "MARIO_PUNCH_YAH",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276361489"
+			}
+		},
+        
+		{
+			"name": "MARIO_SNORING1",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11277042069"
+			}
+		},
+        
+		{
+			"name": "MARIO_SNORING2",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11277042275"
+			}
+		},
+        
+		{
+			"name": "MARIO_SNORING3",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11277042405"
+			}
+		},
+        
+		{
+			"name": "MARIO_THROW_YAH",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276138169"
+			}
+		},
+        
+		{
+			"name": "MARIO_UH",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276507663"
+			}
+		},
+        
+		{
+			"name": "MARIO_UH2",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276529034"
+			}
+		},
+        
+		{
+			"name": "MARIO_WAAAOOOW",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "MARIO_WAH",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276772310"
+			}
+		},
+        
+		{
+			"name": "MARIO_WAHA",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276223526"
+			}
+		},
+        
+		{
+			"name": "MARIO_WHOA",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276240769"
+			}
+		},
+        
+		{
+			"name": "MARIO_YAH",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276266154"
+			}
+		},
+        
+		{
+			"name": "MARIO_YAHOO",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276297854"
+			}
+		},
+        
+		{
+			"name": "MARIO_YAHOO_WAHA_YIPPEE",
+			"className": "Configuration",
+			
+			"attributes": {
+				"MARIO_WAHA": 1,
+				"MARIO_YAHOO": 3,
+				"MARIO_YIPPEE": 1
+			}
+		},
+        
+		{
+			"name": "MARIO_YAH_WAH_HOO",
+			"className": "Configuration",
+			
+			"attributes": {
+				"MARIO_YAH": 1,
+				"MARIO_HOO": 1,
+				"MARIO_WAH": 1
+			}
+		},
+        
+		{
+			"name": "MARIO_YAWNING",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276996044"
+			}
+		},
+        
+		{
+			"name": "MARIO_YIPPEE",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://11276223467"
+			}
+		},
+        
+		{
+			"name": "MOVING_FLYING",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "MOVING_LAVA_BURN",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
+        
+		{
+			"name": "MOVING_TERRAIN_SLIDE",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		}
+	]
+}	

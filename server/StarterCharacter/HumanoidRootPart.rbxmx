@@ -221,49 +221,5 @@
 				</Properties>
 			</Item>
 		</Item>
-		<Item class="BillboardGui" referent="RBX13">
-			<Properties>
-				<bool name="Active">true</bool>
-				<bool name="AlwaysOnTop">true</bool>
-				<float name="Brightness">1</float>
-				<bool name="ClipsDescendants">true</bool>
-				<bool name="Enabled">false</bool>
-				<float name="LightInfluence">1</float>
-				<string name="Name">Action</string>
-				<UDim2 name="Size">
-					<XS>0</XS>
-					<XO>400</XO>
-					<YS>0</YS>
-					<YO>100</YO>
-				</UDim2>
-				<Vector3 name="StudsOffsetWorldSpace">
-					<X>0</X>
-					<Y>5</Y>
-					<Z>0</Z>
-				</Vector3>
-				<token name="ZIndexBehavior">1</token>
-			</Properties>
-			<Item class="TextLabel" referent="RBX14">
-				<Properties>
-					<float name="BackgroundTransparency">1</float>
-					<token name="Font">4</token>
-					<string name="Name">Label</string>
-					<UDim2 name="Size">
-						<XS>1</XS>
-						<XO>0</XO>
-						<YS>1</YS>
-						<YO>0</YO>
-					</UDim2>
-					<string name="Text"></string>
-					<Color3 name="TextColor3">
-						<R>1</R>
-						<G>1</G>
-						<B>1</B>
-					</Color3>
-					<bool name="TextScaled">true</bool>
-					<float name="TextStrokeTransparency">0</float>
-				</Properties>
-			</Item>
-		</Item>
 	</Item>
 </roblox>

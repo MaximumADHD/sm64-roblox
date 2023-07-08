@@ -12,7 +12,7 @@ local userId = player.UserId
 local hDesc: HumanoidDescription?
 
 local function patchCollision(desc: Instance)
-	if desc:IsA("BasePart") and desc.CollisionGroupId ~= 1 then
+	if desc:IsA("BasePart") and desc.CollisionGroup ~= "Player" then
 		local canCollide = desc:GetPropertyChangedSignal("CanCollide")
 		desc.CollisionGroup = "Player"
 		desc.CanQuery = false
@@ -35,8 +35,18 @@ end
 
 task.spawn(patchAllCollision)
 character.DescendantAdded:Connect(patchCollision)
+character:SetAttribute("TimeScale", 1)
 
 local function reload()
+	character:ScaleTo(1)
+
+	task.spawn(function()
+		for i = 1, 5 do
+			character:PivotTo(CFrame.new(0, 100, 0))
+			task.wait()
+		end
+	end)
+
 	for retry = 1, 10 do
 		local success, result = pcall(function()
 			return Players:GetHumanoidDescriptionFromUserId(userId)

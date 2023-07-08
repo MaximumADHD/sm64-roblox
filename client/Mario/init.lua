@@ -3,10 +3,14 @@ local Mario = {}
 Mario.__index = Mario
 
 local SM64 = script.Parent
+local Core = SM64.Parent
+
 local Util = require(SM64.Util)
 local Enums = require(SM64.Enums)
-local Sounds = require(SM64.Sounds)
-local Animations = require(SM64.Animations)
+local Shared = require(Core.Shared)
+
+local Sounds = Shared.Sounds
+local Animations = Shared.Animations
 
 local Types = require(SM64.Types)
 local Flags = Types.Flags
@@ -28,7 +32,6 @@ local SurfaceClass = Enums.SurfaceClass
 local ParticleFlags = Enums.ParticleFlags
 
 local AirStep = Enums.AirStep
-local WaterStep = Enums.WaterStep
 local GroundStep = Enums.GroundStep
 
 export type BodyState = Types.BodyState
@@ -44,7 +47,7 @@ export type Class = Mario
 -- BINDINGS
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-local actions: { [number]: MarioAction } = {}
+local actions: { MarioAction } = {}
 Mario.Animations = Animations
 Mario.Actions = actions
 Mario.Sounds = Sounds
@@ -86,7 +89,7 @@ function Mario.SetAnimation(m: Mario, anim: Animation): number
 		m.AnimCurrent = nil
 	end
 
-	local startFrame: number = anim:GetAttribute("StartFrame") or -1
+	local startFrame: number = anim:GetAttribute("StartFrame") or 0
 	m.AnimAccelAssist = 0
 	m.AnimAccel = 0
 
@@ -101,8 +104,10 @@ function Mario.SetAnimationWithAccel(m: Mario, anim: Animation, accel: number)
 	if m.AnimCurrent ~= anim then
 		m:SetAnimation(anim)
 		m.AnimAccelAssist = -accel
-		m.AnimAccel = accel
 	end
+
+	m.AnimAccel = accel
+	return m.AnimFrame
 end
 
 function Mario.SetAnimToFrame(m: Mario, frame: number)
@@ -190,7 +195,7 @@ function Mario.PlayJumpSound(m: Mario)
 end
 
 function Mario.AdjustSoundForSpeed(m: Mario)
-	local absForwardVel = math.abs(m.ForwardVel)
+	local _absForwardVel = math.abs(m.ForwardVel)
 	-- TODO: Adjust Moving Speed Pitch
 end
 
@@ -234,12 +239,12 @@ function Mario.PlayActionSound(m: Mario, sound: Instance?, wave: number?)
 	end
 end
 
-function Mario.PlayLandingSound(m: Mario, sound: Instance?)
-	local sound = sound or Sounds.ACTION_TERRAIN_LANDING
+function Mario.PlayLandingSound(m: Mario, maybeSound: Instance?)
+	local sound = maybeSound or Sounds.ACTION_TERRAIN_LANDING
 
 	-- stylua: ignore
 	local landSound = if m.Flags:Has(MarioFlags.METAL_CAP)
-		then Sounds.ACTION_METAL_LANDING 
+		then Sounds.ACTION_METAL_LANDING
 		else sound
 
 	m:PlaySoundAndSpawnParticles(landSound, 1)
@@ -312,16 +317,10 @@ function Mario.GetFloorClass(m: Mario): number
 	local floor = m.Floor
 
 	if floor then
-		local hit: BasePart? = floor.Instance
+		local hit = floor.Instance
 
-		if hit then
-			local material = floor.Material
-			local physics = hit.CustomPhysicalProperties
-
-			if not physics then
-				physics = PhysicalProperties.new(material)
-			end
-
+		if hit and hit:IsA("BasePart") then
+			local physics = hit.CurrentPhysicalProperties
 			local friction = physics.Friction
 
 			if friction <= 0.025 then
@@ -372,7 +371,7 @@ function Mario.FloorIsSlippery(m: Mario)
 
 	if floor then
 		local floorClass = m:GetFloorClass()
-		local deg: number = 90
+		local deg = 90
 
 		if floorClass == SurfaceClass.VERY_SLIPPERY then
 			deg = 10
@@ -394,7 +393,7 @@ function Mario.FloorIsSlope(m: Mario)
 
 	if floor then
 		local floorClass = m:GetFloorClass()
-		local deg: number = 15
+		local deg = 15
 
 		if floorClass == SurfaceClass.VERY_SLIPPERY then
 			deg = 5
@@ -416,7 +415,7 @@ function Mario.FloorIsSteep(m: Mario)
 
 	if floor and not m:FacingDownhill() then
 		local floorClass = m:GetFloorClass()
-		local deg: number = 30
+		local deg = 30
 
 		if floorClass == SurfaceClass.VERY_SLIPPERY then
 			deg = 15
@@ -641,9 +640,9 @@ function Mario.SetActionCutscene(m: Mario, action: number, actionArg: number): n
 	return action
 end
 
-function Mario.SetAction(m: Mario, action: number, actionArg: number?): boolean
+function Mario.SetAction(m: Mario, action: number, maybeActionArg: number?): boolean
 	local group = bit32.band(action, ActionGroups.GROUP_MASK)
-	local actionArg: number = actionArg or 0
+	local actionArg = maybeActionArg or 0
 
 	if group == ActionGroups.MOVING then
 		action = m:SetActionMoving(action, actionArg)
@@ -888,14 +887,14 @@ function Mario.StationaryGroundStep(m: Mario): number
 end
 
 function Mario.PerformGroundQuarterStep(m: Mario, nextPos: Vector3): number
-	local lowerPos, lowerWall = Util.FindWallCollisions(nextPos, 30, 24)
+	local lowerPos, _lowerWall = Util.FindWallCollisions(nextPos, 30, 24)
 	nextPos = lowerPos
 
 	local upperPos, upperWall = Util.FindWallCollisions(nextPos, 60, 50)
 	nextPos = upperPos
 
 	local floorHeight, floor = Util.FindFloor(nextPos)
-	local ceilHeight, ceil = Util.FindCeil(nextPos, floorHeight)
+	local ceilHeight, _ceil = Util.FindCeil(nextPos, floorHeight)
 
 	m.Wall = upperWall
 
@@ -923,7 +922,7 @@ function Mario.PerformGroundQuarterStep(m: Mario, nextPos: Vector3): number
 	m.Position = Vector3.new(nextPos.X, floorHeight, nextPos.Z)
 
 	if upperWall then
-		local wallDYaw = Util.Atan2s(upperWall.Normal.Z, upperWall.Normal.X) - m.FaceAngle.Y
+		local wallDYaw = Util.SignedShort(Util.Atan2s(upperWall.Normal.Z, upperWall.Normal.X) - m.FaceAngle.Y)
 
 		if math.abs(wallDYaw) >= 0x2AAA and math.abs(wallDYaw) <= 0x5555 then
 			return GroundStep.NONE
@@ -1015,7 +1014,7 @@ function Mario.PerformAirQuarterStep(m: Mario, intendedPos: Vector3, stepArg: nu
 	nextPos = lowerPos
 
 	local floorHeight, floor = Util.FindFloor(nextPos)
-	local ceilHeight, ceil = Util.FindCeil(nextPos)
+	local ceilHeight, _ceil = Util.FindCeil(nextPos, floorHeight)
 
 	m.Wall = nil
 
@@ -1073,7 +1072,7 @@ function Mario.PerformAirQuarterStep(m: Mario, intendedPos: Vector3, stepArg: nu
 
 	if upperWall or lowerWall then
 		local wall = assert(upperWall or lowerWall)
-		local wallDYaw = Util.Atan2s(wall.Normal.Z, wall.Normal.X) - m.FaceAngle.Y
+		local wallDYaw = Util.SignedShort(Util.Atan2s(wall.Normal.Z, wall.Normal.X) - m.FaceAngle.Y)
 		m.Wall = wall
 
 		if math.abs(wallDYaw) > 0x6000 then
@@ -1166,9 +1165,9 @@ function Mario.ApplyGravity(m: Mario)
 	end
 end
 
-function Mario.PerformAirStep(m: Mario, stepArg: number?)
+function Mario.PerformAirStep(m: Mario, maybeStepArg: number?)
+	local stepArg = maybeStepArg or 0
 	local stepResult = AirStep.NONE
-	local stepArg = stepArg or 0
 	m.Wall = nil
 
 	for i = 1, 4 do
@@ -1255,7 +1254,11 @@ function Mario.UpdateJoystickInputs(m: Mario)
 	end
 
 	if m.IntendedMag > 0 then
-		m.IntendedYaw = Util.Atan2s(-controller.StickY, controller.StickX)
+		local camera = workspace.CurrentCamera
+		local lookVector = camera.CFrame.LookVector
+		local cameraYaw = Util.Atan2s(-lookVector.Z, -lookVector.X)
+
+		m.IntendedYaw = Util.SignedShort(Util.Atan2s(-controller.StickY, controller.StickX) + cameraYaw)
 		m.Input:Add(InputFlags.NONZERO_ANALOG)
 	else
 		m.IntendedYaw = m.FaceAngle.Y
@@ -1332,10 +1335,10 @@ end
 
 function Mario.UpdateCaps(m: Mario): Flags
 	local flags = m.Flags
-	local action
+	local _action
 
 	if m.CapTimer > 0 then
-		action = m.Action
+		_action = m.Action
 
 		if m.CapTimer <= 60 then
 			m.CapTimer -= 1
@@ -1395,9 +1398,15 @@ end
 
 function Mario.CheckKickOrPunchWall(m: Mario)
 	if m.Flags:Has(MarioFlags.PUNCHING, MarioFlags.KICKING, MarioFlags.TRIPPING) then
-		local range = Vector3.new(Util.Sins(m.FaceAngle.Y), 0, Util.Coss(m.FaceAngle.Y))
-		local detector = m.Position + range
-		local disp, wall = Util.FindWallCollisions(detector, 80, 5)
+		-- stylua: ignore
+		local range = Vector3.new(
+			Util.Sins(m.FaceAngle.Y),
+			0,
+			Util.Coss(m.FaceAngle.Y)
+		)
+
+		local detector = m.Position + (range * 50)
+		local _disp, wall = Util.FindWallCollisions(detector, 80, 5)
 
 		if wall then
 			if m.Action() ~= Action.MOVE_PUNCHING or m.ForwardVel >= 0 then
@@ -1464,7 +1473,7 @@ function Mario.ExecuteAction(m: Mario): number
 	m.GfxAngle *= 0
 	m.AnimDirty = true
 	m.ThrowMatrix = nil
-	m.AnimSkipInterp = false
+	m.AnimSkipInterp = math.max(0, m.AnimSkipInterp - 1)
 
 	m:ResetBodyState()
 	m:UpdateInputs()
@@ -1606,6 +1615,7 @@ function Mario.new(): Mario
 		AnimReset = false,
 		AnimFrameCount = 0,
 		AnimAccelAssist = 0,
+		AnimSkipInterp = 0,
 	}
 
 	return setmetatable(state, Mario)
