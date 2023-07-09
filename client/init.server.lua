@@ -195,7 +195,6 @@ local function updateController(controller: Controller, humanoid: Humanoid?)
 		BUTTON_FEED[Buttons.A_BUTTON] = Enum.UserInputState.End
 	end
 
-	local character = humanoid.Parent
 	local lastButtonValue = controller.ButtonDown()
 
 	for button, state in pairs(BUTTON_FEED) do
@@ -206,20 +205,18 @@ local function updateController(controller: Controller, humanoid: Humanoid?)
 		end
 	end
 
-	local buttonValue = controller.ButtonDown()
-	controller.ButtonPressed:Set(buttonValue)
 	table.clear(BUTTON_FEED)
 
-	if character and character:GetAttribute("TAS") then
-		return
-	end
+	local buttonValue = controller.ButtonDown()
+	controller.ButtonPressed:Set(buttonValue)
+	controller.ButtonPressed:Band(bit32.bxor(buttonValue, lastButtonValue))
 
-	if Core:GetAttribute("ToolAssistedInput") then
-		return
+	local character = humanoid.Parent
+	if (character and character:GetAttribute("TAS")) or Core:GetAttribute("ToolAssistedInput") then
+		if controller.ButtonDown:Has(Buttons.A_BUTTON) then
+			controller.ButtonPressed:Set(Buttons.A_BUTTON)
+		end
 	end
-
-	local diff = bit32.bxor(buttonValue, lastButtonValue)
-	controller.ButtonPressed:Band(diff)
 end
 
 ContextActionService:BindAction("MarioDebug", processAction, false, Enum.KeyCode.P)
