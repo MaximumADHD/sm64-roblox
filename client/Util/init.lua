@@ -109,7 +109,7 @@ function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 	local newPos = pos
 	local height = -11000
 
-	if Core:GetAttribute("EmulateLimits") then
+	if Core:GetAttribute("TruncateBounds") then
 		local trunc = Vector3int16.new(pos.X, pos.Y, pos.Z)
 
 		if math.abs(trunc.X) >= 0x2000 then

@@ -728,12 +728,7 @@
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
 				"SoundId": "rbxassetid://11276297854",
-
-				"PlaybackRegion": {
-					"NumberRange": [0.1, 60000]
-				},
-
-				"PlaybackRegionsEnabled": true
+				"PlaybackRegionsEnabled": false
 			}
 		},
         
