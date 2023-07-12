@@ -645,7 +645,7 @@ local function update()
 
 			if particles then
 				for name, flag in pairs(ParticleFlags) do
-					local inst = particles:FindFirstChild(name)
+					local inst = particles:FindFirstChild(name, true)
 
 					if inst and PARTICLE_CLASSES[inst.ClassName] then
 						local particle = inst :: ParticleEmitter

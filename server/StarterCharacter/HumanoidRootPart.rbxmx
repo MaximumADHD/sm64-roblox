@@ -211,6 +211,56 @@
 					<NumberSequence name="Transparency">0 0.5 0 0.8 0.5 0 1 1 0 </NumberSequence>
 				</Properties>
 			</Item>
+			<Item class="Bone" referent="RBX14">
+				<Properties>
+					<CoordinateFrame name="CFrame">
+						<X>0</X>
+						<Y>4</Y>
+						<Z>0</Z>
+						<R00>1</R00>
+						<R01>0</R01>
+						<R02>0</R02>
+						<R10>0</R10>
+						<R11>1</R11>
+						<R12>0</R12>
+						<R20>0</R20>
+						<R21>0</R21>
+						<R22>1</R22>
+					</CoordinateFrame>
+					<string name="Name">Disp</string>
+				</Properties>
+				<Item class="ParticleEmitter" referent="RBX15">
+					<Properties>
+						<Vector3 name="Acceleration">
+							<X>0</X>
+							<Y>-60</Y>
+							<Z>0</Z>
+						</Vector3>
+						<BinaryString name="AttributesSerialize">AQAAAAQAAABFbWl0BgAAAAAAAABA</BinaryString>
+						<float name="Brightness">3</float>
+						<ColorSequence name="Color">0 1 1 0 0 1 1 1 0 0 </ColorSequence>
+						<float name="Drag">6</float>
+						<token name="EmissionDirection">5</token>
+						<bool name="Enabled">false</bool>
+						<NumberRange name="Lifetime">0.5 0.5 </NumberRange>
+						<float name="LightEmission">1</float>
+						<float name="LightInfluence">0</float>
+						<string name="Name">TRIANGLE</string>
+						<token name="Orientation">2</token>
+						<float name="Rate">20</float>
+						<NumberRange name="RotSpeed">-360 360 </NumberRange>
+						<NumberSequence name="Size">0 2 0 1 0 0 </NumberSequence>
+						<NumberRange name="Speed">30 70 </NumberRange>
+						<Vector2 name="SpreadAngle">
+							<X>90</X>
+							<Y>90</Y>
+						</Vector2>
+						<NumberSequence name="Squash">0 0 0.175 1 0 0.1 </NumberSequence>
+						<Content name="Texture"><url>rbxasset://textures/particles/sparkles_main.dds</url></Content>
+						<NumberSequence name="Transparency">0 0 0 0.9 0 0 1 1 0 </NumberSequence>
+					</Properties>
+				</Item>
+			</Item>
 		</Item>
 		<Item class="Attachment" referent="RBX11">
 			<Properties>
