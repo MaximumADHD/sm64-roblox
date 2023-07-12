@@ -460,20 +460,25 @@ local function update()
 
 	local now = os.clock()
 	local gfxRot = CFrame.identity
-	
-	-- stylua: ignore
-	local scale = character:GetScale()
-	Util.Scale = scale / 24 -- HACK! Should this be instanced?
 
+	local scale = character:GetScale()
+	Util.Scale = scale / 20 -- HACK! Should this be instanced?
+
+	-- Disabled for now because this causes parallel universes to break.
+	-- TODO: Find a better way to do two-way syncing between these values.
+
+	--[[
 	local pos = character:GetPivot().Position
 	local dist = (Util.ToRoblox(mario.Position) - pos).Magnitude
-	local humanoid = character:FindFirstChildOfClass("Humanoid")
 
-	if dist > (scale * 20) then
+	if dist > (scale * 20)  then
 		mario.Position = Util.ToSM64(pos)
 	end
+	]]
 
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
 	local simSpeed = tonumber(character:GetAttribute("TimeScale") or nil) or 1
+
 	subframe += (now - lastUpdate) * (STEP_RATE * simSpeed)
 	lastUpdate = now
 

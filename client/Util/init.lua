@@ -13,6 +13,9 @@ rayParams.IgnoreWater = true
 local SHORT_TO_RAD = (2 * math.pi) / 0x10000
 local VECTOR3_XZ = Vector3.one - Vector3.yAxis
 
+local TweenService = game:GetService("TweenService")
+local fadeOut = TweenInfo.new(0.5)
+
 local CARDINAL = {
 	-Vector3.xAxis,
 	-Vector3.zAxis,
@@ -69,7 +72,7 @@ end
 function Util.Raycast(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, worldRoot: WorldRoot?): RaycastResult?
 	local root = worldRoot or workspace
 	local params = maybeParams or rayParams
-	local result: RaycastResult? = root:Raycast(pos, dir, params)
+	local result = root:Raycast(pos, dir, params)
 
 	if script:GetAttribute("Debug") then
 		local color = Color3.new(result and 0 or 1, result and 1 or 0, 0)
@@ -82,7 +85,12 @@ function Util.Raycast(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, w
 		line.Adornee = workspace.Terrain
 		line.Parent = workspace.Terrain
 
-		task.delay(2, line.Destroy, line)
+		local tween = TweenService:Create(line, fadeOut, {
+			Transparency = 1,
+		})
+
+		tween:Play()
+		task.delay(fadeOut.Time, line.Destroy, line)
 	end
 
 	return result
@@ -128,22 +136,36 @@ function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 	if result then
 		height = Util.SignedShort(result.Position.Y)
 		result.Position = Vector3.new(pos.X, height, pos.Z)
-
-		return height, result
-	else
-		return height, nil
 	end
+
+	return height, result
 end
 
 function Util.FindCeil(pos: Vector3, height: number?): (number, RaycastResult?)
+	local newHeight = 10000
+
+	if Core:GetAttribute("TruncateBounds") then
+		local trunc = Vector3int16.new(pos.X, pos.Y, pos.Z)
+
+		if math.abs(trunc.X) >= 0x2000 then
+			return newHeight, nil
+		end
+
+		if math.abs(trunc.Z) >= 0x2000 then
+			return newHeight, nil
+		end
+
+		pos = Vector3.new(trunc.X, trunc.Y, trunc.Z)
+	end
+
 	local head = Vector3.new(pos.X, (height or pos.Y) + 80, pos.Z)
 	local result = Util.RaycastSM64(head, Vector3.yAxis * 10000)
 
 	if result then
-		return result.Position.Y, result
-	else
-		return 10000, nil
+		newHeight = result.Position.Y
 	end
+
+	return newHeight, result
 end
 
 function Util.FindWallCollisions(pos: Vector3, offset: number, radius: number): (Vector3, RaycastResult?)
