@@ -379,6 +379,7 @@ local lastUpdate = os.clock()
 local lastAngle: Vector3int16?
 local mario: Mario = Mario.new()
 
+local activeScale = 1
 local subframe = 0 -- 30hz subframe
 local emptyId = ""
 
@@ -460,9 +461,15 @@ local function update()
 
 	local now = os.clock()
 	local gfxRot = CFrame.identity
-
 	local scale = character:GetScale()
-	Util.Scale = scale / 20 -- HACK! Should this be instanced?
+
+	if scale ~= activeScale then
+		local marioPos = Util.ToRoblox(mario.Position)
+		Util.Scale = scale / 20 -- HACK! Should this be instanced?
+
+		mario.Position = Util.ToSM64(marioPos)
+		activeScale = scale
+	end
 
 	-- Disabled for now because this causes parallel universes to break.
 	-- TODO: Find a better way to do two-way syncing between these values.
