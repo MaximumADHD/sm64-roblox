@@ -95,7 +95,29 @@
 		},
 
 		{
+			"name": "ACTION_METAL_LAND_WATER",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://9116519870"
+			}
+		},
+
+		{
 			"name": "ACTION_METAL_JUMP",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://9116519870"
+			}
+		},
+
+		{
+			"name": "ACTION_METAL_JUMP_WATER",
 			"className": "Sound",
             
 			"properties": {
@@ -146,6 +168,48 @@
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
 				"SoundId": "rbxassetid://6552141879"
+			}
+		},
+
+		{
+			"name": "ACTION_SWIM_KICK",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://9117823333",
+				"Volume": 0.05
+			}
+		},
+
+		{
+			"name": "ACTION_SWIM_FAST",
+			"className": "Sound",
+
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://9117822492",
+				"Volume": 0.1,
+
+				"PlaybackRegion": {
+					"NumberRange": [1, 2.5]
+				},
+
+				"PlaybackRegionsEnabled": true
+			}
+		},
+
+		{
+			"name": "ACTION_SWIM",
+			"className": "Sound",
+
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://9120554658",
+				"Volume": 0.5
 			}
 		},
         
@@ -403,6 +467,38 @@
 				"RollOffMinDistance": 8,
 				"RollOffMaxDistance": 128,
 				"SoundId": ""
+			}
+		},
+
+		{
+			"name": "ACTION_WATER_ENTER",
+			"className": "Sound",
+
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxassetid://9117822587",
+
+				"PlaybackRegion": {
+					"NumberRange": [0, 4]
+				},
+
+				"PlaybackRegionsEnabled": true
+			}
+		},
+
+		{
+			"name": "ACTION_WATER_EXIT",
+			"className": "Sound",
+
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": "rbxasset://sounds/impact_water.mp3"
+			},
+
+			"attributes": {
+				"Decay": true
 			}
 		},
         

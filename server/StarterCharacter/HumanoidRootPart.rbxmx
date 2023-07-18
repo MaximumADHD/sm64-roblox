@@ -181,6 +181,35 @@
 					<NumberSequence name="Transparency">0 1 0 0.1 0.75 0 0.5 0.75 0 1 1 0 </NumberSequence>
 				</Properties>
 			</Item>
+			<Item class="ParticleEmitter" referent="RBX16">
+				<Properties>
+					<Vector3 name="Acceleration">
+						<X>0</X>
+						<Y>-1</Y>
+						<Z>0</Z>
+					</Vector3>
+					<BinaryString name="AttributesSerialize">AQAAAAQAAABFbWl0BgAAAAAAADlA</BinaryString>
+					<ColorSequence name="Color">0 0.807843 0.807843 0.807843 0 1 0.807843 0.807843 0.807843 0 </ColorSequence>
+					<float name="Drag">3</float>
+					<token name="EmissionDirection">5</token>
+					<bool name="Enabled">false</bool>
+					<NumberRange name="Lifetime">2 2 </NumberRange>
+					<float name="LightEmission">1</float>
+					<float name="LightInfluence">1</float>
+					<string name="Name">PLUNGE_BUBBLE</string>
+					<float name="Rate">100</float>
+					<NumberRange name="RotSpeed">-360 360 </NumberRange>
+					<NumberRange name="Rotation">0 360 </NumberRange>
+					<NumberSequence name="Size">0 2 0 1 2 0 </NumberSequence>
+					<NumberRange name="Speed">20 20 </NumberRange>
+					<Vector2 name="SpreadAngle">
+						<X>360</X>
+						<Y>360</Y>
+					</Vector2>
+					<Content name="Texture"><url>rbxassetid://425366688</url></Content>
+					<NumberSequence name="Transparency">0 1 0 0.1 0.75 0 0.5 0.75 0 1 1 0 </NumberSequence>
+				</Properties>
+			</Item>
 			<Item class="Vector3Value" referent="RBX10">
 				<Properties>
 					<string name="Name">OriginalPosition</string>

@@ -16,6 +16,19 @@ local VECTOR3_XZ = Vector3.one - Vector3.yAxis
 local TweenService = game:GetService("TweenService")
 local fadeOut = TweenInfo.new(0.5)
 
+local waterPlane = Instance.new("BoxHandleAdornment")
+waterPlane.Size = Vector3.new(48, 0, 48)
+waterPlane.Adornee = workspace.Terrain
+waterPlane.Transparency = 0.5
+waterPlane.Name = "WaterPlane"
+
+local focalPlane = waterPlane:Clone()
+focalPlane.Size = Vector3.new(4, 0, 4)
+focalPlane.Color3 = Color3.new(1, 0, 1)
+focalPlane.Name = "FocalPlane"
+focalPlane.Transparency = 0.1
+focalPlane.Parent = waterPlane
+
 local CARDINAL = {
 	-Vector3.xAxis,
 	-Vector3.zAxis,
@@ -23,29 +36,33 @@ local CARDINAL = {
 	Vector3.zAxis,
 }
 
-function Util.SetX(vec: Vector3, x: number): Vector3
-	return Vector3.new(x, vec.Y, vec.Z)
+local CONSTRUCTORS = {
+	Vector3 = Vector3.new,
+	Vector3int16 = Vector3int16.new,
+}
+
+-- stylua: ignore
+local function vectorModifier(getArgs: (Vector3 | Vector3int16, number) -> (number, number, number)):
+	((vec: Vector3, value: number) -> Vector3) & 
+	((vec: Vector3int16, value: number) -> Vector3int16)
+
+	return function (vector, new)
+		local constructor = CONSTRUCTORS[typeof(vector)]
+		return constructor(getArgs(vector, new))
+	end
 end
 
-function Util.SetXint16(vec: Vector3int16, x: number): Vector3int16
-	return Vector3int16.new(x, vec.Y, vec.Z)
-end
+Util.SetX = vectorModifier(function(vector, x)
+	return x, vector.Y, vector.Z
+end)
 
-function Util.SetY(vec: Vector3, y: number): Vector3
-	return Vector3.new(vec.X, y, vec.Z)
-end
+Util.SetY = vectorModifier(function(vector, y)
+	return vector.X, y, vector.Z
+end)
 
-function Util.SetYint16(vec: Vector3int16, y: number): Vector3int16
-	return Vector3int16.new(vec.X, y, vec.Z)
-end
-
-function Util.SetZ(vec: Vector3, z: number): Vector3
-	return Vector3.new(vec.X, vec.Y, z)
-end
-
-function Util.SetZint16(vec: Vector3int16, z: number): Vector3int16
-	return Vector3int16.new(vec.X, vec.Y, z)
-end
+Util.SetZ = vectorModifier(function(vector, z)
+	return vector.X, vector.Y, z
+end)
 
 function Util.ToRoblox(v: Vector3)
 	return v * Util.Scale
@@ -62,11 +79,30 @@ end
 function Util.ToRotation(v: Vector3int16): CFrame
 	local angle = Util.ToEulerAngles(v)
 
+	-- stylua: ignore
 	local matrix = CFrame.fromAxisAngle(Vector3.yAxis, angle.Y)
-		* CFrame.fromAxisAngle(Vector3.xAxis, -angle.X)
-		* CFrame.fromAxisAngle(Vector3.zAxis, -angle.Z)
+	             * CFrame.fromAxisAngle(Vector3.xAxis, -angle.X)
+	             * CFrame.fromAxisAngle(Vector3.zAxis, -angle.Z)
 
 	return matrix
+end
+
+function Util.DebugWater(waterLevel: number)
+	if script:GetAttribute("Debug") then
+		local robloxLevel = (waterLevel * Util.Scale) + 0.01
+		local focus = workspace.CurrentCamera.Focus
+
+		local x = math.floor(focus.X / 4) * 4
+		local z = math.floor(focus.Z / 4) * 4
+
+		local cf = CFrame.new(x, robloxLevel, z)
+		waterPlane.Parent = script
+
+		focalPlane.CFrame = cf
+		waterPlane.CFrame = cf
+	else
+		waterPlane.Parent = nil
+	end
 end
 
 function Util.Raycast(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, worldRoot: WorldRoot?): RaycastResult?
@@ -96,8 +132,9 @@ function Util.Raycast(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, w
 	return result
 end
 
-function Util.RaycastSM64(pos: Vector3, dir: Vector3, rayParams: RaycastParams?, worldRoot: WorldRoot?): RaycastResult?
-	local result: RaycastResult? = Util.Raycast(pos * Util.Scale, dir * Util.Scale, rayParams, worldRoot)
+-- stylua: ignore
+function Util.RaycastSM64(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, worldRoot: WorldRoot?): RaycastResult?
+	local result: RaycastResult? = Util.Raycast(pos * Util.Scale, dir * Util.Scale, maybeParams or rayParams, worldRoot)
 
 	if result then
 		-- Cast back to SM64 unit scale.
@@ -131,7 +168,7 @@ function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 		newPos = Vector3.new(trunc.X, trunc.Y, trunc.Z)
 	end
 
-	local result = Util.RaycastSM64(newPos + (Vector3.yAxis * 100), -Vector3.yAxis * 10000)
+	local result = Util.RaycastSM64(newPos + (Vector3.yAxis * 100), -Vector3.yAxis * 10000, rayParams)
 
 	if result then
 		height = Util.SignedShort(result.Position.Y)
@@ -159,7 +196,7 @@ function Util.FindCeil(pos: Vector3, height: number?): (number, RaycastResult?)
 	end
 
 	local head = Vector3.new(pos.X, (height or pos.Y) + 80, pos.Z)
-	local result = Util.RaycastSM64(head, Vector3.yAxis * 10000)
+	local result = Util.RaycastSM64(head, Vector3.yAxis * 10000, rayParams)
 
 	if result then
 		newHeight = result.Position.Y

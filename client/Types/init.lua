@@ -56,9 +56,11 @@ export type MarioState = {
 	DoubleJumpTimer: number,
 
 	FaceAngle: Vector3int16,
-	GfxAngle: Vector3int16,
 	AngleVel: Vector3int16,
 	ThrowMatrix: CFrame?,
+
+	GfxAngle: Vector3int16,
+	GfxPos: Vector3,
 
 	SlideYaw: number,
 	TwirlYaw: number,

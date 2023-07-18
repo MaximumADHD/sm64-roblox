@@ -37,10 +37,11 @@ type Controller = Types.Controller
 type Mario = Mario.Class
 
 local player: Player = assert(Players.LocalPlayer)
-local FLIP = CFrame.Angles(0, math.pi, 0)
+local mario: Mario = Mario.new()
 
 local STEP_RATE = 30
 local NULL_TEXT = `<font color="#FF0000">NULL</font>`
+local FLIP = CFrame.Angles(0, math.pi, 0)
 
 local debugStats = Instance.new("BoolValue")
 debugStats.Name = "DebugStats"
@@ -70,6 +71,7 @@ local AUTO_STATS = {
 
 	"CeilHeight",
 	"FloorHeight",
+	"WaterLevel",
 }
 
 local ControlModule: {
@@ -213,8 +215,10 @@ local function updateController(controller: Controller, humanoid: Humanoid?)
 
 	local character = humanoid.Parent
 	if (character and character:GetAttribute("TAS")) or Core:GetAttribute("ToolAssistedInput") then
-		if controller.ButtonDown:Has(Buttons.A_BUTTON) then
-			controller.ButtonPressed:Set(Buttons.A_BUTTON)
+		if not mario.Action:Has(Enums.ActionFlags.SWIMMING) then
+			if controller.ButtonDown:Has(Buttons.A_BUTTON) then
+				controller.ButtonPressed:Set(Buttons.A_BUTTON)
+			end
 		end
 	end
 end
@@ -268,7 +272,10 @@ function Commands.PlaySound(player: Player, name: string)
 		if oldSound and oldSound:IsA("Sound") then
 			canPlay = false
 
-			if name:sub(1, 5) == "MARIO" then
+			if name:sub(1, 6) == "MOVING" or sound:GetAttribute("Decay") then
+				-- Keep decaying audio alive.
+				stepDecay(oldSound)
+			elseif name:sub(1, 5) == "MARIO" then
 				-- Restart mario sound if a 30hz interval passed.
 				local now = os.clock()
 				local lastPlay = oldSound:GetAttribute("LastPlay") or 0
@@ -277,9 +284,6 @@ function Commands.PlaySound(player: Player, name: string)
 					oldSound.TimePosition = 0
 					oldSound:SetAttribute("LastPlay", now)
 				end
-			elseif name:sub(1, 6) == "MOVING" then
-				-- Keep decaying audio alive.
-				stepDecay(oldSound)
 			else
 				-- Allow stacking.
 				canPlay = true
@@ -322,17 +326,30 @@ function Commands.SetParticle(player: Player, name: string, set: boolean)
 			elseif set ~= nil then
 				particle.Enabled = set
 			end
+		else
+			warn("particle not found:", name)
 		end
 	end
 end
 
-function Commands.SetAngle(player: Player, angle: Vector3int16)
+function Commands.SetTorsoAngle(player: Player, angle: Vector3int16)
 	local character = player.Character
 	local waist = character and character:FindFirstChild("Waist", true)
 
 	if waist and waist:IsA("Motor6D") then
 		local props = { C1 = Util.ToRotation(-angle) + waist.C1.Position }
 		local tween = TweenService:Create(waist, TweenInfo.new(0.1), props)
+		tween:Play()
+	end
+end
+
+function Commands.SetHeadAngle(player: Player, angle: Vector3int16)
+	local character = player.Character
+	local neck = character and character:FindFirstChild("Neck", true)
+
+	if neck and neck:IsA("Motor6D") then
+		local props = { C1 = Util.ToRotation(-angle) + neck.C1.Position }
+		local tween = TweenService:Create(neck, TweenInfo.new(0.1), props)
 		tween:Play()
 	end
 end
@@ -376,8 +393,8 @@ lazyNetwork.OnClientEvent:Connect(onNetworkReceive)
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 local lastUpdate = os.clock()
-local lastAngle: Vector3int16?
-local mario: Mario = Mario.new()
+local lastHeadAngle: Vector3int16?
+local lastTorsoAngle: Vector3int16?
 
 local activeScale = 1
 local subframe = 0 -- 30hz subframe
@@ -452,6 +469,30 @@ local function onReset()
 	mario:SetAction(Action.SPAWN_SPIN_AIRBORNE)
 end
 
+local function getWaterLevel(pos: Vector3)
+	local terrain = workspace.Terrain
+	local voxelPos = terrain:WorldToCellPreferSolid(pos)
+
+	local voxelRegion = Region3.new(voxelPos * 4, (voxelPos + Vector3.one + (Vector3.yAxis * 3)) * 4)
+	voxelRegion = voxelRegion:ExpandToGrid(4)
+
+	local materials, occupancies = terrain:ReadVoxels(voxelRegion, 4)
+	local size: Vector3 = occupancies.Size
+	local waterLevel = -11000
+
+	for y = 1, size.Y do
+		local occupancy = occupancies[1][y][1]
+		local material = materials[1][y][1]
+
+		if occupancy >= 0.9 and material == Enum.Material.Water then
+			local top = ((voxelPos.Y * 4) + (4 * y + 2))
+			waterLevel = math.max(waterLevel, top / Util.Scale)
+		end
+	end
+
+	return waterLevel
+end
+
 local function update()
 	local character = player.Character
 
@@ -474,17 +515,19 @@ local function update()
 	-- Disabled for now because this causes parallel universes to break.
 	-- TODO: Find a better way to do two-way syncing between these values.
 
-	--[[
-	local pos = character:GetPivot().Position
-	local dist = (Util.ToRoblox(mario.Position) - pos).Magnitude
+	-- local pos = character:GetPivot().Position
+	-- local dist = (Util.ToRoblox(mario.Position) - pos).Magnitude
 
-	if dist > (scale * 20)  then
-		mario.Position = Util.ToSM64(pos)
-	end
-	]]
+	-- if dist > (scale * 20)  then
+	-- 	mario.Position = Util.ToSM64(pos)
+	-- end
 
 	local humanoid = character:FindFirstChildOfClass("Humanoid")
 	local simSpeed = tonumber(character:GetAttribute("TimeScale") or nil) or 1
+
+	local robloxPos = Util.ToRoblox(mario.Position)
+	mario.WaterLevel = getWaterLevel(robloxPos)
+	Util.DebugWater(mario.WaterLevel)
 
 	subframe += (now - lastUpdate) * (STEP_RATE * simSpeed)
 	lastUpdate = now
@@ -632,15 +675,21 @@ local function update()
 			end
 
 			local bodyState = mario.BodyState
-			local ang = bodyState.TorsoAngle
+			local headAngle = bodyState.HeadAngle
+			local torsoAngle = bodyState.TorsoAngle
 
 			if actionId ~= Action.BUTT_SLIDE and actionId ~= Action.WALKING then
 				bodyState.TorsoAngle *= 0
 			end
 
-			if ang ~= lastAngle then
-				networkDispatch("SetAngle", ang)
-				lastAngle = ang
+			if torsoAngle ~= lastTorsoAngle then
+				networkDispatch("SetTorsoAngle", torsoAngle)
+				lastTorsoAngle = torsoAngle
+			end
+
+			if headAngle ~= lastHeadAngle then
+				networkDispatch("SetHeadAngle", headAngle)
+				lastHeadAngle = headAngle
 			end
 
 			if particles then
@@ -651,6 +700,10 @@ local function update()
 						local particle = inst :: ParticleEmitter
 						local emit = particle:GetAttribute("Emit")
 						local hasFlag = mario.ParticleFlags:Has(flag)
+
+						if hasFlag then
+							print("SetParticle", name)
+						end
 
 						if emit then
 							if hasFlag then

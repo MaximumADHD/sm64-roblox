@@ -637,7 +637,7 @@
 			"className": "Animation",
             
 			"properties": {
-				"AnimationId": ""
+				"AnimationId": "rbxassetid://14101766690"
 			},
             
 			"attributes": {
@@ -787,11 +787,11 @@
 			"className": "Animation",
             
 			"properties": {
-				"AnimationId": ""
+				"AnimationId": "rbxassetid://14101764246"
 			},
             
 			"attributes": {
-				"Loop": false,
+				"Loop": true,
 				"NumFrames": 22,
 				"StartAddress": "565610"
 			}
@@ -2517,12 +2517,12 @@
 			"className": "Animation",
             
 			"properties": {
-				"AnimationId": ""
+				"AnimationId": "rbxassetid://14101761759"
 			},
             
 			"attributes": {
 				"Loop": false,
-				"NumFrames": 12,
+				"NumFrames": 16,
 				"StartAddress": "564D2C"
 			}
 		},
@@ -2532,7 +2532,7 @@
 			"className": "Animation",
             
 			"properties": {
-				"AnimationId": ""
+				"AnimationId": "rbxassetid://14101760003"
 			},
             
 			"attributes": {
@@ -2862,7 +2862,7 @@
 			"className": "Animation",
             
 			"properties": {
-				"AnimationId": ""
+				"AnimationId": "rbxassetid://14101757679"
 			},
             
 			"attributes": {
@@ -2922,7 +2922,7 @@
 			"className": "Animation",
             
 			"properties": {
-				"AnimationId": ""
+				"AnimationId": "rbxassetid://14101753873"
 			},
             
 			"attributes": {
@@ -2937,7 +2937,7 @@
 			"className": "Animation",
             
 			"properties": {
-				"AnimationId": ""
+				"AnimationId": "rbxassetid://14101755961"
 			},
             
 			"attributes": {
@@ -2952,7 +2952,7 @@
 			"className": "Animation",
             
 			"properties": {
-				"AnimationId": ""
+				"AnimationId": "rbxassetid://14101750346"
 			},
             
 			"attributes": {

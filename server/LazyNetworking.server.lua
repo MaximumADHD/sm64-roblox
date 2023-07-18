@@ -43,7 +43,11 @@ function Validators.SetParticle(player: Player, name: string, set: boolean?)
 	return false
 end
 
-function Validators.SetAngle(player: Player, angle: Vector3int16)
+function Validators.SetTorsoAngle(player: Player, angle: Vector3int16)
+	return typeof(angle) == "Vector3int16"
+end
+
+function Validators.SetHeadAngle(player: Player, angle: Vector3int16)
 	return typeof(angle) == "Vector3int16"
 end
 

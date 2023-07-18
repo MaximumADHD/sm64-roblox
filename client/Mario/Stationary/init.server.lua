@@ -43,7 +43,7 @@ local function checkCommonIdleCancels(m: Mario)
 	end
 
 	if m.Input:Has(InputFlags.NONZERO_ANALOG) then
-		m.FaceAngle = Util.SetYint16(m.FaceAngle, m.IntendedYaw)
+		m.FaceAngle = Util.SetY(m.FaceAngle, m.IntendedYaw)
 		return m:SetAction(Action.WALKING)
 	end
 

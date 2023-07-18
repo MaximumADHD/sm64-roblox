@@ -35,31 +35,6 @@ local function playFlipSounds(m: Mario, frame1: number, frame2: number, frame3: 
 	end
 end
 
-local function playFarFallSound(m: Mario)
-	if m.Flags:Has(MarioFlags.FALLING_FAR) then
-		return
-	end
-
-	local action = m.Action
-
-	if action() == Action.TWIRLING then
-		return
-	end
-
-	if action() == Action.FLYING then
-		return
-	end
-
-	if action:Has(ActionFlags.INVULNERABLE) then
-		return
-	end
-
-	if m.PeakHeight - m.Position.Y > 1150 then
-		m:PlaySound(Sounds.MARIO_WAAAOOOW)
-		m.Flags:Add(MarioFlags.FALLING_FAR)
-	end
-end
-
 local function playKnockbackSound(m: Mario)
 	if m.ActionArg == 0 and math.abs(m.ForwardVel) >= 28 then
 		m:PlaySoundIfNoFlag(Sounds.MARIO_DOH, MarioFlags.MARIO_SOUND_PLAYED)
@@ -73,7 +48,7 @@ local function lavaBoostOnWall(m: Mario)
 
 	if wall then
 		local angle = Util.Atan2s(wall.Normal.Z, wall.Normal.X)
-		m.FaceAngle = Util.SetYint16(m.FaceAngle, angle)
+		m.FaceAngle = Util.SetY(m.FaceAngle, angle)
 	end
 
 	if m.ForwardVel < 24 then
@@ -210,30 +185,30 @@ local function updateFlyingYaw(m: Mario)
 			m.AngleVel += Vector3int16.new(0, 0x40, 0)
 
 			if m.AngleVel.Y > 0x10 then
-				m.AngleVel = Util.SetYint16(m.AngleVel, 0x10)
+				m.AngleVel = Util.SetY(m.AngleVel, 0x10)
 			end
 		else
 			local y = Util.ApproachInt(m.AngleVel.Y, targetYawVel, 0x10, 0x20)
-			m.AngleVel = Util.SetYint16(m.AngleVel, y)
+			m.AngleVel = Util.SetY(m.AngleVel, y)
 		end
 	elseif targetYawVel < 0 then
 		if m.AngleVel.Y > 0 then
 			m.AngleVel -= Vector3int16.new(0, 0x40, 0)
 
 			if m.AngleVel.Y < -0x10 then
-				m.AngleVel = Util.SetYint16(m.AngleVel, -0x10)
+				m.AngleVel = Util.SetY(m.AngleVel, -0x10)
 			end
 		else
 			local y = Util.ApproachInt(m.AngleVel.Y, targetYawVel, 0x20, 0x10)
-			m.AngleVel = Util.SetYint16(m.AngleVel, y)
+			m.AngleVel = Util.SetY(m.AngleVel, y)
 		end
 	else
 		local y = Util.ApproachInt(m.AngleVel.Y, 0, 0x40)
-		m.AngleVel = Util.SetYint16(m.AngleVel, y)
+		m.AngleVel = Util.SetY(m.AngleVel, y)
 	end
 
 	m.FaceAngle += Vector3int16.new(0, m.AngleVel.Y, 0)
-	m.FaceAngle = Util.SetZint16(m.FaceAngle, 20 * -m.AngleVel.Y)
+	m.FaceAngle = Util.SetZ(m.FaceAngle, 20 * -m.AngleVel.Y)
 end
 
 local function updateFlyingPitch(m: Mario)
@@ -244,26 +219,26 @@ local function updateFlyingPitch(m: Mario)
 			m.AngleVel += Vector3int16.new(0x40, 0, 0)
 
 			if m.AngleVel.X > 0x20 then
-				m.AngleVel = Util.SetXint16(m.AngleVel, 0x20)
+				m.AngleVel = Util.SetX(m.AngleVel, 0x20)
 			end
 		else
 			local x = Util.ApproachInt(m.AngleVel.X, targetPitchVel, 0x20, 0x40)
-			m.AngleVel = Util.SetXint16(m.AngleVel, x)
+			m.AngleVel = Util.SetX(m.AngleVel, x)
 		end
 	elseif targetPitchVel < 0 then
 		if m.AngleVel.X > 0 then
 			m.AngleVel -= Vector3int16.new(0x40, 0, 0)
 
 			if m.AngleVel.X < -0x20 then
-				m.AngleVel = Util.SetXint16(m.AngleVel, -0x20)
+				m.AngleVel = Util.SetX(m.AngleVel, -0x20)
 			end
 		else
 			local x = Util.ApproachInt(m.AngleVel.X, targetPitchVel, 0x40, 0x20)
-			m.AngleVel = Util.SetXint16(m.AngleVel, x)
+			m.AngleVel = Util.SetX(m.AngleVel, x)
 		end
 	else
 		local x = Util.ApproachInt(m.AngleVel.X, 0, 0x40)
-		m.AngleVel = Util.SetXint16(m.AngleVel, x)
+		m.AngleVel = Util.SetX(m.AngleVel, x)
 	end
 end
 
@@ -289,11 +264,11 @@ local function updateFlying(m: Mario)
 	m.FaceAngle += Vector3int16.new(m.AngleVel.X, 0, 0)
 
 	if m.FaceAngle.X > 0x2AAA then
-		m.FaceAngle = Util.SetXint16(m.FaceAngle, 0x2AAA)
+		m.FaceAngle = Util.SetX(m.FaceAngle, 0x2AAA)
 	end
 
 	if m.FaceAngle.X < -0x2AAA then
-		m.FaceAngle = Util.SetXint16(m.FaceAngle, -0x2AAA)
+		m.FaceAngle = Util.SetX(m.FaceAngle, -0x2AAA)
 	end
 
 	local velX = Util.Coss(m.FaceAngle.X) * Util.Sins(m.FaceAngle.Y)
@@ -584,7 +559,7 @@ DEF_ACTION(Action.TWIRLING, function(m: Mario)
 	end
 
 	local yVel = Util.ApproachInt(m.AngleVel.Y, yawVelTarget, 0x200)
-	m.AngleVel = Util.SetYint16(m.AngleVel, yVel)
+	m.AngleVel = Util.SetY(m.AngleVel, yVel)
 	m.TwirlYaw += yVel
 
 	m:SetAnimation(if m.ActionArg == 0 then Animations.START_TWIRL else Animations.TWIRL)
@@ -629,11 +604,11 @@ DEF_ACTION(Action.DIVE, function(m: Mario)
 			m.FaceAngle -= Vector3int16.new(0x200, 0, 0)
 
 			if m.FaceAngle.X < -0x2AAA then
-				m.FaceAngle = Util.SetXint16(m.FaceAngle, -0x2AAA)
+				m.FaceAngle = Util.SetX(m.FaceAngle, -0x2AAA)
 			end
 		end
 
-		m.GfxAngle = Util.SetXint16(m.GfxAngle, -m.FaceAngle.X)
+		m.GfxAngle = Util.SetX(m.GfxAngle, -m.FaceAngle.X)
 	elseif airStep == AirStep.LANDED then
 		if not checkFallDamage(m, Action.HARD_FORWARD_GROUND_KB) then
 			m:SetAction(Action.DIVE_SLIDE)
@@ -649,6 +624,30 @@ DEF_ACTION(Action.DIVE, function(m: Mario)
 		m.ParticleFlags:Add(ParticleFlags.VERTICAL_STAR)
 		m:SetAction(Action.BACKWARD_AIR_KB)
 	elseif airStep == AirStep.HIT_LAVA_WALL then
+		lavaBoostOnWall(m)
+	end
+
+	return false
+end)
+
+DEF_ACTION(Action.WATER_JUMP, function(m: Mario)
+	if m.ForwardVel < 15 then
+		m:SetForwardVel(15)
+	end
+
+	m:PlaySound(Sounds.ACTION_WATER_EXIT)
+	m:SetAnimation(Animations.SINGLE_JUMP)
+
+	local step = m:PerformAirStep(AirStep.CHECK_LEDGE_GRAB)
+
+	if step == AirStep.LANDED then
+		m:SetAction(Action.JUMP_LAND)
+	elseif step == AirStep.HIT_WALL then
+		m:SetForwardVel(15)
+	elseif step == AirStep.GRABBED_LEDGE then
+		m:SetAnimation(Animations.IDLE_ON_LEDGE)
+		m:SetAction(Action.LEDGE_GRAB)
+	elseif step == AirStep.HIT_LAVA_WALL then
 		lavaBoostOnWall(m)
 	end
 
@@ -678,7 +677,7 @@ DEF_ACTION(Action.STEEP_JUMP, function(m: Mario)
 	end
 
 	m:SetAnimation(Animations.SINGLE_JUMP)
-	m.GfxAngle = Util.SetYint16(m.GfxAngle, m.SteepJumpYaw)
+	m.GfxAngle = Util.SetY(m.GfxAngle, m.SteepJumpYaw)
 
 	return false
 end)
@@ -869,7 +868,7 @@ DEF_ACTION(Action.THROWN_FORWARD, function(m: Mario)
 			pitch = 0x1800
 		end
 
-		m.GfxAngle = Util.SetXint16(m.GfxAngle, pitch + 0x1800)
+		m.GfxAngle = Util.SetX(m.GfxAngle, pitch + 0x1800)
 	end
 
 	m.ForwardVel *= 0.98
@@ -1060,7 +1059,7 @@ DEF_ACTION(Action.SLIDE_KICK, function(m: Mario)
 				tilt = 0x1800
 			end
 
-			m.GfxAngle = Util.SetXint16(m.GfxAngle, tilt)
+			m.GfxAngle = Util.SetX(m.GfxAngle, tilt)
 		end
 	elseif stepResult == AirStep.LANDED then
 		if m.ActionState == 0 and m.Velocity.Y < 0 then
@@ -1154,8 +1153,8 @@ DEF_ACTION(Action.FLYING, function(m: Mario)
 	end
 
 	if stepResult == AirStep.NONE then
-		m.GfxAngle = Util.SetXint16(m.GfxAngle, -m.FaceAngle.X)
-		m.GfxAngle = Util.SetZint16(m.GfxAngle, m.FaceAngle.Z)
+		m.GfxAngle = Util.SetX(m.GfxAngle, -m.FaceAngle.X)
+		m.GfxAngle = Util.SetZ(m.GfxAngle, m.FaceAngle.Z)
 		m.ActionTimer = 0
 	elseif stepResult == AirStep.LANDED then
 		m:SetAction(Action.DIVE_SLIDE)
@@ -1187,11 +1186,11 @@ DEF_ACTION(Action.FLYING, function(m: Mario)
 			m.FaceAngle -= Vector3int16.new(0x200, 0, 0)
 
 			if m.FaceAngle.X < -0x2AAA then
-				m.FaceAngle = Util.SetXint16(m.FaceAngle, -0x2AAA)
+				m.FaceAngle = Util.SetX(m.FaceAngle, -0x2AAA)
 			end
 
-			m.GfxAngle = Util.SetXint16(m.GfxAngle, -m.FaceAngle.X)
-			m.GfxAngle = Util.SetZint16(m.GfxAngle, m.FaceAngle.Z)
+			m.GfxAngle = Util.SetX(m.GfxAngle, -m.FaceAngle.X)
+			m.GfxAngle = Util.SetZ(m.GfxAngle, m.FaceAngle.Z)
 		end
 	elseif stepResult == AirStep.HIT_LAVA_WALL then
 		lavaBoostOnWall(m)

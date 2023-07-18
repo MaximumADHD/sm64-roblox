@@ -479,7 +479,7 @@ function Mario.SetSteepJumpAction(m: Mario)
 		local x = Util.Coss(faceAngleTemp) * m.ForwardVel * 0.75
 
 		m.ForwardVel = math.sqrt(y * y + x * x)
-		m.FaceAngle = Util.SetYint16(m.FaceAngle, Util.Atan2s(x, y) + angleTemp)
+		m.FaceAngle = Util.SetY(m.FaceAngle, Util.Atan2s(x, y) + angleTemp)
 	end
 
 	m:SetAction(Action.STEEP_JUMP, 0)
@@ -536,11 +536,11 @@ function Mario.SetActionAirborne(m: Mario, action: number, actionArg: number)
 	elseif action == Action.SIDE_FLIP then
 		m:SetYVelBasedOnFSpeed(62, 0)
 		m.ForwardVel = 8
-		m.FaceAngle = Util.SetYint16(m.FaceAngle, m.IntendedYaw)
+		m.FaceAngle = Util.SetY(m.FaceAngle, m.IntendedYaw)
 	elseif action == Action.STEEP_JUMP then
 		m.AnimReset = true
 		m:SetYVelBasedOnFSpeed(42, 0.25)
-		m.FaceAngle = Util.SetXint16(m.FaceAngle, -0x2000)
+		m.FaceAngle = Util.SetX(m.FaceAngle, -0x2000)
 	elseif action == Action.LAVA_BOOST then
 		m.Velocity = Util.SetY(m.Velocity, 84)
 
@@ -847,7 +847,7 @@ function Mario.BonkReflection(m: Mario, negateSpeed: boolean?)
 
 	if wall ~= nil then
 		local wallAngle = Util.Atan2s(wall.Normal.Z, wall.Normal.X)
-		m.FaceAngle = Util.SetYint16(m.FaceAngle, wallAngle - (m.FaceAngle.Y - wallAngle))
+		m.FaceAngle = Util.SetY(m.FaceAngle, wallAngle - (m.FaceAngle.Y - wallAngle))
 		m:PlaySound(if m.Flags:Has(MarioFlags.METAL_CAP) then Sounds.ACTION_METAL_BONK else Sounds.ACTION_BONK)
 	else
 		m:PlaySound(Sounds.ACTION_HIT)
@@ -865,10 +865,10 @@ function Mario.PushOffSteepFloor(m: Mario, action: number, actionArg: number?)
 
 	if floorDYaw > -0x4000 and floorDYaw < 0x4000 then
 		m.ForwardVel = 16
-		m.FaceAngle = Util.SetYint16(m.FaceAngle, m.FloorAngle)
+		m.FaceAngle = Util.SetY(m.FaceAngle, m.FloorAngle)
 	else
 		m.ForwardVel = -16
-		m.FaceAngle = Util.SetYint16(m.FaceAngle, m.FloorAngle + 0x8000)
+		m.FaceAngle = Util.SetY(m.FaceAngle, m.FloorAngle + 0x8000)
 	end
 
 	m:SetAction(action, actionArg)
@@ -998,7 +998,7 @@ function Mario.CheckLedgeGrab(m: Mario, wall: RaycastResult, intendedPos: Vector
 		m.FloorAngle = Util.Atan2s(ledgeFloor.Normal.Z, ledgeFloor.Normal.X)
 
 		m.FaceAngle *= Vector3int16.new(0, 1, 1)
-		m.FaceAngle = Util.SetYint16(m.FaceAngle, Util.Atan2s(wall.Normal.Z, wall.Normal.X) + 0x8000)
+		m.FaceAngle = Util.SetY(m.FaceAngle, Util.Atan2s(wall.Normal.Z, wall.Normal.X) + 0x8000)
 	end
 
 	return ledgeFloor ~= nil
@@ -1014,7 +1014,7 @@ function Mario.PerformAirQuarterStep(m: Mario, intendedPos: Vector3, stepArg: nu
 	nextPos = lowerPos
 
 	local floorHeight, floor = Util.FindFloor(nextPos)
-	local ceilHeight, _ceil = Util.FindCeil(nextPos, floorHeight)
+	local ceilHeight = Util.FindCeil(nextPos, floorHeight)
 
 	m.Wall = nil
 
@@ -1310,7 +1310,7 @@ function Mario.UpdateInputs(m: Mario)
 	m:UpdateGeometryInputs()
 
 	if not m.Input:Has(InputFlags.NONZERO_ANALOG, InputFlags.A_PRESSED) then
-		m.Input:Add(InputFlags.UNKNOWN_5)
+		m.Input:Add(InputFlags.NO_MOVEMENT)
 	end
 
 	if m.WallKickTimer > 0 then
@@ -1335,11 +1335,8 @@ end
 
 function Mario.UpdateCaps(m: Mario): Flags
 	local flags = m.Flags
-	local _action
 
 	if m.CapTimer > 0 then
-		_action = m.Action
-
 		if m.CapTimer <= 60 then
 			m.CapTimer -= 1
 		end
@@ -1365,7 +1362,7 @@ function Mario.UpdateModel(m: Mario)
 		modelState:Add(ModelFlags.NOISE_ALPHA)
 	end
 
-	if flags:Has(bit32.bor(MarioFlags.METAL_CAP, MarioFlags.METAL_SHOCK)) then
+	if flags:Has(MarioFlags.METAL_CAP, MarioFlags.METAL_SHOCK) then
 		modelState:Add(ModelFlags.METAL)
 	end
 
@@ -1438,18 +1435,56 @@ end
 function Mario.HandleSpecialFloors(m: Mario)
 	local floor = m.Floor
 
-	if floor then
-		local part = floor.Instance :: BasePart
-
-		if not m.Action:Has(ActionFlags.AIR, ActionFlags.SWIMMING) then
-			if part.Material == Enum.Material.CrackedLava then
-				if not m.Flags:Has(MarioFlags.METAL_CAP) then
-					m.HurtCounter += m.Flags:Has(MarioFlags.CAP_ON_HEAD) and 12 or 18
-				end
-
-				m:SetAction(Action.LAVA_BOOST)
+	if floor and not m.Action:Has(ActionFlags.AIR, ActionFlags.SWIMMING) then
+		if floor.Material == Enum.Material.CrackedLava then
+			if not m.Flags:Has(MarioFlags.METAL_CAP) then
+				m.HurtCounter += m.Flags:Has(MarioFlags.CAP_ON_HEAD) and 12 or 18
 			end
+
+			m:SetAction(Action.LAVA_BOOST)
 		end
+	end
+end
+
+function Mario.SetWaterPlungeAction(m: Mario)
+	m.ForwardVel /= 4
+	m.Velocity *= Vector3.new(1, 0.5, 1)
+
+	-- This behavior sucks, feel free to enable if you want.
+	-- m.Position = Util.SetY(m.Position, m.WaterLevel - 100)
+
+	m.FaceAngle *= Vector3int16.new(1, 1, 0)
+	m.AngleVel *= 0
+
+	if not m.Action:Has(ActionFlags.DIVING) then
+		m.FaceAngle *= Vector3int16.new(0, 1, 1)
+	end
+
+	return m:SetAction(Action.WATER_PLUNGE)
+end
+
+function Mario.PlayFarFallSound(m: Mario)
+	if m.Flags:Has(MarioFlags.FALLING_FAR) then
+		return
+	end
+
+	local action = m.Action
+
+	if action() == Action.TWIRLING then
+		return
+	end
+
+	if action() == Action.FLYING then
+		return
+	end
+
+	if action:Has(ActionFlags.INVULNERABLE) then
+		return
+	end
+
+	if m.PeakHeight - m.Position.Y > 1150 then
+		m:PlaySound(Sounds.MARIO_WAAAOOOW)
+		m.Flags:Add(MarioFlags.FALLING_FAR)
 	end
 end
 
@@ -1490,7 +1525,43 @@ function Mario.ExecuteAction(m: Mario): number
 		local action = actions[id]
 
 		if action then
-			if not action(m) then
+			local group = bit32.band(id, ActionGroups.GROUP_MASK)
+			local cancel
+
+			if group ~= ActionGroups.SUBMERGED and m.Position.Y < m.WaterLevel - 100 then
+				cancel = m:SetWaterPlungeAction()
+			else
+				if group == ActionGroups.AIRBORNE then
+					m:PlayFarFallSound()
+				elseif group == ActionGroups.SUBMERGED then
+					if m.Position.Y > m.WaterLevel - 80 then
+						if m.WaterLevel - 80 > m.FloorHeight then
+							m.Position = Util.SetY(m.Position, m.WaterLevel - 80)
+						else
+							m.AngleVel *= 0
+							cancel = m:SetAction(Action.WALKING)
+						end
+					end
+
+					m.QuicksandDepth = 0
+					m.BodyState.HeadAngle *= Vector3int16.new(1, 0, 0)
+				end
+
+				if cancel == nil then
+					cancel = action(m)
+				end
+			end
+
+			if not cancel then
+				if m.Input:Has(InputFlags.IN_WATER) then
+					if group == ActionGroups.MOVING then
+						m.ParticleFlags:Add(ParticleFlags.WAVE_TRAIL)
+						m.ParticleFlags:Remove(ParticleFlags.DUST)
+					elseif group == ActionGroups.STATIONARY then
+						m.ParticleFlags:Add(ParticleFlags.IDLE_WATER_WAVE)
+					end
+				end
+
 				break
 			end
 		else
@@ -1573,9 +1644,11 @@ function Mario.new(): Mario
 		DoubleJumpTimer = 0,
 
 		FaceAngle = Vector3int16.new(),
-		GfxAngle = Vector3int16.new(),
 		AngleVel = Vector3int16.new(),
 		ThrowMatrix = CFrame.identity,
+
+		GfxAngle = Vector3int16.new(),
+		GfxPos = Vector3.zero,
 
 		SlideYaw = 0,
 		TwirlYaw = 0,

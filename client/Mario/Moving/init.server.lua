@@ -157,7 +157,7 @@ end
 
 local function beginWalkingAction(m: Mario, forwardVel: number, action: number, actionArg: number?)
 	m:SetForwardVel(forwardVel)
-	m.FaceAngle = Util.SetYint16(m.FaceAngle, m.IntendedYaw)
+	m.FaceAngle = Util.SetY(m.FaceAngle, m.IntendedYaw)
 	return m:SetAction(action, actionArg)
 end
 
@@ -177,7 +177,7 @@ local function checkLedgeClimbDown(m: Mario)
 					m.Position = pos
 
 					m.FaceAngle *= Vector3int16.new(0, 1, 1)
-					m.FaceAngle = Util.SetYint16(m.FaceAngle, wallAngle + 0x8000)
+					m.FaceAngle = Util.SetY(m.FaceAngle, wallAngle + 0x8000)
 
 					m:SetAction(Action.LEDGE_CLIMB_DOWN)
 					m:SetAnimation(Animations.CLIMB_DOWN_LEDGE)
@@ -259,7 +259,7 @@ local function updateSlidingAngle(m: Mario, accel: number, lossFactor: number)
 		end
 	end
 
-	m.FaceAngle = Util.SetYint16(m.FaceAngle, m.SlideYaw + newFacingDYaw)
+	m.FaceAngle = Util.SetY(m.FaceAngle, m.SlideYaw + newFacingDYaw)
 	m.Velocity = Vector3.new(m.SlideVelX, 0, m.SlideVelZ)
 
 	--! Speed is capped a frame late (butt slide HSG)
@@ -450,7 +450,7 @@ local function updateWalkingSpeed(m: Mario)
 	local currY = Util.SignedShort(m.IntendedYaw - m.FaceAngle.Y)
 	local faceY = m.IntendedYaw - Util.ApproachInt(currY, 0, 0x800)
 
-	m.FaceAngle = Util.SetYint16(m.FaceAngle, faceY)
+	m.FaceAngle = Util.SetY(m.FaceAngle, faceY)
 	applySlopeAccel(m)
 end
 
@@ -485,7 +485,7 @@ end
 
 local function beginBrakingAction(m: Mario)
 	if m.ActionState == 1 then
-		m.FaceAngle = Util.SetYint16(m.FaceAngle, m.ActionArg)
+		m.FaceAngle = Util.SetY(m.FaceAngle, m.ActionArg)
 		return m:SetAction(Action.STANDING_AGAINST_WALL)
 	end
 
@@ -575,7 +575,7 @@ local function animAndAudioForWalk(m: Mario)
 	walkingPitch = Util.SignedShort(walkingPitch)
 
 	m.WalkingPitch = walkingPitch
-	m.GfxAngle = Util.SetXint16(m.GfxAngle, walkingPitch)
+	m.GfxAngle = Util.SetX(m.GfxAngle, walkingPitch)
 end
 
 local function pushOrSidleWall(m: Mario, startPos: Vector3)
@@ -617,8 +617,8 @@ local function pushOrSidleWall(m: Mario, startPos: Vector3)
 		m.ActionState = 1
 		m.ActionArg = Util.SignedShort(wallAngle + 0x8000)
 
-		m.GfxAngle = Util.SetYint16(m.GfxAngle, m.ActionArg)
-		m.GfxAngle = Util.SetZint16(m.GfxAngle, m:FindFloorSlope(0x4000))
+		m.GfxAngle = Util.SetY(m.GfxAngle, m.ActionArg)
+		m.GfxAngle = Util.SetZ(m.GfxAngle, m:FindFloorSlope(0x4000))
 	end
 end
 
@@ -871,7 +871,7 @@ DEF_ACTION(Action.WALKING, function(m: Mario)
 		return true
 	end
 
-	if m.Input:Has(InputFlags.UNKNOWN_5) then
+	if m.Input:Has(InputFlags.NO_MOVEMENT) then
 		return beginBrakingAction(m)
 	end
 
@@ -1128,7 +1128,7 @@ DEF_ACTION(Action.CRAWLING, function(m: Mario)
 		return true
 	end
 
-	if m.Input:Has(InputFlags.UNKNOWN_5) then
+	if m.Input:Has(InputFlags.NO_MOVEMENT) then
 		return m:SetAction(Action.STOP_CRAWLING)
 	end
 
@@ -1183,7 +1183,7 @@ DEF_ACTION(Action.BURNING_GROUND, function(m: Mario)
 
 	if m.Input:Has(InputFlags.NONZERO_ANALOG) then
 		local faceY = m.IntendedYaw - Util.ApproachFloat(m.IntendedYaw - m.FaceAngle.Y, 0, 0x600)
-		m.FaceAngle = Util.SetYint16(m.FaceAngle, faceY)
+		m.FaceAngle = Util.SetY(m.FaceAngle, faceY)
 	end
 
 	applySlopeAccel(m)
