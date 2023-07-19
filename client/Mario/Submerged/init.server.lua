@@ -293,7 +293,7 @@ local function surfaceSwimBob(m: Mario)
 		sBobTimer += sBobIncrement
 
 		if sBobTimer >= 0 then
-			m.GfxPos += Vector3.new(sBobHeight * Util.Sins(sBobTimer))
+			m.GfxPos += Vector3.new(0, sBobHeight * Util.Sins(sBobTimer), 0)
 			return
 		end
 	end
