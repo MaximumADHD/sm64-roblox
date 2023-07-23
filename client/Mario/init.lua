@@ -1206,7 +1206,50 @@ end
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- UPDATE ROUTINES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function Mario.UpdateHealth(m : Mario)
+	local terrainIsSnow = false
 
+	if m.Health > 0x100 then
+		-- When already healing or hurting Mario, Mario's HP is not changed any more here.
+		if bit32.band(m.HealCounter, m.HurtCounter)==0 then
+			if m.Input:Has(InputFlags.IN_POISON_GAS) and not m.Action:Has(ActionFlags.INTANGIBLE) then
+				if not m.Flags:Has(MarioFlags.METAL_CAP) then
+					m.Health -= 4
+				end
+			else
+				if m.Action:Has(ActionFlags.SWIMMING) and not m.Action:Has(ActionFlags.INTANGIBLE) then
+					-- When Mario is near the water surface, recover health (unless in snow),
+					-- when in snow terrains lose 3 health.
+					-- If using the debug level select, do not lose any HP to water.
+					if ((m.Position.Y >= (m.WaterLevel - 140)) and not terrainIsSnow) then
+						m.Health += 0x1A;
+					else
+						m.Health -= (terrainIsSnow and 3 or 1)
+					end
+				end
+			end
+		end
+
+		if m.HealCounter > 0 then
+			m.Health += 0x40
+			m.HealCounter -= 1
+		end
+
+		if m.HurtCounter > 0 then
+			m.Health -= 0x40
+			m.HurtCounter -= 1
+		end
+
+		if m.Health > 0x880 then
+			m.Health = 0x880
+		end
+
+		if m.Health <= 0x100 then
+			m.Health = 0xFF
+		end
+	end
+end
+							
 function Mario.UpdateButtonInputs(m: Mario)
 	if m.Controller.ButtonPressed:Has(Buttons.A_BUTTON) then
 		m.Input:Add(InputFlags.A_PRESSED)
@@ -1578,9 +1621,9 @@ function Mario.ExecuteAction(m: Mario): number
 		end
 	end
 
-	--	m:SinkInQuicksand()
+	--m:SinkInQuicksand()
 	--	m:SquishModel()
-	--	m:UpdateHealth()
+	m:UpdateHealth() -- Comment this off for (likely inconsistent) godmode
 	m:UpdateModel()
 
 	return m.ParticleFlags()
