@@ -1493,3 +1493,42 @@ DEF_ACTION(Action.PUNCHING, function(m: Mario)
 
 	return false
 end)
+
+
+local function QuicksandJumpLandAction(m : Mario, animation1, animation2, endAction, airAction)
+	m.ActionTimer += 1
+	if m.ActionTimer < 6 then
+		m.QuicksandDepth -= (7 - m.ActionTimer) * 0.8
+		if m.QuicksandDepth < 1.0 then
+			m.QuicksandDepth = 1.1
+		end
+		
+		m:PlayJumpSound()
+		m:SetAnimation(animation1)
+	else
+		if m.ActionTimer >= 13 then
+			return m:SetAction(endAction, 0)
+		end
+		
+		m:SetAnimation(animation1)
+	end
+	
+	applyLandingAccel(m, 0.95)
+	if m:PerformGroundStep() == GroundStep.LEFT_GROUND then
+		m:SetAction(airAction, 0)
+	end
+	
+	return false
+end
+
+DEF_ACTION(Action.QUICKSAND_JUMP_LAND, function(m : Mario)
+	local cancel = QuicksandJumpLandAction(m, Animations.SINGLE_JUMP, Animations.LAND_FROM_SINGLE_JUMP,
+											Action.JUMP_LAND_STOP, Action.FREEFALL)
+	return cancel
+end)
+
+DEF_ACTION(Action.HOLD_QUICKSAND_JUMP_LAND, function(m : Mario)
+	local cancel = QuicksandJumpLandAction(m, Animations.JUMP_WITH_LIGHT_OBJ, Animations.JUMP_LAND_WITH_LIGHT_OBJ,
+		Action.JUMP_LAND_STOP, Action.HOLD_FREEFALL)
+	return cancel
+end)
