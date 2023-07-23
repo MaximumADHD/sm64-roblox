@@ -352,7 +352,18 @@ function Mario.GetTerrainType(m: Mario): number
 end
 
 function Mario.GetFloorType(m: Mario): number
-	-- TODO
+	local floor = m.Floor and m.Floor.Instance or nil
+	-- TODO work on this more
+	
+	if floor then
+		-- Quicksand
+		-- I am currently using this method to detect quicksand
+		if floor.Name:lower():match("quicksand") then
+			local quicksand_type = (floor:GetAttribute("type")) or "SHALLOW_QUICKSAND"
+			return SurfaceClass[quicksand_type]
+		end
+	end
+	
 	return 0
 end
 
@@ -671,6 +682,15 @@ function Mario.SetAction(m: Mario, action: number, maybeActionArg: number?): boo
 end
 
 function Mario.SetJumpFromLanding(m: Mario)
+	if m.QuicksandDepth >= 11.0 then
+		if m.HeldObj == nil then
+			return m:SetAction(Action.QUICKSAND_JUMP_LAND, 0)
+		else
+			return m:SetAction(Action.HOLD_QUICKSAND_JUMP_LAND, 0)
+		end
+	end
+	
+	
 	if m:FloorIsSteep() then
 		m:SetSteepJumpAction()
 	elseif m.DoubleJumpTimer == 0 or m.SquishTimer ~= 0 then
@@ -1206,6 +1226,7 @@ end
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- UPDATE ROUTINES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 function Mario.UpdateHealth(m : Mario)
 	local terrainIsSnow = false
 
@@ -1249,7 +1270,52 @@ function Mario.UpdateHealth(m : Mario)
 		end
 	end
 end
-							
+
+function Mario.SinkInQuicksand(m : Mario)
+	m.GfxPosition = Util.SetY(m.GfxPosition,
+		m.GfxPosition.Y - m.QuicksandDepth
+	)
+end
+
+function Mario.UpdateQuicksand(m : Mario, SinkingSpeed)
+	if m.Flags:Has(ActionFlags.RIDING_SHELL) then
+		m.QuicksandDepth = 0
+	else
+		if m.QuicksandDepth < 1.1 then
+			m.QuicksandDepth = 1.1
+		end
+		
+		local FloorType = m:GetFloorType()
+		if FloorType == SurfaceClass.SHALLOW_QUICKSAND then
+			m.QuicksandDepth += SinkingSpeed
+			if m.QuicksandDepth >= 10 then
+				m.QuicksandDepth = 10
+			end
+		elseif FloorType == SurfaceClass.SHALLOW_MOVING_QUICKSAND then
+			m.QuicksandDepth += SinkingSpeed
+			if m.QuicksandDepth >= 25 then
+				m.QuicksandDepth = 25
+			end
+		elseif FloorType == SurfaceClass.MOVING_QUICKSAND then
+			m.QuicksandDepth += SinkingSpeed
+			if m.QuicksandDepth >= 60 then
+				m.QuicksandDepth = 60
+			end
+		elseif FloorType == SurfaceClass.DEEP_MOVING_QUICKSAND then
+			m.QuicksandDepth += SinkingSpeed
+			if m.QuicksandDepth >= 160 then
+				return m:DropAndSetAction(Action.QUICKSAND_DEATH, 0)
+			end
+		elseif FloorType == SurfaceClass.INSTANT_QUICKSAND then
+			return m:DropAndSetAction(Action.QUICKSAND_DEATH, 0)
+		else
+			m.QuicksandDepth = 0
+		end
+	end
+	
+	return false
+end
+
 function Mario.UpdateButtonInputs(m: Mario)
 	if m.Controller.ButtonPressed:Has(Buttons.A_BUTTON) then
 		m.Input:Add(InputFlags.A_PRESSED)
@@ -1621,7 +1687,7 @@ function Mario.ExecuteAction(m: Mario): number
 		end
 	end
 
-	--m:SinkInQuicksand()
+	m:SinkInQuicksand()
 	--	m:SquishModel()
 	m:UpdateHealth() -- Comment this off for (likely inconsistent) godmode
 	m:UpdateModel()
