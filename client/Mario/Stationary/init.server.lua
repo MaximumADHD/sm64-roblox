@@ -116,6 +116,10 @@ end
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 DEF_ACTION(Action.IDLE, function(m: Mario)
+	if m.QuicksandDepth > 30.0 then
+		return m:SetAction(Action.IN_QUICKSAND, 0)
+	end
+	
 	if not bit32.btest(m.ActionArg, 1) and m.Health < 0x300 then
 		return m:SetAction(Action.PANTING)
 	end
@@ -167,6 +171,10 @@ DEF_ACTION(Action.START_SLEEPING, function(m: Mario)
 
 	if checkCommonIdleCancels(m) then
 		return true
+	end
+
+	if m.QuicksandDepth > 30.0 then
+		return m:SetAction(Action.IN_QUICKSAND, 0)
 	end
 
 	if m.ActionState == 4 then
@@ -222,6 +230,10 @@ DEF_ACTION(Action.SLEEPING, function(m: Mario)
 		return m:SetAction(Action.WAKING_UP, m.ActionState)
 	end
 
+	if m.QuicksandDepth > 30.0 then
+		return m:SetAction(Action.WAKING_UP, m.ActionState)
+	end
+	
 	if m.Position.Y - m:FindFloorHeightRelativePolar(-0x8000, 60) > 24 then
 		return m:SetAction(Action.WAKING_UP, m.ActionState)
 	end
@@ -668,6 +680,25 @@ DEF_ACTION(Action.STOMACH_SLIDE_STOP, function(m: Mario)
 	end
 
 	animatedStationaryGroundStep(m, Animations.SLOW_LAND_FROM_DIVE, Action.IDLE)
+	return false
+end)
+
+DEF_ACTION(Action.IN_QUICKSAND, function(m : Mario)
+	if m.QuicksandDepth < 30.0 then
+		return m:SetAction(Action.IDLE, 0)
+	end
+	
+	if checkCommonIdleCancels(m) then
+		return true
+	end
+	
+	if m.QuicksandDepth > 70 then
+		m:SetAnimation(Animations.DYING_IN_QUICKSAND)
+	else
+		m:SetAnimation(Animations.IDLE_IN_QUICKSAND)
+	end
+	
+	m:StationaryGroundStep()
 	return false
 end)
 
