@@ -15,7 +15,9 @@ Will not be fixing the glitches in them!! (will keep the comments that point the
 
 From some of my video footage, I will not include:
  - HUD graphics
+ - Skybox
+ - Shadow rendering (plain simple to do it)
 
-## Original
+# Original
 
 Find the original repository here, from MaximumADHD: **https://github.com/MaximumADHD/sm64-roblox/**
