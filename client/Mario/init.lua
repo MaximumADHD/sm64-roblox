@@ -1671,7 +1671,8 @@ function Mario.ExecuteAction(m: Mario): number
 								-- water shell swimming action. This allows you to hold the water
 								-- shell on land (used for cloning in DDD).
 								if (m.Action() == Action.WATER_SHELL_SWIMMING and m.HeldObj ~= nil) then
-									m.HeldObj.InteractStatus = ObjIntStatus.STOP_RIDING;
+									-- Not yet
+									--m.HeldObj.InteractStatus = ObjIntStatus.STOP_RIDING;
 									m.HeldObj = nil;
 									--stop_shell_music();
 								end
