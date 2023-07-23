@@ -435,6 +435,10 @@ local function updateWalkingSpeed(m: Mario)
 
 	local targetSpeed = if m.IntendedMag < maxTargetSpeed then m.IntendedMag else maxTargetSpeed
 
+	if m.QuicksandDepth > 10 then
+		targetSpeed *= 6.25 / m.QuicksandDepth
+	end
+	
 	if m.ForwardVel < 0 then
 		m.ForwardVel += 1.1
 	elseif m.ForwardVel <= targetSpeed then
@@ -510,63 +514,70 @@ local function animAndAudioForWalk(m: Mario)
 	local targetPitch = 0
 	local accel
 
-	while true do
-		if m.ActionTimer == 0 then
-			if baseAccel > 8 then
-				m.ActionTimer = 2
-			else
-				accel = baseAccel / 4 * 0x10000
-
-				if accel < 0x1000 then
-					accel = 0x1000
-				end
-
-				m:SetAnimationWithAccel(Animations.START_TIPTOE, accel)
-				playStepSound(m, 7, 22)
-
-				if m:IsAnimPastFrame(23) then
+	if m.QuicksandDepth > 50 then
+		accel = (baseAccel / 4 * 0x10000)
+		m:SetAnimationWithAccel(Animations.MOVE_IN_QUICKSAND, accel)
+		playStepSound(m, 19, 93)
+		m.ActionTimer = 0
+	else
+		while true do
+			if m.ActionTimer == 0 then
+				if baseAccel > 8 then
 					m.ActionTimer = 2
+				else
+					accel = baseAccel / 4 * 0x10000
+	
+					if accel < 0x1000 then
+						accel = 0x1000
+					end
+	
+					m:SetAnimationWithAccel(Animations.START_TIPTOE, accel)
+					playStepSound(m, 7, 22)
+	
+					if m:IsAnimPastFrame(23) then
+						m.ActionTimer = 2
+					end
+	
+					break
 				end
-
-				break
-			end
-		elseif m.ActionTimer == 1 then
-			if baseAccel > 8 then
-				m.ActionTimer = 2
-			else
-				accel = baseAccel * 0x10000
-
-				if accel < 0x1000 then
-					accel = 0x1000
+			elseif m.ActionTimer == 1 then
+				if baseAccel > 8 then
+					m.ActionTimer = 2
+				else
+					accel = baseAccel * 0x10000
+	
+					if accel < 0x1000 then
+						accel = 0x1000
+					end
+	
+					m:SetAnimationWithAccel(Animations.TIPTOE, accel)
+					playStepSound(m, 14, 72)
+	
+					break
 				end
-
-				m:SetAnimationWithAccel(Animations.TIPTOE, accel)
-				playStepSound(m, 14, 72)
-
-				break
-			end
-		elseif m.ActionTimer == 2 then
-			if baseAccel < 5 then
-				m.ActionTimer = 1
-			elseif baseAccel > 22 then
-				m.ActionTimer = 3
-			else
-				accel = baseAccel / 4 * 0x10000
-				m:SetAnimationWithAccel(Animations.WALKING, accel)
-				playStepSound(m, 10, 49)
-				break
-			end
-		elseif m.ActionTimer == 3 then
-			if baseAccel < 18 then
-				m.ActionTimer = 2
-			else
-				accel = baseAccel / 4 * 0x10000
-				m:SetAnimationWithAccel(Animations.RUNNING, accel)
-
-				playStepSound(m, 9, 45)
-				targetPitch = tiltBodyRunning(m)
-
-				break
+			elseif m.ActionTimer == 2 then
+				if baseAccel < 5 then
+					m.ActionTimer = 1
+				elseif baseAccel > 22 then
+					m.ActionTimer = 3
+				else
+					accel = baseAccel / 4 * 0x10000
+					m:SetAnimationWithAccel(Animations.WALKING, accel)
+					playStepSound(m, 10, 49)
+					break
+				end
+			elseif m.ActionTimer == 3 then
+				if baseAccel < 18 then
+					m.ActionTimer = 2
+				else
+					accel = baseAccel / 4 * 0x10000
+					m:SetAnimationWithAccel(Animations.RUNNING, accel)
+	
+					playStepSound(m, 9, 45)
+					targetPitch = tiltBodyRunning(m)
+	
+					break
+				end
 			end
 		end
 	end
@@ -845,6 +856,10 @@ local function commonLandingAction(m: Mario, anim: Animation)
 
 	m:SetAnimation(anim)
 	m:PlayLandingSoundOnce(Sounds.ACTION_TERRAIN_LANDING)
+
+	if m.Floor and m:GetFloorType() <= SurfaceClass.MOVING_QUICKSAND then
+		m.QuicksandDepth += (4 - m.ActionTimer) * 3.5 - 0.5
+	end
 
 	return stepResult
 end
