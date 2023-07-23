@@ -681,6 +681,13 @@ function Mario.SetAction(m: Mario, action: number, maybeActionArg: number?): boo
 	return true
 end
 
+function Mario.DropAndSetAction(m : Mario, action : number, actionArg : number?) : boolean
+	-- Not yet
+	--Interaction.MarioStopRidingAndHolding(m)
+
+	return m:SetAction(action, actionArg)
+end
+
 function Mario.SetJumpFromLanding(m: Mario)
 	if m.QuicksandDepth >= 11.0 then
 		if m.HeldObj == nil then
@@ -1635,28 +1642,122 @@ function Mario.ExecuteAction(m: Mario): number
 
 		if action then
 			local group = bit32.band(id, ActionGroups.GROUP_MASK)
-			local cancel
+			local cancel : any
 
-			if group ~= ActionGroups.SUBMERGED and m.Position.Y < m.WaterLevel - 100 then
+			if (group ~= ActionGroups.SUBMERGED and group ~= ActionGroups.CUTSCENE) and m.Position.Y < m.WaterLevel - 100 then
 				cancel = m:SetWaterPlungeAction()
 			else
 				if group == ActionGroups.AIRBORNE then
-					m:PlayFarFallSound()
+					local function CommonAirborneCancels()
+						if m.Input:Has(InputFlags.SQUISHED) then
+							return m:DropAndSetAction(Action.SQUISHED, 0)
+						end
+
+						return false
+					end
+					
+					cancel = CommonAirborneCancels()
+					if not cancel then
+						m:PlayFarFallSound()
+					end
 				elseif group == ActionGroups.SUBMERGED then
-					if m.Position.Y > m.WaterLevel - 80 then
-						if m.WaterLevel - 80 > m.FloorHeight then
-							m.Position = Util.SetY(m.Position, m.WaterLevel - 80)
-						else
-							m.AngleVel *= 0
-							cancel = m:SetAction(Action.WALKING)
+					local function CommonSubmergedCancels()
+						if m.Position.Y > m.WaterLevel - 80 then
+							if m.WaterLevel - 80 > m.FloorHeight then
+								m.Position = Util.SetY(m.Position, m.WaterLevel - 80)
+							else
+								--! If you press B to throw the shell, there is a ~5 frame window
+								-- where your held object is the shell, but you are not in the
+								-- water shell swimming action. This allows you to hold the water
+								-- shell on land (used for cloning in DDD).
+								if (m.Action() == Action.WATER_SHELL_SWIMMING and m.HeldObj ~= nil) then
+									m.HeldObj.InteractStatus = ObjIntStatus.STOP_RIDING;
+									m.HeldObj = nil;
+									--stop_shell_music();
+								end
+							end
+						end
+
+						if m.Health < 0x100 and not m.Action:Has(ActionFlags.INTANGIBLE, ActionFlags.INVULNERABLE) then
+							m:SetAction(Action.DROWNING, 0)
+						end
+
+						return false
+					end
+					
+					cancel = CommonSubmergedCancels()
+					if not cancel then
+						m.QuicksandDepth = 0
+						m.BodyState.HeadAngle *= Vector3int16.new(1, 0, 0)
+					end
+				elseif group == ActionGroups.MOVING then
+					local function CommonMovingCancels()
+						if m.Input:Has(InputFlags.SQUISHED) then
+							return m:DropAndSetAction(Action.SQUISHED, 0)
+						end
+						
+						-- idk
+						local die_standing = not(
+							m.Action()== Action.HARD_FORWARD_GROUND_KB
+								or m.Action()== Action.HARD_BACKWARD_GROUND_KB
+						)
+						if not m.Input:Has(ActionFlags.INVULNERABLE) then
+							if (m.Health < 0x100)and(die_standing) then
+								return m:DropAndSetAction(Action.STANDING_DEATH, 0)
+							end
+						end
+
+						return false
+					end
+					
+					cancel = CommonMovingCancels()
+					if not cancel then
+						if m:UpdateQuicksand(0.25) then
+							cancel = true
 						end
 					end
+				elseif group == ActionGroups.STATIONARY then
+					local function CommonStationaryCancels()
+						if m.Input:Has(InputFlags.SQUISHED) then
+							return m:DropAndSetAction(Action.SQUISHED, 0)
+						end
 
-					m.QuicksandDepth = 0
-					m.BodyState.HeadAngle *= Vector3int16.new(1, 0, 0)
+						local die_standing = not(
+							m.Action()== Action.HARD_FORWARD_GROUND_KB
+								or m.Action()== Action.HARD_BACKWARD_GROUND_KB
+						)
+
+						if (m.Action() ~= Action.UNKNOWN_0002020E)and(die_standing==true) then
+							if m.Health < 0x100 then
+								return m:DropAndSetAction(Action.STANDING_DEATH, 0)
+							end
+						end
+
+						return false
+					end
+					
+					cancel = CommonStationaryCancels()
+					if not cancel then
+						if m:UpdateQuicksand(0.5) then
+							cancel = true
+						end
+					end
+				elseif group == ActionGroups.CUTSCENE then
+					local function CheckForInstantQuicksand()
+						local FloorType = m:GetFloorType()
+						if FloorType == SurfaceClass.INSTANT_QUICKSAND and m.Action:Has(ActionFlags.INVULNERABLE) and m.Action() ~= Action.QUICKSAND_DEATH then
+							return m:SetAction(Action.QUICKSAND_DEATH, 0)
+						end
+
+						return false
+					end
+					
+					if CheckForInstantQuicksand() then
+						cancel = true
+					end
 				end
 
-				if cancel == nil then
+				if cancel==nil or cancel==false then
 					cancel = action(m)
 				end
 			end
