@@ -410,6 +410,18 @@ local function checkWallKick(m: Mario)
 		if m.Input:Has(InputFlags.A_PRESSED) then
 			if m.PrevAction() == Action.AIR_HIT_WALL then
 				m.FaceAngle += Vector3int16.new(0, 0x8000, 0)
+
+				-- !!! Missing return from original repo
+				-- Does not do set action, forcing players to do precise wall kicks (FIRSTIES OMG :DDD)
+				--[[s32 check_wall_kick(struct MarioState *m) {
+				    if ((m->input & INPUT_A_PRESSED) && m->wallKickTimer != 0 && m->prevAction == ACT_AIR_HIT_WALL) {
+				        m->faceAngle[1] += 0x8000;
+				        return set_mario_action(m, ACT_WALL_KICK_AIR, 0); <--- This
+				    }
+				
+				    return FALSE;
+				}]]
+				return m:SetAction(Action.WALL_KICK_AIR)
 			end
 		end
 	end
