@@ -17,7 +17,7 @@ From some of my video footage, I will not include:
  - HUD graphics
  - Skybox
  - Shadow rendering (plain simple to do it)
- - That weird SM64 lighting rendering (recreation isn't the best)
+ - That weird SM64 lighting rendering (recreation isn't the best, for how it should look see [vinesauce video clip](https://youtu.be/tM2UKKAJLiY?t=2038))
 
 # Original
 
