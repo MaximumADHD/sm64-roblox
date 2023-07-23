@@ -359,8 +359,8 @@ function Mario.GetFloorType(m: Mario): number
 		-- Quicksand
 		-- I am currently using this method to detect quicksand
 		if floor.Name:lower():match("quicksand") then
-			local quicksand_type = (floor:GetAttribute("type")) or "SHALLOW_QUICKSAND"
-			return SurfaceClass[quicksand_type]
+			local QuicksandType = (floor:GetAttribute("type")) or "SHALLOW_QUICKSAND"
+			return SurfaceClass[QuicksandType]
 		end
 	end
 	
