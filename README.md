@@ -17,7 +17,7 @@ From some of my video footage, I will not include:
  - HUD graphics
  - Skybox
  - Shadow rendering (plain simple to do it)
- - That weird SM64 lighting rendering (recreation isn't the best, for how it looks in sm64 see [kaze video clip](https://youtu.be/BxnaZscU6zk?t=242))
+ - That weird SM64 lighting rendering (recreation isn't the best)
 
 # Original
 
