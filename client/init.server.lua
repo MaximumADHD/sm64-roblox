@@ -553,8 +553,11 @@ local function update()
 		updateController(mario.Controller, humanoid)
 		mario:ExecuteAction()
 
-		local gfxPos = Util.ToRoblox(mario.Position)
+		local gfxPos = Util.ToRoblox(mario.Position + mario.GfxPos)
 		gfxRot = Util.ToRotation(mario.GfxAngle)
+
+		mario.GfxPos = Vector3.zero
+		mario.GfxAngle = Vector3int16.new()
 
 		prevCF = goalCF
 		goalCF = CFrame.new(gfxPos) * FLIP * gfxRot
@@ -700,10 +703,6 @@ local function update()
 						local particle = inst :: ParticleEmitter
 						local emit = particle:GetAttribute("Emit")
 						local hasFlag = mario.ParticleFlags:Has(flag)
-
-						if hasFlag then
-							print("SetParticle", name)
-						end
 
 						if emit then
 							if hasFlag then

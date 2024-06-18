@@ -1,26 +1,17 @@
-# **Extended version**
+# sm64-roblox
 
-This version will gradually get the extras when I have the time for it, since I added them without a repo and just in studio (sorry). That means it's currently incomplete.
+A port of Super Mario 64's movement code into Roblox Luau (in `--!strict` mode), hosted as a [rojo](https://rojo.space) project. Based on the SM64 decompilation project hosted at: https://github.com/n64decomp/sm64
 
-Beware when trying to use this, it might not work because I probably forgot to add an action or something, or the IDE isn't clear enough... (how do you use this thing)
+I wanted to make this public as a curiousity for anyone who wanted to know how I pulled it off. It **does not include any animations, sounds, or assets from Nintendo**. I do provide some of the scripts I used when I originally ported animations from the SM64 ROM into R15 Roblox avatars, but they are no longer in use.
 
-**This fork includes:**
- - Damage knockback actions
- - Quicksand actions
- - Hangable ceiling climbing
- - Other cutscene actions
- - Missing codeblocks (the oopsies)
+Original game is hosted here:<br/>
+https://www.roblox.com/games/10238956318/funny-64-bit-platformer
 
-Will not be fixing the glitches in them!! (will keep the comments that point them out however)
+## Setting Up & Disclaimers
+This project follows standard rojo conventions. You should install vscode and install the rojo extension, as well as the rojo plugin for Roblox Studio.
 
-## Will not be including
+Any bugs or behavioral quirks of the physics in this are intentional and will not be fixed. **No help will be provided for anything in here. It is NOT intended to be used as a foundation for new games and you're on your own if you choose to do so.**
 
-From some of my video footage, I will not include:
- - HUD graphics
- - Skybox
- - Shadow rendering (plain simple to do it)
- - That weird SM64 lighting rendering (recreation isn't the best, for how it should look see [vinesauce video clip](https://youtu.be/tM2UKKAJLiY?t=2038))
+## Terms of Use
 
-# Original
-
-Find the original repository here, from MaximumADHD: **https://github.com/MaximumADHD/sm64-roblox/**
+You *may* use this in your game, **but you must provide credit** to this repository and the SM64 Decompilation Project. I would **NOT** advise using it as a foundation for a platformer since it's very rigidly tied to the 30hz physics simulation code of Super Mario 64. It's weirdly programmed and not very intuitive to build off of.

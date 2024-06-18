@@ -43,6 +43,9 @@ export type MarioAction = (Mario) -> boolean
 export type Flags = Types.Flags
 export type Class = Mario
 
+-- Everything's too slippery sometimes...
+local FFLAG_FLOOR_NEVER_SLIPPERY = true
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- BINDINGS
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -320,6 +323,10 @@ function Mario.GetFloorClass(m: Mario): number
 		local hit = floor.Instance
 
 		if hit and hit:IsA("BasePart") then
+			if FFLAG_FLOOR_NEVER_SLIPPERY then
+				return SurfaceClass.DEFAULT
+			end
+
 			local physics = hit.CurrentPhysicalProperties
 			local friction = physics.Friction
 
@@ -352,18 +359,18 @@ function Mario.GetTerrainType(m: Mario): number
 end
 
 function Mario.GetFloorType(m: Mario): number
-	local floor = m.Floor and m.Floor.Instance or nil
-	-- TODO work on this more
-	
+	local floor: Instance? = m.Floor and m.Floor.Instance or nil
+
 	if floor then
-		-- Quicksand
-		-- I am currently using this method to detect quicksand
-		if floor.Name:lower():match("quicksand") then
-			local QuicksandType = (floor:GetAttribute("type")) or "SHALLOW_QUICKSAND"
-			return SurfaceClass[QuicksandType]
+		-- Quicksand check
+		local IsQuicksand = (string.match(string.lower(floor.Name), "quicksand"))
+		if IsQuicksand then
+			-- Not checking much here, games do what they want after all
+			-- that is if they do have some sort of quicksand
+			return SurfaceClass.MOVING_QUICKSAND
 		end
 	end
-	
+
 	return 0
 end
 
@@ -681,23 +688,16 @@ function Mario.SetAction(m: Mario, action: number, maybeActionArg: number?): boo
 	return true
 end
 
-function Mario.DropAndSetAction(m : Mario, action : number, actionArg : number?) : boolean
-	-- Not yet
-	--Interaction.MarioStopRidingAndHolding(m)
-
+-- placeholder
+function Mario.DropAndSetAction(m: Mario, action: number, actionArg: number?): boolean
 	return m:SetAction(action, actionArg)
 end
 
 function Mario.SetJumpFromLanding(m: Mario)
 	if m.QuicksandDepth >= 11.0 then
-		if m.HeldObj == nil then
-			return m:SetAction(Action.QUICKSAND_JUMP_LAND, 0)
-		else
-			return m:SetAction(Action.HOLD_QUICKSAND_JUMP_LAND, 0)
-		end
+		return m:SetAction(Action.QUICKSAND_JUMP_LAND, 0)
 	end
-	
-	
+
 	if m:FloorIsSteep() then
 		m:SetSteepJumpAction()
 	elseif m.DoubleJumpTimer == 0 or m.SquishTimer ~= 0 then
@@ -729,6 +729,10 @@ function Mario.SetJumpFromLanding(m: Mario)
 end
 
 function Mario.SetJumpingAction(m: Mario, action: number, actionArg: number?)
+	if m.QuicksandDepth >= 11.0 then
+		return m:SetAction(Action.QUICKSAND_JUMP_LAND, 0)
+	end
+
 	if m:FloorIsSteep() then
 		m:SetSteepJumpAction()
 	else
@@ -1102,6 +1106,12 @@ function Mario.PerformAirQuarterStep(m: Mario, intendedPos: Vector3, stepArg: nu
 		local wallDYaw = Util.SignedShort(Util.Atan2s(wall.Normal.Z, wall.Normal.X) - m.FaceAngle.Y)
 		m.Wall = wall
 
+		local IsLavaWall = (upperWall and upperWall.Material == Enum.Material.CrackedLava)
+			or (lowerWall and lowerWall.Material == Enum.Material.CrackedLava)
+		if IsLavaWall then
+			return AirStep.HIT_LAVA_WALL
+		end
+
 		if math.abs(wallDYaw) > 0x6000 then
 			return AirStep.HIT_WALL
 		end
@@ -1234,95 +1244,6 @@ end
 -- UPDATE ROUTINES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function Mario.UpdateHealth(m : Mario)
-	local terrainIsSnow = false
-
-	if m.Health > 0x100 then
-		-- When already healing or hurting Mario, Mario's HP is not changed any more here.
-		if bit32.band(m.HealCounter, m.HurtCounter)==0 then
-			if m.Input:Has(InputFlags.IN_POISON_GAS) and not m.Action:Has(ActionFlags.INTANGIBLE) then
-				if not m.Flags:Has(MarioFlags.METAL_CAP) then
-					m.Health -= 4
-				end
-			else
-				if m.Action:Has(ActionFlags.SWIMMING) and not m.Action:Has(ActionFlags.INTANGIBLE) then
-					-- When Mario is near the water surface, recover health (unless in snow),
-					-- when in snow terrains lose 3 health.
-					-- If using the debug level select, do not lose any HP to water.
-					if ((m.Position.Y >= (m.WaterLevel - 140)) and not terrainIsSnow) then
-						m.Health += 0x1A;
-					else
-						m.Health -= (terrainIsSnow and 3 or 1)
-					end
-				end
-			end
-		end
-
-		if m.HealCounter > 0 then
-			m.Health += 0x40
-			m.HealCounter -= 1
-		end
-
-		if m.HurtCounter > 0 then
-			m.Health -= 0x40
-			m.HurtCounter -= 1
-		end
-
-		if m.Health > 0x880 then
-			m.Health = 0x880
-		end
-
-		if m.Health <= 0x100 then
-			m.Health = 0xFF
-		end
-	end
-end
-
-function Mario.SinkInQuicksand(m : Mario)
-	m.GfxPosition = Util.SetY(m.GfxPosition,
-		m.GfxPosition.Y - m.QuicksandDepth
-	)
-end
-
-function Mario.UpdateQuicksand(m : Mario, SinkingSpeed)
-	if m.Flags:Has(ActionFlags.RIDING_SHELL) then
-		m.QuicksandDepth = 0
-	else
-		if m.QuicksandDepth < 1.1 then
-			m.QuicksandDepth = 1.1
-		end
-		
-		local FloorType = m:GetFloorType()
-		if FloorType == SurfaceClass.SHALLOW_QUICKSAND then
-			m.QuicksandDepth += SinkingSpeed
-			if m.QuicksandDepth >= 10 then
-				m.QuicksandDepth = 10
-			end
-		elseif FloorType == SurfaceClass.SHALLOW_MOVING_QUICKSAND then
-			m.QuicksandDepth += SinkingSpeed
-			if m.QuicksandDepth >= 25 then
-				m.QuicksandDepth = 25
-			end
-		elseif FloorType == SurfaceClass.MOVING_QUICKSAND then
-			m.QuicksandDepth += SinkingSpeed
-			if m.QuicksandDepth >= 60 then
-				m.QuicksandDepth = 60
-			end
-		elseif FloorType == SurfaceClass.DEEP_MOVING_QUICKSAND then
-			m.QuicksandDepth += SinkingSpeed
-			if m.QuicksandDepth >= 160 then
-				return m:DropAndSetAction(Action.QUICKSAND_DEATH, 0)
-			end
-		elseif FloorType == SurfaceClass.INSTANT_QUICKSAND then
-			return m:DropAndSetAction(Action.QUICKSAND_DEATH, 0)
-		else
-			m.QuicksandDepth = 0
-		end
-	end
-	
-	return false
-end
-
 function Mario.UpdateButtonInputs(m: Mario)
 	if m.Controller.ButtonPressed:Has(Buttons.A_BUTTON) then
 		m.Input:Add(InputFlags.A_PRESSED)
@@ -1447,6 +1368,10 @@ function Mario.ResetBodyState(m: Mario)
 	bodyState.WingFlutter = false
 
 	m.Flags:Remove(MarioFlags.METAL_SHOCK)
+end
+
+function Mario.SinkInQuicksand(m: Mario)
+	m.GfxPos = Util.SetY(m.GfxPos, m.GfxPos.Y - m.QuicksandDepth)
 end
 
 function Mario.UpdateCaps(m: Mario): Flags
@@ -1604,6 +1529,89 @@ function Mario.PlayFarFallSound(m: Mario)
 	end
 end
 
+function Mario.UpdateHealth(m: Mario)
+	local terrainIsSnow = false
+
+	if m.Health > 0x100 then
+		-- When already healing or hurting Mario, Mario's HP is not changed any more here.
+		if bit32.band(m.HealCounter, m.HurtCounter) == 0 then
+			if m.Input:Has(InputFlags.IN_POISON_GAS) and not m.Action:Has(ActionFlags.INTANGIBLE) then
+				if not m.Flags:Has(MarioFlags.METAL_CAP) then
+					m.Health -= 4
+				end
+			else
+				if m.Action:Has(ActionFlags.SWIMMING) and not m.Action:Has(ActionFlags.INTANGIBLE) then
+					-- When Mario is near the water surface, recover health (unless in snow),
+					-- when in snow terrains lose 3 health.
+					-- If using the debug level select, do not lose any HP to water.
+					if (m.Position.Y >= (m.WaterLevel - 140)) and not terrainIsSnow then
+						m.Health += 0x1A
+					else
+						m.Health -= (terrainIsSnow and 3 or 1)
+					end
+				end
+			end
+		end
+
+		if m.HealCounter > 0 then
+			m.Health += 0x40
+			m.HealCounter -= 1
+		end
+
+		if m.HurtCounter > 0 then
+			m.Health -= 0x40
+			m.HurtCounter -= 1
+		end
+
+		if m.Health > 0x880 then
+			m.Health = 0x880
+		end
+
+		if m.Health <= 0x100 then
+			m.Health = 0xFF
+		end
+	end
+end
+
+function Mario.UpdateQuicksand(m: Mario, SinkingSpeed)
+	if m.Flags:Has(ActionFlags.RIDING_SHELL) then
+		m.QuicksandDepth = 0
+	else
+		if m.QuicksandDepth < 1.1 then
+			m.QuicksandDepth = 1.1
+		end
+
+		local FloorType = m:GetFloorType()
+		if FloorType == SurfaceClass.SHALLOW_QUICKSAND then
+			m.QuicksandDepth += SinkingSpeed
+			if m.QuicksandDepth >= 10 then
+				m.QuicksandDepth = 10
+			end
+		elseif FloorType == SurfaceClass.SHALLOW_MOVING_QUICKSAND then
+			m.QuicksandDepth += SinkingSpeed
+			if m.QuicksandDepth >= 25 then
+				m.QuicksandDepth = 25
+			end
+		elseif FloorType == SurfaceClass.MOVING_QUICKSAND then
+			m.QuicksandDepth += SinkingSpeed
+			if m.QuicksandDepth >= 60 then
+				m.QuicksandDepth = 60
+			end
+		elseif FloorType == SurfaceClass.DEEP_MOVING_QUICKSAND then
+			m.QuicksandDepth += SinkingSpeed
+			if m.QuicksandDepth >= 160 then
+				return m:DropAndSetAction(Action.QUICKSAND_DEATH, 0)
+			end
+		elseif FloorType == SurfaceClass.INSTANT_QUICKSAND then
+			return m:DropAndSetAction(Action.QUICKSAND_DEATH, 0)
+		else
+			m.QuicksandDepth = 0
+		end
+	end
+
+	return false
+end
+
 function Mario.ExecuteAction(m: Mario): number
 	if m.Action() == 0 then
 		return 0
@@ -1642,123 +1650,110 @@ function Mario.ExecuteAction(m: Mario): number
 
 		if action then
 			local group = bit32.band(id, ActionGroups.GROUP_MASK)
-			local cancel : any
+			local cancel
 
-			if (group ~= ActionGroups.SUBMERGED and group ~= ActionGroups.CUTSCENE) and m.Position.Y < m.WaterLevel - 100 then
+			if group ~= ActionGroups.SUBMERGED and m.Position.Y < m.WaterLevel - 100 then
 				cancel = m:SetWaterPlungeAction()
 			else
 				if group == ActionGroups.AIRBORNE then
-					local function CommonAirborneCancels()
+					m:PlayFarFallSound()
+
+					local function CommonAirborneCancels(m)
 						if m.Input:Has(InputFlags.SQUISHED) then
 							return m:DropAndSetAction(Action.SQUISHED, 0)
 						end
 
-						return false
+						return nil
 					end
-					
-					cancel = CommonAirborneCancels()
+
+					cancel = CommonAirborneCancels(m)
 					if not cancel then
 						m:PlayFarFallSound()
 					end
 				elseif group == ActionGroups.SUBMERGED then
-					local function CommonSubmergedCancels()
-						if m.Position.Y > m.WaterLevel - 80 then
-							if m.WaterLevel - 80 > m.FloorHeight then
-								m.Position = Util.SetY(m.Position, m.WaterLevel - 80)
-							else
-								--! If you press B to throw the shell, there is a ~5 frame window
-								-- where your held object is the shell, but you are not in the
-								-- water shell swimming action. This allows you to hold the water
-								-- shell on land (used for cloning in DDD).
-								if (m.Action() == Action.WATER_SHELL_SWIMMING and m.HeldObj ~= nil) then
-									-- Not yet
-									--m.HeldObj.InteractStatus = ObjIntStatus.STOP_RIDING;
-									m.HeldObj = nil;
-									--stop_shell_music();
-								end
-							end
+					if m.Position.Y > m.WaterLevel - 80 then
+						if m.WaterLevel - 80 > m.FloorHeight then
+							m.Position = Util.SetY(m.Position, m.WaterLevel - 80)
+						else
+							m.AngleVel *= 0
+							cancel = m:SetAction(Action.WALKING)
 						end
-
-						if m.Health < 0x100 and not m.Action:Has(ActionFlags.INTANGIBLE, ActionFlags.INVULNERABLE) then
-							m:SetAction(Action.DROWNING, 0)
-						end
-
-						return false
 					end
-					
-					cancel = CommonSubmergedCancels()
-					if not cancel then
-						m.QuicksandDepth = 0
-						m.BodyState.HeadAngle *= Vector3int16.new(1, 0, 0)
-					end
+
+					m.QuicksandDepth = 0
+					m.BodyState.HeadAngle *= Vector3int16.new(1, 0, 0)
 				elseif group == ActionGroups.MOVING then
-					local function CommonMovingCancels()
+					local function CommonMovingCancels(m)
 						if m.Input:Has(InputFlags.SQUISHED) then
 							return m:DropAndSetAction(Action.SQUISHED, 0)
 						end
-						
+
 						-- idk
-						local die_standing = not(
-							m.Action()== Action.HARD_FORWARD_GROUND_KB
-								or m.Action()== Action.HARD_BACKWARD_GROUND_KB
+						local die_standing = not (
+							m.Action() == Action.HARD_FORWARD_GROUND_KB
+							or m.Action() == Action.HARD_BACKWARD_GROUND_KB
 						)
 						if not m.Input:Has(ActionFlags.INVULNERABLE) then
-							if (m.Health < 0x100)and(die_standing) then
-								return m:DropAndSetAction(Action.STANDING_DEATH, 0)
+							if (m.Health < 0x100) and die_standing then
+								return m:SetAction(Action.STANDING_DEATH, 0)
 							end
 						end
 
-						return false
+						return nil
 					end
-					
-					cancel = CommonMovingCancels()
+
+					cancel = CommonMovingCancels(m)
 					if not cancel then
 						if m:UpdateQuicksand(0.25) then
 							cancel = true
 						end
 					end
 				elseif group == ActionGroups.STATIONARY then
-					local function CommonStationaryCancels()
+					local function CommonStationaryCancels(m)
 						if m.Input:Has(InputFlags.SQUISHED) then
 							return m:DropAndSetAction(Action.SQUISHED, 0)
 						end
 
-						local die_standing = not(
-							m.Action()== Action.HARD_FORWARD_GROUND_KB
-								or m.Action()== Action.HARD_BACKWARD_GROUND_KB
+						local die_standing = not (
+							m.Action() == Action.HARD_FORWARD_GROUND_KB
+							or m.Action() == Action.HARD_BACKWARD_GROUND_KB
 						)
 
-						if (m.Action() ~= Action.UNKNOWN_0002020E)and(die_standing==true) then
+						if (m.Action() ~= Action.UNKNOWN_0002020E) and (die_standing == true) then
 							if m.Health < 0x100 then
 								return m:DropAndSetAction(Action.STANDING_DEATH, 0)
 							end
 						end
 
-						return false
+						return nil
 					end
-					
-					cancel = CommonStationaryCancels()
+
+					cancel = CommonStationaryCancels(m)
 					if not cancel then
 						if m:UpdateQuicksand(0.5) then
 							cancel = true
 						end
 					end
 				elseif group == ActionGroups.CUTSCENE then
-					local function CheckForInstantQuicksand()
+					local function CheckForInstantQuicksand(m)
 						local FloorType = m:GetFloorType()
-						if FloorType == SurfaceClass.INSTANT_QUICKSAND and m.Action:Has(ActionFlags.INVULNERABLE) and m.Action() ~= Action.QUICKSAND_DEATH then
+						if
+							FloorType == SurfaceClass.INSTANT_QUICKSAND
+							and m.Action:Has(ActionFlags.INVULNERABLE)
+							and m.Action() ~= Action.QUICKSAND_DEATH
+						then
 							return m:SetAction(Action.QUICKSAND_DEATH, 0)
 						end
 
 						return false
 					end
-					
-					if CheckForInstantQuicksand() then
+
+					if CheckForInstantQuicksand(m) then
 						cancel = true
 					end
 				end
 
-				if cancel==nil or cancel==false then
+				if cancel == nil then
 					cancel = action(m)
 				end
 			end
@@ -1791,7 +1786,7 @@ function Mario.ExecuteAction(m: Mario): number
 
 	m:SinkInQuicksand()
 	--	m:SquishModel()
-	m:UpdateHealth() -- Comment this off for (likely inconsistent) godmode
+	m:UpdateHealth()
 	m:UpdateModel()
 
 	return m.ParticleFlags()

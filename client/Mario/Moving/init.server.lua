@@ -438,7 +438,7 @@ local function updateWalkingSpeed(m: Mario)
 	if m.QuicksandDepth > 10 then
 		targetSpeed *= 6.25 / m.QuicksandDepth
 	end
-	
+
 	if m.ForwardVel < 0 then
 		m.ForwardVel += 1.1
 	elseif m.ForwardVel <= targetSpeed then
@@ -526,18 +526,18 @@ local function animAndAudioForWalk(m: Mario)
 					m.ActionTimer = 2
 				else
 					accel = baseAccel / 4 * 0x10000
-	
+
 					if accel < 0x1000 then
 						accel = 0x1000
 					end
-	
+
 					m:SetAnimationWithAccel(Animations.START_TIPTOE, accel)
 					playStepSound(m, 7, 22)
-	
+
 					if m:IsAnimPastFrame(23) then
 						m.ActionTimer = 2
 					end
-	
+
 					break
 				end
 			elseif m.ActionTimer == 1 then
@@ -545,14 +545,14 @@ local function animAndAudioForWalk(m: Mario)
 					m.ActionTimer = 2
 				else
 					accel = baseAccel * 0x10000
-	
+
 					if accel < 0x1000 then
 						accel = 0x1000
 					end
-	
+
 					m:SetAnimationWithAccel(Animations.TIPTOE, accel)
 					playStepSound(m, 14, 72)
-	
+
 					break
 				end
 			elseif m.ActionTimer == 2 then
@@ -572,10 +572,10 @@ local function animAndAudioForWalk(m: Mario)
 				else
 					accel = baseAccel / 4 * 0x10000
 					m:SetAnimationWithAccel(Animations.RUNNING, accel)
-	
+
 					playStepSound(m, 9, 45)
 					targetPitch = tiltBodyRunning(m)
-	
+
 					break
 				end
 			end
@@ -856,10 +856,6 @@ local function commonLandingAction(m: Mario, anim: Animation)
 
 	m:SetAnimation(anim)
 	m:PlayLandingSoundOnce(Sounds.ACTION_TERRAIN_LANDING)
-
-	if m.Floor and m:GetFloorType() <= SurfaceClass.MOVING_QUICKSAND then
-		m.QuicksandDepth += (4 - m.ActionTimer) * 3.5 - 0.5
-	end
 
 	return stepResult
 end
@@ -1509,41 +1505,39 @@ DEF_ACTION(Action.PUNCHING, function(m: Mario)
 	return false
 end)
 
-
-local function QuicksandJumpLandAction(m : Mario, animation1, animation2, endAction, airAction)
+local function QuicksandJumpLandAction(m: Mario, animation1, animation2, endAction, airAction)
 	m.ActionTimer += 1
 	if m.ActionTimer < 6 then
 		m.QuicksandDepth -= (7 - m.ActionTimer) * 0.8
 		if m.QuicksandDepth < 1.0 then
 			m.QuicksandDepth = 1.1
 		end
-		
+
 		m:PlayJumpSound()
 		m:SetAnimation(animation1)
 	else
 		if m.ActionTimer >= 13 then
 			return m:SetAction(endAction, 0)
 		end
-		
+
 		m:SetAnimation(animation1)
 	end
-	
+
 	applyLandingAccel(m, 0.95)
 	if m:PerformGroundStep() == GroundStep.LEFT_GROUND then
 		m:SetAction(airAction, 0)
 	end
-	
+
 	return false
 end
 
-DEF_ACTION(Action.QUICKSAND_JUMP_LAND, function(m : Mario)
-	local cancel = QuicksandJumpLandAction(m, Animations.SINGLE_JUMP, Animations.LAND_FROM_SINGLE_JUMP,
-											Action.JUMP_LAND_STOP, Action.FREEFALL)
-	return cancel
-end)
-
-DEF_ACTION(Action.HOLD_QUICKSAND_JUMP_LAND, function(m : Mario)
-	local cancel = QuicksandJumpLandAction(m, Animations.JUMP_WITH_LIGHT_OBJ, Animations.JUMP_LAND_WITH_LIGHT_OBJ,
-		Action.JUMP_LAND_STOP, Action.HOLD_FREEFALL)
+DEF_ACTION(Action.QUICKSAND_JUMP_LAND, function(m: Mario)
+	local cancel = QuicksandJumpLandAction(
+		m,
+		Animations.SINGLE_JUMP,
+		Animations.LAND_FROM_SINGLE_JUMP,
+		Action.JUMP_LAND_STOP,
+		Action.FREEFALL
+	)
 	return cancel
 end)

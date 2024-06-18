@@ -135,7 +135,7 @@ local function performWaterStep(m: Mario)
 
 	local stepResult = performWaterFullStep(m, nextPos)
 	m.GfxAngle = m.FaceAngle * Vector3int16.new(-1, 1, 1)
-	m.GfxPos = m.Position
+	m.GfxPos = Vector3.zero
 
 	return stepResult
 end
