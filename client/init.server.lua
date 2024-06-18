@@ -72,6 +72,8 @@ local AUTO_STATS = {
 	"CeilHeight",
 	"FloorHeight",
 	"WaterLevel",
+
+	"Health",
 }
 
 local ControlModule: {
@@ -461,6 +463,8 @@ local function onReset()
 	mario.SlideVelZ = 0
 	mario.ForwardVel = 0
 	mario.IntendedYaw = 0
+
+	mario.Health = 0x880
 
 	mario.Position = sm64
 	mario.Velocity = Vector3.zero

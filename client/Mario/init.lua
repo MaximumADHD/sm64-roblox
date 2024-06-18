@@ -45,6 +45,8 @@ export type Class = Mario
 
 -- Everything's too slippery sometimes...
 local FFLAG_FLOOR_NEVER_SLIPPERY = true
+-- IDDQD (god mode)
+local FFLAG_DEGREELESSNESS_MODE = false
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- BINDINGS
@@ -1563,7 +1565,7 @@ function Mario.UpdateHealth(m: Mario)
 			m.HurtCounter -= 1
 		end
 
-		if m.Health > 0x880 then
+		if (m.Health > 0x880) or FFLAG_DEGREELESSNESS_MODE then
 			m.Health = 0x880
 		end
 
@@ -1714,6 +1716,7 @@ function Mario.ExecuteAction(m: Mario): number
 							return m:DropAndSetAction(Action.SQUISHED, 0)
 						end
 
+						-- weird stuff going on here
 						local die_standing = not (
 							m.Action() == Action.HARD_FORWARD_GROUND_KB
 							or m.Action() == Action.HARD_BACKWARD_GROUND_KB

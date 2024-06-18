@@ -5,6 +5,7 @@ local StarterPlayer = game:GetService("StarterPlayer")
 local PhysicsService = game:GetService("PhysicsService")
 local StarterCharacterScripts = StarterPlayer.StarterCharacterScripts
 
+-- changed to 1 cuz i didnt like it SORRY :()
 local hDesc = Instance.new("HumanoidDescription")
 hDesc.HeightScale = 1
 hDesc.WidthScale = 1
