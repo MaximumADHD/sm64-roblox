@@ -1,3 +1,10 @@
+## sm64-roblox fork info
+
+[?] This fork of the repo by MaximumADHD tends to add gameplay actions that were not included
+- Minor fixes and/or additions
+- Quicksand behavior
+- Health
+
 # sm64-roblox
 
 A port of Super Mario 64's movement code into Roblox Luau (in `--!strict` mode), hosted as a [rojo](https://rojo.space) project. Based on the SM64 decompilation project hosted at: https://github.com/n64decomp/sm64

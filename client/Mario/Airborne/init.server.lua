@@ -438,6 +438,9 @@ local function checkWallKick(m: Mario)
 		if m.Input:Has(InputFlags.A_PRESSED) then
 			if m.PrevAction() == Action.AIR_HIT_WALL then
 				m.FaceAngle += Vector3int16.new(0, 0x8000, 0)
+				-- Missing return from original repo;
+				-- otherwise you'd be forced to hit firsties!!!!!!
+				-- 1 frame wallkicks for tonight
 				return m:SetAction(Action.WALL_KICK_AIR)
 			end
 		end
