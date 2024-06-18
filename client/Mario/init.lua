@@ -376,6 +376,24 @@ function Mario.GetFloorType(m: Mario): number
 	return 0
 end
 
+function Mario.GetCeilType(m: Mario): number
+	local ceil = m.Ceil
+	local ceilInstance = ceil and ceil.Instance or nil
+	local ceilMaterial = ceil and ceil.Material or Enum.Material.Air
+
+	if ceilInstance then
+		-- hangable
+		local IsHangableCeil = (
+			(ceilInstance:HasTag("Hangable")) or (ceilMaterial == Enum.Material.DiamondPlate) -- what else?
+		)
+		if IsHangableCeil then
+			return SurfaceClass.HANGABLE
+		end
+	end
+
+	return 0
+end
+
 function Mario.FacingDownhill(m: Mario, turnYaw: boolean?): boolean
 	local faceAngleYaw = m.FaceAngle.Y
 
@@ -1073,6 +1091,21 @@ function Mario.PerformAirQuarterStep(m: Mario, intendedPos: Vector3, stepArg: nu
 	end
 
 	if nextPos.Y + 160 > ceilHeight then
+		if m.Velocity.Y > 0 then
+			m.Velocity = Util.SetY(m.Velocity, 0)
+
+			--! Uses referenced ceiling instead of ceil (ceiling hang upwarp)
+			if
+				bit32.band(stepArg, AirStep.CHECK_HANG) > 0
+				and m.Ceil ~= nil
+				and m:GetCeilType() == SurfaceClass.HANGABLE
+			then
+				return AirStep.GRABBED_CEILING
+			end
+
+			return AirStep.NONE
+		end
+
 		if m.Velocity.Y > 0 then
 			m.Velocity = Util.SetY(m.Velocity, 0)
 			return AirStep.NONE

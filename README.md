@@ -3,6 +3,7 @@
 [?] This fork of the repo by MaximumADHD tends to add gameplay actions that were not included
 - Minor fixes and/or additions
 - Quicksand behavior
+- Hangable Ceilings
 - Health
 
 # sm64-roblox
