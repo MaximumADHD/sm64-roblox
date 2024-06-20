@@ -104,7 +104,6 @@ local function reload()
 	end
 
 	if hDesc then
-		-- changed to 1 cuz i didnt like it SORRY :()
 		hDesc.HeadScale = 1.8
 		hDesc.WidthScale = 1.3
 		hDesc.DepthScale = 1.4

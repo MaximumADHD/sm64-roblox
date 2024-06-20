@@ -31,14 +31,30 @@ local function CommonDeathHandler(m: Mario, animation, frameToDeathWarp)
 	return animFrame
 end
 
-local function CutsceneTakeCapOff(m: Mario)
-	m.Flags:Remove(MarioFlags.CAP_ON_HEAD)
-	m.Flags:Add(MarioFlags.CAP_IN_HAND)
-end
+local function StuckInGroundHandler(m: Mario, animation, unstuckFrame: number, target2, target3, endAction)
+	local animFrame = m:SetAnimation(animation)
 
-local function CutscenePutCapOn(m: Mario)
-	m.Flags:Remove(MarioFlags.CAP_IN_HAND)
-	m.Flags:Add(MarioFlags.CAP_ON_HEAD)
+	if m.Input:Has(InputFlags.A_PRESSED) then
+		m.ActionTimer += 1
+		if m.ActionTimer >= 5 and animFrame < unstuckFrame - 1 then
+			animFrame = unstuckFrame - 1
+			m:SetAnimToFrame(animFrame)
+		end
+	end
+
+	m:StopAndSetHeightToFloor()
+
+	if animFrame == -1 then
+		m:PlaySoundAndSpawnParticles(Sounds.ACTION_TERRAIN_STUCK_IN_GROUND, 1)
+	elseif animFrame == unstuckFrame then
+		m:PlaySoundAndSpawnParticles(Sounds.ACTION_UNSTUCK_FROM_GROUND, 1)
+	elseif animFrame == target2 and animFrame == target3 then
+		m:PlayLandingSound(Sounds.ACTION_TERRAIN_LANDING)
+	end
+
+	if m:IsAnimAtEnd() then
+		m:SetAction(endAction, 0)
+	end
 end
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -148,32 +164,6 @@ end)
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Stuck in ground states
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-local function StuckInGroundHandler(m: Mario, animation, unstuckFrame: number, target2, target3, endAction)
-	local animFrame = m:SetAnimation(animation)
-
-	if m.Input:Has(InputFlags.A_PRESSED) then
-		m.ActionTimer += 1
-		if m.ActionTimer >= 5 and animFrame < unstuckFrame - 1 then
-			animFrame = unstuckFrame - 1
-			m:SetAnimToFrame(animFrame)
-		end
-	end
-
-	m:StopAndSetHeightToFloor()
-
-	if animFrame == -1 then
-		m:PlaySoundAndSpawnParticles(Sounds.ACTION_TERRAIN_STUCK_IN_GROUND, 1)
-	elseif animFrame == unstuckFrame then
-		m:PlaySoundAndSpawnParticles(Sounds.ACTION_UNSTUCK_FROM_GROUND, 1)
-	elseif animFrame == target2 and animFrame == target3 then
-		m:PlayLandingSound(Sounds.ACTION_TERRAIN_LANDING)
-	end
-
-	if m:IsAnimAtEnd() then
-		m:SetAction(endAction, 0)
-	end
-end
 
 DEF_ACTION(Action.HEAD_STUCK_IN_GROUND, function(m: Mario)
 	StuckInGroundHandler(m, Animations.HEAD_STUCK_IN_GROUND, 96, 105, 135, Action.IDLE)
