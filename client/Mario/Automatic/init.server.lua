@@ -283,7 +283,7 @@ end)
 
 DEF_ACTION(Action.HANGING, function(m: Mario)
 	if m.Input:Has(InputFlags.NONZERO_ANALOG) then
-		return m:SetAction(Action.HANG_MOVING, 0)
+		return m:SetAction(Action.HANG_MOVING, m.ActionArg)
 	end
 
 	if not m.Input:Has(InputFlags.A_DOWN) then
