@@ -51,6 +51,10 @@ function Validators.SetHeadAngle(player: Player, angle: Vector3int16)
 	return typeof(angle) == "Vector3int16"
 end
 
+function Validators.SetHealth(player: Player, health: number)
+	return typeof(health) == "number" and (health > 0 and health < 8)
+end
+
 local function onNetworkReceive(player: Player, cmd: string, ...)
 	local validate = Validators[cmd]
 

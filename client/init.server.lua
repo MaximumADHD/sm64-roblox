@@ -72,8 +72,6 @@ local AUTO_STATS = {
 	"CeilHeight",
 	"FloorHeight",
 	"WaterLevel",
-
-	"Health",
 }
 
 local ControlModule: {
@@ -356,6 +354,17 @@ function Commands.SetHeadAngle(player: Player, angle: Vector3int16)
 	end
 end
 
+function Commands.SetHealth(player: Player, health: number)
+	local character = player.Character
+	local humanoid = character and character:FindFirstChildWhichIsA("Humanoid")
+	local health = math.max(health, 0.01)
+
+	if humanoid then
+		humanoid.MaxHealth = 8
+		humanoid.Health = health
+	end
+end
+
 function Commands.SetCamera(player: Player, cf: CFrame?)
 	local camera = workspace.CurrentCamera
 
@@ -397,6 +406,7 @@ lazyNetwork.OnClientEvent:Connect(onNetworkReceive)
 local lastUpdate = os.clock()
 local lastHeadAngle: Vector3int16?
 local lastTorsoAngle: Vector3int16?
+local lastHealth: number?
 
 local activeScale = 1
 local subframe = 0 -- 30hz subframe
@@ -464,6 +474,8 @@ local function onReset()
 	mario.ForwardVel = 0
 	mario.IntendedYaw = 0
 
+	mario.HealCounter = 0
+	mario.HurtCounter = 0
 	mario.Health = 0x880
 
 	mario.Position = sm64
@@ -684,6 +696,7 @@ local function update()
 			local bodyState = mario.BodyState
 			local headAngle = bodyState.HeadAngle
 			local torsoAngle = bodyState.TorsoAngle
+			local health = bit32.rshift(mario.Health, 8)
 
 			if actionId ~= Action.BUTT_SLIDE and actionId ~= Action.WALKING then
 				bodyState.TorsoAngle *= 0
@@ -697,6 +710,11 @@ local function update()
 			if headAngle ~= lastHeadAngle then
 				networkDispatch("SetHeadAngle", headAngle)
 				lastHeadAngle = headAngle
+			end
+
+			if health ~= lastHealth then
+				networkDispatch("SetHealth", health)
+				lastHealth = health
 			end
 
 			if particles then

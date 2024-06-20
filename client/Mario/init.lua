@@ -44,7 +44,7 @@ export type Flags = Types.Flags
 export type Class = Mario
 
 -- Everything's too slippery sometimes...
-local FFLAG_FLOOR_NEVER_SLIPPERY = true
+local FFLAG_FLOOR_NEVER_SLIPPERY = false
 -- IDDQD (god mode)
 local FFLAG_DEGREELESSNESS_MODE = false
 
@@ -1536,6 +1536,10 @@ function Mario.SetWaterPlungeAction(m: Mario)
 		m.FaceAngle *= Vector3int16.new(0, 1, 1)
 	end
 
+	if m.Health < 0x100 and not m.Action:Has(ActionFlags.INTANGIBLE, ActionFlags.INVULNERABLE) then
+		return m:SetAction(Action.DROWNING)
+	end
+
 	return m:SetAction(Action.WATER_PLUNGE)
 end
 
@@ -1715,8 +1719,14 @@ function Mario.ExecuteAction(m: Mario): number
 						end
 					end
 
-					m.QuicksandDepth = 0
-					m.BodyState.HeadAngle *= Vector3int16.new(1, 0, 0)
+					if m.Health < 0x100 and not m.Action:Has(ActionFlags.INTANGIBLE, ActionFlags.INVULNERABLE) then
+						cancel = m:SetAction(Action.DROWNING, 0)
+					end
+
+					if not cancel then
+						m.QuicksandDepth = 0
+						m.BodyState.HeadAngle *= Vector3int16.new(1, 0, 0)
+					end
 				elseif group == ActionGroups.MOVING then
 					local function CommonMovingCancels(m)
 						if m.Input:Has(InputFlags.SQUISHED) then
