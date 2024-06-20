@@ -7,10 +7,10 @@ local StarterCharacterScripts = StarterPlayer.StarterCharacterScripts
 
 -- changed to 1 cuz i didnt like it SORRY :()
 local hDesc = Instance.new("HumanoidDescription")
-hDesc.HeightScale = 1
-hDesc.WidthScale = 1
-hDesc.DepthScale = 1
-hDesc.HeadScale = 1
+hDesc.HeightScale = 1.3
+hDesc.WidthScale = 1.3
+hDesc.DepthScale = 1.4
+hDesc.HeadScale = 2
 
 local character = Players:CreateHumanoidModelFromDescription(hDesc, Enum.HumanoidRigType.R15)
 local bodyColors = character:FindFirstChildOfClass("BodyColors")

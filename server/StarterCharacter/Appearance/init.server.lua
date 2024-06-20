@@ -105,10 +105,10 @@ local function reload()
 
 	if hDesc then
 		-- changed to 1 cuz i didnt like it SORRY :()
-		hDesc.HeadScale = 1
-		hDesc.WidthScale = 1
-		hDesc.DepthScale = 1
-		hDesc.HeightScale = 1
+		hDesc.HeadScale = 1.8
+		hDesc.WidthScale = 1.3
+		hDesc.DepthScale = 1.4
+		hDesc.HeightScale = 1.2
 		hDesc.BodyTypeScale = 0
 		hDesc.ProportionScale = 0
 	else

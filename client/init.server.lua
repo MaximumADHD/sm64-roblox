@@ -509,7 +509,7 @@ local function getWaterLevel(pos: Vector3)
 	return waterLevel
 end
 
-local function update()
+local function update(dt: number)
 	local character = player.Character
 
 	if not character then
@@ -522,7 +522,7 @@ local function update()
 
 	if scale ~= activeScale then
 		local marioPos = Util.ToRoblox(mario.Position)
-		Util.Scale = scale / 24 -- HACK! Should this be instanced?
+		Util.Scale = scale / 20 -- HACK! Should this be instanced?
 
 		mario.Position = Util.ToSM64(marioPos)
 		activeScale = scale

@@ -3,7 +3,7 @@ local Core = script.Parent.Parent
 
 local Util = {
 	GlobalTimer = 0,
-	Scale = 1 / 24,
+	Scale = 1 / 20,
 }
 
 local rayParams = RaycastParams.new()
