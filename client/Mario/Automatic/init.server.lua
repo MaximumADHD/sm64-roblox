@@ -332,7 +332,7 @@ DEF_ACTION(Action.HANG_MOVING, function(m: Mario)
 		m:PlaySound(Sounds.ACTION_HANGING_STEP)
 	end
 
-	if m:IsAnimAtEnd() then
+	if m:IsAnimPastEnd() then
 		m.ActionArg = bit32.bxor(m.ActionArg, 1)
 		if m.Input:Has(InputFlags.NO_MOVEMENT) then
 			-- You'll keep moving if TAS input is enabled

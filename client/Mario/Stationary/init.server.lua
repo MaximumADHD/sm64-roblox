@@ -363,7 +363,7 @@ DEF_ACTION(Action.PANTING, function(m: Mario)
 		return true
 	end
 
-	if m:SetAnimation(Animations.PANTING) == 1 then
+	if m:SetAnimation(Animations.WALK_PANTING) == 1 then
 		m:PlaySound(Sounds.MARIO_PANTING)
 	end
 

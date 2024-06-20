@@ -94,7 +94,7 @@ function Mario.SetAnimation(m: Mario, anim: Animation): number
 		m.AnimCurrent = nil
 	end
 
-	local startFrame: number = anim:GetAttribute("StartFrame") or 0
+	local startFrame: number = anim and anim:GetAttribute("StartFrame") or 0
 	m.AnimAccelAssist = 0
 	m.AnimAccel = 0
 

@@ -163,7 +163,13 @@ end
 
 local function checkLedgeClimbDown(m: Mario)
 	if m.ForwardVel < 10 then
-		local pos, wall = Util.FindWallCollisions(m.Position, -10, 10)
+		-- Not the best fix possible...
+		-- But if the fix fixes the fix-required trouble,
+		-- then the day's fixed.
+		local climbDownRange = Vector3.new(Util.Sins(m.FaceAngle.Y), 0, Util.Coss(m.FaceAngle.Y))
+
+		local detector = m.Position + (climbDownRange * 10)
+		local pos, wall = Util.FindWallCollisions(detector, -10, 10)
 
 		if wall then
 			local floorHeight, floor = Util.FindFloor(pos)
@@ -1500,7 +1506,12 @@ DEF_ACTION(Action.PUNCHING, function(m: Mario)
 	end
 
 	m:UpdatePunchSequence()
-	m:PerformGroundStep()
+	local step = m:PerformGroundStep()
+
+	-- Intentional behavior
+	if step == GroundStep.LEFT_GROUND then
+		m:SetAction(Action.FREEFALL)
+	end
 
 	return false
 end)
