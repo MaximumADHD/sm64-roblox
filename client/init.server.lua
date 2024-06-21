@@ -478,6 +478,8 @@ local function onReset()
 	mario.HurtCounter = 0
 	mario.Health = 0x880
 
+	mario.QuicksandDepth = 0
+
 	mario.Position = sm64
 	mario.Velocity = Vector3.zero
 	mario.FaceAngle = Vector3int16.new()

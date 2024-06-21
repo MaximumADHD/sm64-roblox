@@ -110,7 +110,7 @@ DEF_ACTION(Action.QUICKSAND_DEATH, function(m: Mario)
 		end
 		m.QuicksandDepth += 5.0
 		if m.QuicksandDepth >= 180 then
-			LevelUpdate.LevelTriggerWarp(m, Warp.OP_DEATH)
+			-- LevelTriggerWarp
 			m.ActionState = 2
 		end
 	end

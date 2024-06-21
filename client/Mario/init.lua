@@ -365,10 +365,18 @@ function Mario.GetFloorType(m: Mario): number
 
 	if floor then
 		-- Quicksand check
-		local IsQuicksand = (string.match(string.lower(floor.Name), "quicksand"))
+		local IsQuicksand = (string.match(string.lower(floor.Name), "quicksand")) or floor:HasTag("Quicksand")
+
 		if IsQuicksand then
-			-- Not checking much here, games do what they want after all
-			-- that is if they do have some sort of quicksand
+			local QuicksandType = floor:GetAttribute("QuicksandType")
+			if
+				typeof(QuicksandType) == "string"
+				and string.match(QuicksandType, "QUICKSAND")
+				and SurfaceClass[QuicksandType]
+			then
+				return SurfaceClass[QuicksandType]
+			end
+
 			return SurfaceClass.MOVING_QUICKSAND
 		end
 	end
@@ -382,10 +390,15 @@ function Mario.GetCeilType(m: Mario): number
 	local ceilMaterial = ceil and ceil.Material or Enum.Material.Air
 
 	if ceilInstance then
-		-- hangable
+		-- Hangable ceilings check
+		-- stylua: ignore
 		local IsHangableCeil = (
-			(ceilInstance:HasTag("Hangable")) or (ceilMaterial == Enum.Material.DiamondPlate) -- what else?
+			-- definition check
+			(ceilInstance:HasTag("Hangable"))
+			-- or material check
+			or (ceilMaterial == Enum.Material.DiamondPlate) -- what else?
 		)
+
 		if IsHangableCeil then
 			return SurfaceClass.HANGABLE
 		end
