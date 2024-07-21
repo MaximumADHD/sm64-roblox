@@ -193,10 +193,17 @@ local function PerformHangingStep(m: Mario, nextPos: Vector3)
 	end
 
 	if ceilHeight - floorHeight <= 160 then
-		return HANG_NONE
+		return HANG_HIT_CEIL_OR_OOB
 	end
 
 	if m:GetCeilType() ~= SurfaceClass.HANGABLE then
+		return HANG_LEFT_CEIL
+	end
+
+	ceilOffset = ceilHeight - (nextPos.Y + 160.0)
+	if ceilOffset < -30.0 then
+		return HANG_HIT_CEIL_OR_OOB
+	elseif ceilOffset > 30.0 then
 		return HANG_LEFT_CEIL
 	end
 
