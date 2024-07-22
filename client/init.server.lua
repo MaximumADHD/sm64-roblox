@@ -215,7 +215,11 @@ local function updateController(controller: Controller, humanoid: Humanoid?)
 
 	local character = humanoid.Parent
 	if (character and character:GetAttribute("TAS")) or Core:GetAttribute("ToolAssistedInput") then
-		if not mario.Action:Has(Enums.ActionFlags.SWIMMING) then
+		local IgnoreTASInput = (
+			mario.Action:Has(Enums.ActionFlags.SWIMMING) or mario.Action:Has(Enums.ActionFlags.HANGING)
+		)
+
+		if not IgnoreTASInput then
 			if controller.ButtonDown:Has(Buttons.A_BUTTON) then
 				controller.ButtonPressed:Set(Buttons.A_BUTTON)
 			end
