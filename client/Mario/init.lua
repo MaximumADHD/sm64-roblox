@@ -1702,7 +1702,7 @@ function Mario.ExecuteAction(m: Mario): number
 
 		if action then
 			local group = bit32.band(id, ActionGroups.GROUP_MASK)
-			local cancel
+			local cancel: boolean?
 
 			if group ~= ActionGroups.SUBMERGED and m.Position.Y < m.WaterLevel - 100 then
 				cancel = m:SetWaterPlungeAction()
@@ -1710,7 +1710,7 @@ function Mario.ExecuteAction(m: Mario): number
 				if group == ActionGroups.AIRBORNE then
 					m:PlayFarFallSound()
 
-					local function CommonAirborneCancels(m)
+					local function CommonAirborneCancels(m: Mario): boolean?
 						if m.Input:Has(InputFlags.SQUISHED) then
 							return m:DropAndSetAction(Action.SQUISHED, 0)
 						end
@@ -1741,7 +1741,7 @@ function Mario.ExecuteAction(m: Mario): number
 						m.BodyState.HeadAngle *= Vector3int16.new(1, 0, 0)
 					end
 				elseif group == ActionGroups.MOVING then
-					local function CommonMovingCancels(m)
+					local function CommonMovingCancels(m: Mario): boolean?
 						if m.Input:Has(InputFlags.SQUISHED) then
 							return m:DropAndSetAction(Action.SQUISHED, 0)
 						end
@@ -1767,7 +1767,7 @@ function Mario.ExecuteAction(m: Mario): number
 						end
 					end
 				elseif group == ActionGroups.STATIONARY then
-					local function CommonStationaryCancels(m)
+					local function CommonStationaryCancels(m: Mario): boolean?
 						if m.Input:Has(InputFlags.SQUISHED) then
 							return m:DropAndSetAction(Action.SQUISHED, 0)
 						end
@@ -1794,7 +1794,7 @@ function Mario.ExecuteAction(m: Mario): number
 						end
 					end
 				elseif group == ActionGroups.CUTSCENE then
-					local function CheckForInstantQuicksand(m)
+					local function CheckForInstantQuicksand(m: Mario): any
 						local FloorType = m:GetFloorType()
 						if
 							FloorType == SurfaceClass.INSTANT_QUICKSAND
