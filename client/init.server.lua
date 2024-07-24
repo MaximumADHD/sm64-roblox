@@ -72,6 +72,7 @@ local AUTO_STATS = {
 	"CeilHeight",
 	"FloorHeight",
 	"WaterLevel",
+	"QuicksandDepth",
 }
 
 local ControlModule: {
@@ -216,7 +217,10 @@ local function updateController(controller: Controller, humanoid: Humanoid?)
 	local character = humanoid.Parent
 	if (character and character:GetAttribute("TAS")) or Core:GetAttribute("ToolAssistedInput") then
 		if not mario.Action:Has(Enums.ActionFlags.SWIMMING, Enums.ActionFlags.HANGING) then
-			if controller.ButtonDown:Has(Buttons.A_BUTTON) and (not controller.ButtonDown:Has(Buttons.B_BUTTON)) then
+			if
+				controller.ButtonDown:Has(Buttons.A_BUTTON)
+				and not (controller.ButtonDown:Has(Buttons.B_BUTTON) or controller.ButtonPressed:Has(Buttons.Z_TRIG))
+			then
 				controller.ButtonPressed:Set(Buttons.A_BUTTON)
 			end
 		end
@@ -768,6 +772,7 @@ end
 
 reset.Event:Connect(onReset)
 RunService.Heartbeat:Connect(update)
+shared.LocalMario = mario
 
 while task.wait(1) do
 	local success = pcall(function()
