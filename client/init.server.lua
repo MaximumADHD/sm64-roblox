@@ -215,9 +215,16 @@ local function updateController(controller: Controller, humanoid: Humanoid?)
 
 	local character = humanoid.Parent
 	if (character and character:GetAttribute("TAS")) or Core:GetAttribute("ToolAssistedInput") then
-		-- Ignoring HANGING helps making movement in hangable states stoppable, otherwise you'd keep going (if you do a nonzero analog move)
-		-- Ignoring AIR makes no difference, but helps not sink B, just so you can do jumpkicks while holding A.
-		if not mario.Action:Has(Enums.ActionFlags.SWIMMING, Enums.ActionFlags.HANGING, Enums.ActionFlags.AIR) then
+		--stylua: ignore
+		local IgnoreTASInput = (
+			-- Ignoring HANGING helps making movement in hangable states stoppable, otherwise you'd keep going (if you do a nonzero analog move)
+			mario.Action:Has(Enums.ActionFlags.SWIMMING, Enums.ActionFlags.HANGING)
+			-- Ignoring AIR makes no difference, but helps not sink B, just so you can do jumpkicks while holding A.
+			-- dont ignore for wallkicks
+			and (mario.Action:Has(Enums.ActionFlags.AIR) and not mario.Action() == Action.WALL_KICK_AIR)
+		)
+
+		if not IgnoreTASInput then
 			if controller.ButtonDown:Has(Buttons.A_BUTTON) then
 				controller.ButtonPressed:Set(Buttons.A_BUTTON)
 			end
