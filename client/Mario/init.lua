@@ -43,10 +43,18 @@ export type MarioAction = (Mario) -> boolean
 export type Flags = Types.Flags
 export type Class = Mario
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- VARIABLES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 -- Everything's too slippery sometimes...
 local FFLAG_FLOOR_NEVER_SLIPPERY = false
 -- IDDQD (god mode)
 local FFLAG_DEGREELESSNESS_MODE = false
+-- (misc) use inertia velocity for airborne
+local FFLAG_USE_INERTIA = false
+
+local RAD_TO_SHORT = 0x10000 / (2 * math.pi)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- BINDINGS
@@ -945,9 +953,47 @@ function Mario.StopAndSetHeightToFloor(m: Mario)
 	m.GfxAngle = Vector3int16.new(0, m.FaceAngle.Y, 0)
 end
 
+-- Not always accurate for rotating platforms
+function Mario.GetPlatformInertiaOffsets(m: Mario, rayResult: RaycastResult?, div: number?): (Vector3int16, Vector3)
+	if rayResult then
+		local rayInstance = rayResult.Instance :: BasePart
+		local div = (tonumber(div) or 1) :: number
+
+		local FaceAngleAdd = Vector3int16.new(0, RAD_TO_SHORT * rayInstance.AssemblyAngularVelocity.Y / 22.5, 0) / div
+		local PositionAdd = (
+			rayInstance.AssemblyLinearVelocity
+			- (Util.ToRoblox(m.Position) - rayInstance.Position):Cross(rayInstance.AssemblyAngularVelocity)
+		) / div
+
+		return FaceAngleAdd, PositionAdd
+	end
+
+	return Vector3int16.new(), Vector3.zero
+end
+
+function Mario.ApplyPlatformInertia(m: Mario, rayResult: RaycastResult?, div: number?)
+	local FaceAngleAdd, PositionAdd = m:GetPlatformInertiaOffsets(rayResult, div)
+	m.FaceAngle += FaceAngleAdd
+	m.Position += PositionAdd
+
+	if FFLAG_USE_INERTIA then
+		m.Inertia = PositionAdd
+	end
+end
+
 function Mario.StationaryGroundStep(m: Mario): number
 	m:SetForwardVel(0)
-	return m:PerformGroundStep()
+	local stepResult = m:PerformGroundStep()
+
+	-- This should hopefully not cause any unexpected behavior.
+	-- Sometimes you won't slip off the ground when pushed off
+	-- by a conveyor or physics...
+	if stepResult == GroundStep.LEFT_GROUND then
+		m:SetAction(Action.FREEFALL)
+		m.Input:Add(InputFlags.OFF_FLOOR)
+	end
+
+	return stepResult
 end
 
 function Mario.PerformGroundQuarterStep(m: Mario, nextPos: Vector3): number
@@ -1009,15 +1055,23 @@ function Mario.PerformGroundStep(m: Mario): number
 	assert(floor)
 
 	for i = 1, 4 do
-		local intendedX = m.Position.X + floor.Normal.Y * (m.Velocity.X / 4)
-		local intendedZ = m.Position.Z + floor.Normal.Y * (m.Velocity.Z / 4)
+		local InertiaRotate, InertiaMove = m:GetPlatformInertiaOffsets(floor, 4)
+		local intendedVel = m.Velocity + (InertiaMove * 4)
+		local intendedX = m.Position.X + floor.Normal.Y * (intendedVel.X / 4)
+		local intendedZ = m.Position.Z + floor.Normal.Y * (intendedVel.Z / 4)
 		local intendedY = m.Position.Y
+
+		if FFLAG_USE_INERTIA then
+			m.Inertia = InertiaMove * 4
+		end
 
 		local intendedPos = Vector3.new(intendedX, intendedY, intendedZ)
 		stepResult = m:PerformGroundQuarterStep(intendedPos)
 
 		if stepResult == GroundStep.LEFT_GROUND or stepResult == GroundStep.HIT_WALL_STOP_QSTEPS then
 			break
+		else
+			m.FaceAngle += InertiaRotate
 		end
 	end
 
@@ -1255,8 +1309,13 @@ function Mario.PerformAirStep(m: Mario, maybeStepArg: number?)
 	local stepResult = AirStep.NONE
 	m.Wall = nil
 
+	if FFLAG_USE_INERTIA then
+		m.Inertia *= 0.975
+	end
+
 	for i = 1, 4 do
-		local intendedPos = m.Position + (m.Velocity / 4)
+		local intendedVel = m.Velocity + (FFLAG_USE_INERTIA and m.Inertia or Vector3.zero)
+		local intendedPos = m.Position + (intendedVel / 4)
 		local result = m:PerformAirQuarterStep(intendedPos, stepArg)
 
 		if result ~= AirStep.NONE then
@@ -1353,6 +1412,7 @@ end
 function Mario.UpdateGeometryInputs(m: Mario)
 	local floorHeight, floor = Util.FindFloor(m.Position)
 	local ceilHeight, ceil = Util.FindCeil(m.Position, m.FloorHeight)
+	local ceilHeightSquish, ceilByFloorHeight = Util.FindCeil(m.Position, m.FloorHeight - 80)
 
 	m.FloorHeight = floorHeight
 	m.CeilHeight = ceilHeight
@@ -1367,8 +1427,9 @@ function Mario.UpdateGeometryInputs(m: Mario)
 			m.Input:Add(InputFlags.ABOVE_SLIDE)
 		end
 
-		if ceil then
-			local ceilToFloorDist = m.CeilHeight - m.FloorHeight
+		if ceilByFloorHeight then
+			m.CeilHeightSquish = ceilHeightSquish
+			local ceilToFloorDist = ceilHeightSquish - floor.Position.Y
 
 			if 0 < ceilToFloorDist and ceilToFloorDist < 150 then
 				m.Input:Add(InputFlags.SQUISHED)
@@ -1921,6 +1982,7 @@ function Mario.new(): Mario
 		Position = Vector3.yAxis * 500,
 		Velocity = Vector3.zero,
 
+		Inertia = Vector3.zero,
 		ForwardVel = 0,
 		SlideVelX = 0,
 		SlideVelZ = 0,

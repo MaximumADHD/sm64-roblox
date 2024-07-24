@@ -181,3 +181,104 @@ DEF_ACTION(Action.FEET_STUCK_IN_GROUND, function(m: Mario)
 end)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- any
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+DEF_ACTION(Action.SQUISHED, function(m: Mario)
+	local squishAmount: number
+	local spaceUnderCeil: number = math.max(m.CeilHeightSquish - m.FloorHeight)
+	local surfAngle: number
+	local underSteepSurf = false -- seems to be responsible for setting velocity?
+
+	if m.ActionState == 0 then
+		if spaceUnderCeil > 160.0 then
+			m.SquishTimer = 0
+			return m:SetAction(Action.IDLE)
+		end
+
+		m.SquishTimer = 0xFF
+
+		if spaceUnderCeil >= 10.1 then
+			-- Mario becomes a pancake
+			squishAmount = spaceUnderCeil / 160.0
+			-- But due to unfortunate events, mario is unable to become a pancake...
+			-- vec3f_set(m->marioObj->header.gfx.scale, 2.0f - squishAmount, squishAmount, 2.0f - squishAmount);
+		else
+			if not (m.Flags:Has(MarioFlags.METAL_CAP)) and m.InvincTimer == 0 then
+				-- cap on: 3 units; cap off: 4.5 units
+				m.HurtCounter += m.Flags:Has(MarioFlags.CAP_ON_HEAD) and 12 or 18
+				m:PlaySoundIfNoFlag(Sounds.MARIO_ATTACKED, MarioFlags.MARIO_SOUND_PLAYED)
+			end
+
+			--  vec3f_set(m->marioObj->header.gfx.scale, 1.8, 0.05f, 1.8f);
+			m.ActionState = 1
+		end
+	elseif m.ActionState == 1 then
+		if spaceUnderCeil >= 30.0 then
+			m.ActionState = 2
+		end
+	elseif m.ActionState == 2 then
+		if m.ActionTimer >= 15 then
+			-- 1 unit of health
+			if m.Health < 0x0100 then
+				-- LevelTriggerWarp OP_DEATH
+				m:SetAction(Action.DISAPPEARED)
+			end
+		elseif m.HurtCounter == 0 then
+			-- un-squish animation
+			m.SquishTimer = 30
+			m:SetAction(Action.IDLE)
+		end
+	end
+
+	-- steep floor
+	if m.Floor ~= nil and m.Floor.Normal.Y < 0.5 then
+		surfAngle = Util.Atan2s(m.Floor.Normal.Z, m.Floor.Normal.X)
+		underSteepSurf = true
+	end
+	-- steep ceiling
+	if m.Ceil ~= nil and -0.5 < m.Ceil.Normal.Y then
+		surfAngle = Util.Atan2s(m.Ceil.Normal.Z, m.Ceil.Normal.X)
+		underSteepSurf = true
+	end
+
+	if underSteepSurf then
+		m.Velocity = Vector3.new(Util.Sins(surfAngle) * 10.0, 0, Util.Coss(surfAngle) * 10.0)
+
+		-- Check if there's no floor 10 units away from the surface
+		if m:PerformGroundStep() == GroundStep.LEFT_GROUND then
+			-- instant un-squish
+			m.SquishTimer = 0
+			m:SetAction(Action.IDLE, 0)
+			return false
+		end
+	end
+
+	-- squished for more than 10 seconds, so kill Mario
+	m.ActionArg += 1
+	if m.ActionArg > 300 then
+		-- 0 units of health
+		m.Health = 0xFF
+		m.HurtCounter = 0
+		-- LevelTriggerWarp OP_DEATH
+		m:SetAction(Action.DISAPPEARED)
+	end
+	m:StopAndSetHeightToFloor()
+	m:SetAnimation(Animations.A_POSE)
+	return false
+end)
+
+DEF_ACTION(Action.DISAPPEARED, function(m: Mario)
+	m:SetAnimation(Animations.A_POSE)
+	m:StopAndSetHeightToFloor()
+
+	if m.ActionArg > 0 then
+		m.ActionArg -= 1
+		if bit32.band(m.ActionArg, 0xFFFF) == 0 then
+			-- LevelTriggerWarp(m, m->actionArg >> 16);
+		end
+	end
+	return false
+end)
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

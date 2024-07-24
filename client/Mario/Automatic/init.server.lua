@@ -58,6 +58,7 @@ end
 
 local function updateLedgeClimb(m: Mario, anim: Animation, endAction: number)
 	m:StopAndSetHeightToFloor()
+	m:ApplyPlatformInertia(m.Floor)
 	m:SetAnimation(anim)
 
 	if m:IsAnimAtEnd() then
@@ -121,6 +122,7 @@ DEF_ACTION(Action.LEDGE_GRAB, function(m: Mario)
 
 	m:StopAndSetHeightToFloor()
 	m:SetAnimation(Animations.IDLE_ON_LEDGE)
+	m:ApplyPlatformInertia(m.Floor)
 
 	return false
 end)

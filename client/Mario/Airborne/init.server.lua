@@ -729,6 +729,7 @@ DEF_ACTION(Action.GROUND_POUND, function(m: Mario)
 
 		m.Velocity = Util.SetY(m.Velocity, -50)
 		m:SetForwardVel(0)
+		m.Inertia = Vector3.zero
 
 		m:SetAnimation(if m.ActionArg == 0 then Animations.START_GROUND_POUND else Animations.TRIPLE_JUMP_GROUND_POUND)
 

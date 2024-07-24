@@ -647,6 +647,8 @@ local function update(dt: number)
 			local actionId = mario.Action()
 			local throw = mario.ThrowMatrix
 
+			local health = bit32.rshift(mario.Health, 8)
+
 			if throw then
 				local throwPos = Util.ToRoblox(throw.Position)
 				goalCF = throw.Rotation * FLIP + throwPos
@@ -690,6 +692,10 @@ local function update(dt: number)
 				setDebugStat("Ceiling", ceil and ceil.Instance.Name or NULL_TEXT)
 			end
 
+			setDebugStat(
+				"Health",
+				`{health} ({string.format("0x%X", mario.Health)}, {mario.Health}) (INC {mario.HealCounter} | DEC {mario.HurtCounter})`
+			)
 			for _, name in AUTO_STATS do
 				local value = rawget(mario :: any, name)
 				setDebugStat(name, value)
@@ -702,7 +708,6 @@ local function update(dt: number)
 			local bodyState = mario.BodyState
 			local headAngle = bodyState.HeadAngle
 			local torsoAngle = bodyState.TorsoAngle
-			local health = bit32.rshift(mario.Health, 8)
 
 			if actionId ~= Action.BUTT_SLIDE and actionId ~= Action.WALKING then
 				bodyState.TorsoAngle *= 0

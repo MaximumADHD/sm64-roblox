@@ -68,6 +68,7 @@ export type MarioState = {
 	Position: Vector3,
 	Velocity: Vector3,
 
+	Inertia: Vector3,
 	ForwardVel: number,
 	SlideVelX: number,
 	SlideVelZ: number,
@@ -76,6 +77,7 @@ export type MarioState = {
 	Ceil: RaycastResult?,
 	Floor: RaycastResult?,
 
+	CeilHeightSquish: number?,
 	CeilHeight: number,
 	FloorHeight: number,
 	FloorAngle: number,
