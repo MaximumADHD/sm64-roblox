@@ -563,6 +563,7 @@ local function update(dt: number)
 	local robloxPos = Util.ToRoblox(mario.Position)
 	mario.WaterLevel = getWaterLevel(robloxPos)
 	Util.DebugWater(mario.WaterLevel)
+	Util.DebugCollisionFaces(mario.Wall, mario.Ceil, mario.Floor)
 
 	subframe += (now - lastUpdate) * (STEP_RATE * simSpeed)
 	lastUpdate = now

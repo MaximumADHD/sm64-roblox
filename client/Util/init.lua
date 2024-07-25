@@ -1,4 +1,5 @@
 --!strict
+local RunService = game:GetService("RunService")
 local Core = script.Parent.Parent
 
 local Util = {
@@ -29,6 +30,24 @@ focalPlane.Name = "FocalPlane"
 focalPlane.Transparency = 0.1
 focalPlane.Parent = waterPlane
 
+-- [!!] Photosensitivity warning for this debug util
+-- causes flashing colors sometimes
+local surfacePlane = Instance.new("Decal")
+surfacePlane.Texture = "rbxassetid://11996254337"
+surfacePlane.Name = "CollisionSurfacePlane"
+surfacePlane.Transparency = 0.5
+surfacePlane.ZIndex = 512
+local surfacePlanes = {
+	Wall = { surfacePlane, Color3.fromRGB(98, 225, 128) },
+	Ceil = { surfacePlane:Clone(), Color3.fromRGB(237, 128, 130) },
+	Floor = { surfacePlane:Clone(), Color3.fromRGB(160, 159, 239) },
+}
+
+for k, plane in surfacePlanes do
+	plane[1].Color3 = plane[2]
+	surfacePlanes[k] = plane[1]
+end
+
 local CARDINAL = {
 	-Vector3.xAxis,
 	-Vector3.zAxis,
@@ -40,6 +59,25 @@ local CONSTRUCTORS = {
 	Vector3 = Vector3.new,
 	Vector3int16 = Vector3int16.new,
 }
+
+local function normalIdFromRaycast(result: RaycastResult): Enum.NormalId
+	local part = result.Instance :: BasePart
+	local direction = result.Normal
+
+	local maxDot, maxNormal = 0, nil
+	local maxNormalId = Enum.NormalId.Front
+	for _, normalId in Enum.NormalId:GetEnumItems() do
+		local normal = part.CFrame:VectorToWorldSpace(Vector3.fromNormalId(normalId))
+		local dot = normal:Dot(direction)
+		if dot > 0 and dot > maxDot then
+			maxDot = dot
+			maxNormal = normal
+			maxNormalId = normalId
+		end
+	end
+
+	return maxNormalId
+end
 
 -- stylua: ignore
 local function vectorModifier(getArgs: (Vector3 | Vector3int16, number) -> (number, number, number)):
@@ -102,6 +140,29 @@ function Util.DebugWater(waterLevel: number)
 		waterPlane.CFrame = cf
 	else
 		waterPlane.Parent = nil
+	end
+end
+
+function Util.DebugCollisionFaces(wall: RaycastResult?, ceil: RaycastResult?, floor: RaycastResult?)
+	local colliding = {
+		Wall = wall,
+		Ceil = ceil,
+		Floor = floor,
+	}
+
+	for side, decal in surfacePlanes do
+		if script:GetAttribute("Debug") then
+			local hit: RaycastResult? = colliding[side]
+			local part: BasePart? = hit and hit.Instance :: BasePart
+
+			if part and part ~= workspace.Terrain and (RunService:IsStudio() and true or part.Transparency < 1) then
+				decal.Face = normalIdFromRaycast(hit)
+				decal.Parent = part
+				continue
+			end
+		end
+
+		decal.Parent = nil
 	end
 end
 
