@@ -263,9 +263,10 @@ function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 end
 
 function Util.FindCeil(pos: Vector3, height: number?): (number, RaycastResult?)
-	local newHeight = 10000
+	local truncateBounds = Core:GetAttribute("TruncateBounds")
+	local newHeight = truncateBounds and 10000 or math.huge
 
-	if Core:GetAttribute("TruncateBounds") then
+	if truncateBounds then
 		local trunc = Vector3int16.new(pos.X, pos.Y, pos.Z)
 
 		if math.abs(trunc.X) >= 0x2000 then
