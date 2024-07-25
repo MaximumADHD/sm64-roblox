@@ -60,6 +60,18 @@ local CONSTRUCTORS = {
 	Vector3int16 = Vector3int16.new,
 }
 
+-- To assist with making proper BLJ-able staircases.
+-- (or just plain ignoring some collision types)
+-- Most staircases in 64 don't have wall-type collision and that's why you're able to BLJ on them.
+-- (unless its collision is a slope that's not steep enough)
+local function shouldIgnoreSurface(result: RaycastResult?, side: string): RaycastResult?
+	if result and type(side) == "string" then
+		return if result.Instance:HasTag(`CollIgnore{side}`) then nil else result
+	end
+
+	return result
+end
+
 local function normalIdFromRaycast(result: RaycastResult): Enum.NormalId
 	local part = result.Instance :: BasePart
 	local direction = result.Normal
@@ -230,6 +242,7 @@ function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 	end
 
 	local result = Util.RaycastSM64(newPos + (Vector3.yAxis * 100), -Vector3.yAxis * 10000, rayParams)
+	result = shouldIgnoreSurface(result, "Floor")
 
 	if result then
 		height = Util.SignedShort(result.Position.Y)
@@ -258,6 +271,7 @@ function Util.FindCeil(pos: Vector3, height: number?): (number, RaycastResult?)
 
 	local head = Vector3.new(pos.X, (height or pos.Y) + 80, pos.Z)
 	local result = Util.RaycastSM64(head, Vector3.yAxis * 10000, rayParams)
+	result = shouldIgnoreSurface(result, "Ceil")
 
 	if result then
 		newHeight = result.Position.Y
@@ -273,6 +287,7 @@ function Util.FindWallCollisions(pos: Vector3, offset: number, radius: number): 
 
 	for i, dir in CARDINAL do
 		local contact = Util.RaycastSM64(origin, dir * radius)
+		contact = shouldIgnoreSurface(contact, "Wall")
 
 		if contact then
 			local normal = contact.Normal
