@@ -37,15 +37,21 @@ surfacePlane.Texture = "rbxassetid://11996254337"
 surfacePlane.Name = "CollisionSurfacePlane"
 surfacePlane.Transparency = 0.5
 surfacePlane.ZIndex = 512
-local surfacePlanes = {
-	Wall = { surfacePlane, Color3.fromRGB(98, 225, 128) },
-	Ceil = { surfacePlane:Clone(), Color3.fromRGB(237, 128, 130) },
-	Floor = { surfacePlane:Clone(), Color3.fromRGB(160, 159, 239) },
+local surfacePlanes: { [string]: Decal } = {
+	Wall = surfacePlane,
+	Ceil = surfacePlane:Clone(),
+	Floor = surfacePlane:Clone(),
 }
 
-for k, plane in surfacePlanes do
-	plane[1].Color3 = plane[2]
-	surfacePlanes[k] = plane[1]
+-- ignore allat sorry
+for planeName, color in
+	{
+		["Ceil"] = Color3.fromRGB(200, 0, 0),
+		["Wall"] = Color3.fromRGB(128, 255, 0),
+		["Floor"] = Color3.fromRGB(0, 64, 255),
+	}
+do
+	surfacePlanes[planeName :: string].Color3 = color :: Color3
 end
 
 local CARDINAL = {
@@ -167,7 +173,11 @@ function Util.DebugCollisionFaces(wall: RaycastResult?, ceil: RaycastResult?, fl
 			local hit: RaycastResult? = colliding[side]
 			local part: BasePart? = hit and hit.Instance :: BasePart
 
-			if part and part ~= workspace.Terrain and (RunService:IsStudio() and true or part.Transparency < 1) then
+			if
+				(hit and part)
+				and part ~= workspace.Terrain
+				and (RunService:IsStudio() and true or part.Transparency < 1)
+			then
 				decal.Face = normalIdFromRaycast(hit)
 				decal.Parent = part
 				continue
