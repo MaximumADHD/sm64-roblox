@@ -1427,13 +1427,23 @@ function Mario.UpdateGeometryInputs(m: Mario)
 			m.Input:Add(InputFlags.ABOVE_SLIDE)
 		end
 
+		-- I guess we could just shove in a use of a tag
+		-- or if its Unanchored?
 		if ceilByFloorHeight then
-			m.CeilHeightSquish = ceilHeightSquish
-			local ceilToFloorDist = ceilHeightSquish - floor.Position.Y
+			local ceilSquishPart = ceilByFloorHeight.Instance :: BasePart
+			local squishable = ((not ceilSquishPart.Anchored) or (ceilSquishPart:HasTag("SquishMario")))
 
-			if 0 < ceilToFloorDist and ceilToFloorDist < 150 then
-				m.Input:Add(InputFlags.SQUISHED)
+			if squishable then
+				local ceilToFloorDist = ceilHeightSquish - floor.Position.Y
+
+				if 0 < ceilToFloorDist and ceilToFloorDist < 150 then
+					m.Input:Add(InputFlags.SQUISHED)
+				end
+			else
+				ceilHeightSquish = math.huge
+				ceilByFloorHeight = nil
 			end
+			m.CeilHeightSquish = ceilHeightSquish
 		end
 
 		if m.Position.Y > m.FloorHeight + 100 then
