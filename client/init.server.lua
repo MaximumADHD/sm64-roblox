@@ -481,6 +481,7 @@ local function onReset()
 	mario.HealCounter = 0
 	mario.HurtCounter = 0
 	mario.Health = 0x880
+	mario.SquishTimer = 0
 
 	mario.QuicksandDepth = 0
 
@@ -690,12 +691,15 @@ local function update(dt: number)
 
 				local ceil = mario.Ceil
 				setDebugStat("Ceiling", ceil and ceil.Instance.Name or NULL_TEXT)
+
+				setDebugStat(
+					"Health",
+					`{health} ({string.format("0x%X", mario.Health)}, {mario.Health}) (INC {mario.HealCounter} | DEC {mario.HurtCounter})`
+				)
+
+				setDebugStat("SquishTimer", mario.SquishTimer)
 			end
 
-			setDebugStat(
-				"Health",
-				`{health} ({string.format("0x%X", mario.Health)}, {mario.Health}) (INC {mario.HealCounter} | DEC {mario.HurtCounter})`
-			)
 			for _, name in AUTO_STATS do
 				local value = rawget(mario :: any, name)
 				setDebugStat(name, value)

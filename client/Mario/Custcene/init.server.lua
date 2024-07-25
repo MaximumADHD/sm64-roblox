@@ -275,7 +275,7 @@ DEF_ACTION(Action.DISAPPEARED, function(m: Mario)
 	if m.ActionArg > 0 then
 		m.ActionArg -= 1
 		if bit32.band(m.ActionArg, 0xFFFF) == 0 then
-			-- LevelTriggerWarp(m, m->actionArg >> 16);
+			-- LevelTriggerWarp(m, bit32.rshift(m.ActionArg, 16));
 		end
 	end
 	return false
