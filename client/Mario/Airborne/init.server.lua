@@ -8,6 +8,7 @@ local Util = System.Util
 
 local Action = Enums.Action
 local ActionFlags = Enums.ActionFlags
+local SurfaceClass = Enums.SurfaceClass
 
 local AirStep = Enums.AirStep
 local MarioEyes = Enums.MarioEyes
@@ -67,7 +68,7 @@ local function checkFallDamage(m: Mario, hardFallAction: number): boolean
 	local fallHeight = m.PeakHeight - m.Position.Y
 	local damageHeight = 1150
 
-	if m.Action() == Action.TWIRLING then
+	if m.Action() == Action.TWIRLING or m:GetFloorType() == SurfaceClass.BURNING then
 		return false
 	end
 
@@ -1018,13 +1019,9 @@ DEF_ACTION(Action.LAVA_BOOST, function(m: Mario)
 
 	if stepResult == AirStep.LANDED then
 		local floor = m.Floor
-		local floorType: Enum.Material?
+		local floorType = m:GetFloorType()
 
-		if floor then
-			floorType = floor.Material
-		end
-
-		if floorType == Enum.Material.CrackedLava then
+		if floorType == SurfaceClass.BURNING then
 			m.ActionState = 0
 
 			if not m.Flags:Has(MarioFlags.METAL_CAP) then

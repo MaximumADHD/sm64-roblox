@@ -372,10 +372,16 @@ function Mario.GetFloorType(m: Mario): number
 	local floor: Instance? = m.Floor and m.Floor.Instance or nil
 
 	if floor then
-		-- Quicksand check
-		local IsQuicksand = (string.match(string.lower(floor.Name), "quicksand")) or floor:HasTag("Quicksand")
+		local material: Enum.Material = (floor :: BasePart).Material
 
-		if IsQuicksand then
+		-- Whatever
+		local FloorDefinedClass = floor:GetAttribute("SurfaceClass")
+		if SurfaceClass[FloorDefinedClass] then
+			return SurfaceClass[FloorDefinedClass]
+		end
+
+		-- Quicksand check
+		if (string.match(string.lower(floor.Name), "quicksand")) or floor:HasTag("Quicksand") then
 			local QuicksandType = floor:GetAttribute("QuicksandType")
 			if
 				typeof(QuicksandType) == "string"
@@ -386,6 +392,11 @@ function Mario.GetFloorType(m: Mario): number
 			end
 
 			return SurfaceClass.MOVING_QUICKSAND
+		end
+
+		-- Lava check
+		if material == Enum.Material.CrackedLava then
+			return SurfaceClass.BURNING
 		end
 	end
 
@@ -1594,9 +1605,10 @@ end
 
 function Mario.HandleSpecialFloors(m: Mario)
 	local floor = m.Floor
+	local surfaceClass = m:GetFloorType()
 
 	if floor and not m.Action:Has(ActionFlags.AIR, ActionFlags.SWIMMING) then
-		if floor.Material == Enum.Material.CrackedLava then
+		if surfaceClass == SurfaceClass.BURNING then
 			if not m.Flags:Has(MarioFlags.METAL_CAP) then
 				m.HurtCounter += m.Flags:Has(MarioFlags.CAP_ON_HEAD) and 12 or 18
 			end

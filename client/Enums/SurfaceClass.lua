@@ -2,6 +2,7 @@
 
 return {
 	DEFAULT = 0x0000,
+	BURNING = 0x0001,
 
 	HANGABLE = 0x0005,
 

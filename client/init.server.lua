@@ -99,6 +99,7 @@ end
 
 local BUTTON_FEED = {}
 local BUTTON_BINDS = {}
+local TAS_INPUT_OVERRIDE = false
 
 local function toStrictNumber(str: string): number
 	local result = tonumber(str)
@@ -115,6 +116,10 @@ local function processAction(id: string, state: Enum.UserInputState, input: Inpu
 				character:SetAttribute("Debug", isDebug)
 			end
 		end
+	elseif id == "TASInputForceToggle" then
+		-- Hello you have found me ! I shall now do jumpkicks up these slopes you create.
+		-- I'm evil.
+		TAS_INPUT_OVERRIDE = (state == Enum.UserInputState.Begin)
 	else
 		local button = toStrictNumber(id:sub(5))
 		BUTTON_FEED[button] = state
@@ -215,7 +220,10 @@ local function updateController(controller: Controller, humanoid: Humanoid?)
 	controller.ButtonPressed:Band(bit32.bxor(buttonValue, lastButtonValue))
 
 	local character = humanoid.Parent
-	if (character and character:GetAttribute("TAS")) or Core:GetAttribute("ToolAssistedInput") then
+	if
+		((character and character:GetAttribute("TAS")) or Core:GetAttribute("ToolAssistedInput"))
+		and not TAS_INPUT_OVERRIDE
+	then
 		if not mario.Action:Has(Enums.ActionFlags.SWIMMING, Enums.ActionFlags.HANGING) then
 			if
 				controller.ButtonDown:Has(Buttons.A_BUTTON)
@@ -228,6 +236,7 @@ local function updateController(controller: Controller, humanoid: Humanoid?)
 end
 
 ContextActionService:BindAction("MarioDebug", processAction, false, Enum.KeyCode.P)
+ContextActionService:BindAction("TASInputForceToggle", processAction, false, Enum.KeyCode.LeftControl)
 bindInput(Buttons.B_BUTTON, "B", Enum.UserInputType.MouseButton1, Enum.KeyCode.ButtonX)
 bindInput(
 	Buttons.Z_TRIG,
@@ -425,6 +434,9 @@ reset.Archivable = false
 reset.Parent = script
 reset.Name = "Reset"
 
+-- To not reach the 256 tracks limit warning
+local loadedAnims: { [string]: AnimationTrack } = {}
+
 if RunService:IsStudio() then
 	local dummySequence = Instance.new("KeyframeSequence")
 	local provider = game:GetService("KeyframeSequenceProvider")
@@ -616,9 +628,13 @@ local function update(dt: number)
 					anim.AnimationId = emptyId
 				end
 
-				local track = animator:LoadAnimation(anim)
+				local track = loadedAnims[anim.Name] or animator:LoadAnimation(anim)
 				track:Play(animSpeed, 1, 0)
 				activeTrack = track
+
+				if loadedAnims[anim.Name] == nil then
+					loadedAnims[anim.Name] = track
+				end
 			end
 
 			if activeTrack then
