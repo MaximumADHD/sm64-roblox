@@ -368,62 +368,55 @@ function Mario.GetTerrainType(m: Mario): number
 	return TerrainType.DEFAULT
 end
 
-function Mario.GetFloorType(m: Mario): number
-	local floor: Instance? = m.Floor and m.Floor.Instance or nil
+local function getSurfaceType(ray: RaycastResult): number
+	local instance = ray and ray.Instance
+	local material: Enum.Material = (instance :: BasePart).Material
 
-	if floor then
-		local material: Enum.Material = (floor :: BasePart).Material
-
-		-- Whatever
-		local FloorDefinedClass = floor:GetAttribute("SurfaceClass")
-		if SurfaceClass[FloorDefinedClass] then
-			return SurfaceClass[FloorDefinedClass]
+	if instance then
+		-- Manually defined SurfaceClass has top priority
+		local ManualDefine = instance:GetAttribute("SurfaceClass")
+		if SurfaceClass[ManualDefine] then
+			return SurfaceClass[ManualDefine]
 		end
 
-		-- Quicksand check
-		if (string.match(string.lower(floor.Name), "quicksand")) or floor:HasTag("Quicksand") then
-			local QuicksandType = floor:GetAttribute("QuicksandType")
-			if
-				typeof(QuicksandType) == "string"
-				and string.match(QuicksandType, "QUICKSAND")
-				and SurfaceClass[QuicksandType]
-			then
-				return SurfaceClass[QuicksandType]
+		do -- Floor surfaces
+			-- Quicksand check
+			if (string.match(string.lower(instance.Name), "quicksand")) or instance:HasTag("Quicksand") then
+				local QuicksandType = instance:GetAttribute("QuicksandType")
+				if
+					typeof(QuicksandType) == "string"
+					and string.match(QuicksandType, "QUICKSAND")
+					and SurfaceClass[QuicksandType]
+				then
+					return SurfaceClass[QuicksandType]
+				end
+
+				return SurfaceClass.MOVING_QUICKSAND
 			end
 
-			return SurfaceClass.MOVING_QUICKSAND
+			-- Lava check
+			if material == Enum.Material.CrackedLava then
+				return SurfaceClass.BURNING
+			end
 		end
 
-		-- Lava check
-		if material == Enum.Material.CrackedLava then
-			return SurfaceClass.BURNING
+		do -- Ceil surfaces
+			-- Hangable ceiling check
+			if (instance:HasTag("Hangable")) or (material == Enum.Material.DiamondPlate) then
+				return SurfaceClass.HANGABLE
+			end
 		end
 	end
 
 	return 0
 end
 
+function Mario.GetFloorType(m: Mario): number
+	return getSurfaceType(m.Floor)
+end
+
 function Mario.GetCeilType(m: Mario): number
-	local ceil = m.Ceil
-	local ceilInstance = ceil and ceil.Instance or nil
-	local ceilMaterial = ceil and ceil.Material or Enum.Material.Air
-
-	if ceilInstance then
-		-- Hangable ceilings check
-		-- stylua: ignore
-		local IsHangableCeil = (
-			-- definition check
-			(ceilInstance:HasTag("Hangable"))
-			-- or material check
-			or (ceilMaterial == Enum.Material.DiamondPlate) -- what else?
-		)
-
-		if IsHangableCeil then
-			return SurfaceClass.HANGABLE
-		end
-	end
-
-	return 0
+	return getSurfaceType(m.Ceil)
 end
 
 function Mario.FacingDownhill(m: Mario, turnYaw: boolean?): boolean
@@ -1732,7 +1725,7 @@ function Mario.UpdateQuicksand(m: Mario, SinkingSpeed)
 			if m.QuicksandDepth >= 60 then
 				m.QuicksandDepth = 60
 			end
-		elseif FloorType == SurfaceClass.DEEP_MOVING_QUICKSAND then
+		elseif FloorType == SurfaceClass.DEEP_MOVING_QUICKSAND or FloorType == SurfaceClass.DEEP_QUICKSAND then
 			m.QuicksandDepth += SinkingSpeed
 			if m.QuicksandDepth >= 160 then
 				return m:DropAndSetAction(Action.QUICKSAND_DEATH, 0)

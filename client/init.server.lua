@@ -32,6 +32,8 @@ local Buttons = Enums.Buttons
 local MarioFlags = Enums.MarioFlags
 local ParticleFlags = Enums.ParticleFlags
 
+local SurfaceClass = Enums.SurfaceClass
+
 type InputType = Enum.UserInputType | Enum.KeyCode
 type Controller = Types.Controller
 type Mario = Mario.Class
@@ -460,7 +462,12 @@ local function setDebugStat(key: string, value: any)
 	elseif typeof(value) == "Vector3int16" then
 		value = string.format("%i, %i, %i", value.X, value.Y, value.Z)
 	elseif type(value) == "number" then
-		value = string.format("%.3f", value)
+		if math.abs(value) == math.huge then
+			local sign = math.sign(value) == -1 and "-" or ""
+			value = `{sign}∞`
+		else
+			value = string.format("%.3f", value)
+		end
 	end
 
 	debugStats:SetAttribute(key, value)
@@ -704,10 +711,12 @@ local function update(dt: number)
 				setDebugStat("Wall", wall and wall.Instance.Name or NULL_TEXT)
 
 				local floor = mario.Floor
-				setDebugStat("Floor", floor and floor.Instance.Name or NULL_TEXT)
+				local floorType = floor and ` (SurfaceClass.{Enums.GetName(SurfaceClass, mario:GetFloorType())})`
+				setDebugStat("Floor", floor and floor.Instance.Name .. floorType or NULL_TEXT)
 
 				local ceil = mario.Ceil
-				setDebugStat("Ceiling", ceil and ceil.Instance.Name or NULL_TEXT)
+				local ceilType = ceil and ` (SurfaceClass.{Enums.GetName(SurfaceClass, mario:GetCeilType())})`
+				setDebugStat("Ceiling", ceil and ceil.Instance.Name .. ceilType or NULL_TEXT)
 
 				setDebugStat(
 					"Health",
