@@ -1602,10 +1602,10 @@ end
 
 function Mario.HandleSpecialFloors(m: Mario)
 	local floor = m.Floor
-	local surfaceClass = m:GetFloorType()
+	local floorType = m:GetFloorType()
 
-	if floor and not m.Action:Has(ActionFlags.AIR, ActionFlags.SWIMMING) then
-		if surfaceClass == SurfaceClass.BURNING then
+	if floor and not m.Action:Has(ActionFlags.AIR, ActionFlags.SWIMMING, ActionFlags.HANGING) then
+		if floorType == SurfaceClass.BURNING then
 			if not m.Flags:Has(MarioFlags.METAL_CAP) then
 				m.HurtCounter += m.Flags:Has(MarioFlags.CAP_ON_HEAD) and 12 or 18
 			end
