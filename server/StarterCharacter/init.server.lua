@@ -30,6 +30,7 @@ end
 
 local newRoot = script.HumanoidRootPart
 newRoot.Parent = character :: any
+newRoot.Anchored = false
 
 local humanoid = assert(character:FindFirstChildOfClass("Humanoid"))
 humanoid:BuildRigFromAttachments()

@@ -863,6 +863,11 @@ local function commonLandingAction(m: Mario, anim: Animation)
 	m:SetAnimation(anim)
 	m:PlayLandingSoundOnce(Sounds.ACTION_TERRAIN_LANDING)
 
+	local floorType = m:GetFloorType()
+	if floorType >= SurfaceClass.SHALLOW_QUICKSAND and floorType <= SurfaceClass.MOVING_QUICKSAND then
+		m.QuicksandDepth += (4 - m.ActionTimer) * 3.5 - 0.5
+	end
+
 	return stepResult
 end
 

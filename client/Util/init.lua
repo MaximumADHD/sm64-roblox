@@ -70,12 +70,13 @@ local CONSTRUCTORS = {
 -- (or just plain ignoring some collision types)
 -- Most staircases in 64 don't have wall-type collision and that's why you're able to BLJ on them.
 -- (unless its collision is a slope that's not steep enough)
-local function shouldIgnoreSurface(result: RaycastResult?, side: string): RaycastResult?
+local function shouldIgnoreSurface(result: RaycastResult?, side: string): (RaycastResult?, boolean)
 	if result and type(side) == "string" then
-		return if result.Instance:HasTag(`CollIgnore{side}`) then nil else result
+		result = if result.Instance:HasTag(`CollIgnore{side}`) then nil else result
+		return result, (result == nil)
 	end
 
-	return result
+	return result, false
 end
 
 local function normalIdFromRaycast(result: RaycastResult): Enum.NormalId
@@ -251,13 +252,39 @@ function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 		newPos = Vector3.new(trunc.X, trunc.Y, trunc.Z)
 	end
 
-	local result = Util.RaycastSM64(newPos + (Vector3.yAxis * 100), -Vector3.yAxis * 10000, rayParams)
-	result = shouldIgnoreSurface(result, "Floor")
+	-- Odd solution for parts that have their floor ignored
+	-- while being above a floor that you can stand on
+	-- (exposed ceiling stuff)
 
-	if result then
-		height = Util.SignedShort(result.Position.Y)
-		result.Position = Vector3.new(pos.X, height, pos.Z)
+	local result
+	local unqueried: { [BasePart]: any } = {}
+
+	for i = 1, 2 do
+		result = Util.RaycastSM64(newPos + (Vector3.yAxis * 100), -Vector3.yAxis * 10000, rayParams)
+		local _, ignored = shouldIgnoreSurface(result, "Floor")
+		local hit: BasePart? = result and (result.Instance :: BasePart)
+
+		if (ignored and result) and (hit and hit.CanQuery and hit.CanCollide) then
+			unqueried[hit] = true
+			hit.CanCollide = false
+			hit.CanQuery = false
+			result = nil
+
+			continue
+		end
+
+		if result then
+			height = Util.SignedShort(result.Position.Y)
+			result.Position = Vector3.new(pos.X, height, pos.Z)
+			break
+		end
 	end
+
+	for part in unqueried do
+		part.CanCollide = true
+		part.CanQuery = true
+	end
+	unqueried = nil :: any
 
 	return height, result
 end

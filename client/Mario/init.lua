@@ -368,7 +368,11 @@ function Mario.GetTerrainType(m: Mario): number
 	return TerrainType.DEFAULT
 end
 
-local function getSurfaceType(ray: RaycastResult): number
+local function getSurfaceType(ray: RaycastResult?): number
+	if not ray then
+		return 0
+	end
+
 	local instance = ray and ray.Instance
 	local material: Enum.Material = (instance :: BasePart).Material
 
