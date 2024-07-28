@@ -186,7 +186,7 @@ end)
 
 DEF_ACTION(Action.SQUISHED, function(m: Mario)
 	local squishAmount: number
-	local spaceUnderCeil: number = math.max(m.CeilHeightSquish - m.FloorHeight)
+	local spaceUnderCeil: number = math.max(m.CeilHeight - m.FloorHeight)
 	local surfAngle: number
 	local underSteepSurf = false -- seems to be responsible for setting velocity?
 

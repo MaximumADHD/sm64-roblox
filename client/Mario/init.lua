@@ -1420,7 +1420,7 @@ end
 function Mario.UpdateGeometryInputs(m: Mario)
 	local floorHeight, floor = Util.FindFloor(m.Position)
 	local ceilHeight, ceil = Util.FindCeil(m.Position, m.FloorHeight)
-	local ceilHeightSquish, ceilByFloorHeight = Util.FindCeil(m.Position, m.FloorHeight - 80)
+	local ceilHeightSquish, ceilByFloorHeight = Util.FindCeil(m.Position, m.FloorHeight - 80.05)
 
 	m.FloorHeight = floorHeight
 	m.CeilHeight = ceilHeight
@@ -1446,6 +1446,13 @@ function Mario.UpdateGeometryInputs(m: Mario)
 
 				if 0 < ceilToFloorDist and ceilToFloorDist < 150 then
 					m.Input:Add(InputFlags.SQUISHED)
+				end
+
+				if not ceil then
+					ceil = ceilByFloorHeight
+					ceilHeight = ceilHeightSquish
+					m.Ceil = ceilByFloorHeight
+					m.CeilHeight = ceilHeightSquish
 				end
 			else
 				ceilHeightSquish = math.huge
