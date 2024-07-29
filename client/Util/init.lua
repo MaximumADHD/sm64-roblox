@@ -217,18 +217,25 @@ function Util.Raycast(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, w
 end
 
 -- stylua: ignore
-function Util.RaycastSM64(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, worldRoot: WorldRoot?): RaycastResult?
-	local result: RaycastResult? = Util.Raycast(pos * Util.Scale, dir * Util.Scale, maybeParams or rayParams, worldRoot)
+function Util.RaycastSM64(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, worldRoot: WorldRoot?, extension: number?): RaycastResult?
+	local extension = math.max(math.ceil(tonumber(extension) or 1), 1) + 1
+	local result: RaycastResult?
 
-	if result then
-		-- Cast back to SM64 unit scale.
-		result = {
-			Normal = result.Normal,
-			Material = result.Material,
-			Instance = result.Instance,
-			Distance = result.Distance / Util.Scale,
-			Position = result.Position / Util.Scale,
-		} :: any
+	for i = 1, extension do
+		local off = dir * (i - 1)
+		result = Util.Raycast((pos + off) * Util.Scale, dir * Util.Scale, maybeParams or rayParams, worldRoot)
+
+		if result then
+			-- Cast back to SM64 unit scale.
+			result = {
+				Normal = result.Normal,
+				Material = result.Material,
+				Instance = result.Instance,
+				Distance = result.Distance / Util.Scale,
+				Position = result.Position / Util.Scale,
+			} :: any
+			break
+		end
 	end
 
 	return result
@@ -260,7 +267,7 @@ function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 	local unqueried: { [BasePart]: any } = {}
 
 	for i = 1, 2 do
-		result = Util.RaycastSM64(newPos + (Vector3.yAxis * 100), -Vector3.yAxis * 10000, rayParams)
+		result = Util.RaycastSM64(newPos + (Vector3.yAxis * 100), -Vector3.yAxis * 10000, rayParams, workspace, 4)
 		local _, ignored = shouldIgnoreSurface(result, "Floor")
 		local hit: BasePart? = result and (result.Instance :: BasePart)
 

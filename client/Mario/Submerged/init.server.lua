@@ -760,6 +760,10 @@ DEF_ACTION(Action.METAL_WATER_WALKING, function(m: Mario)
 		return m:SetAction(Action.WATER_IDLE)
 	end
 
+	if m.Input:Has(InputFlags.FIRST_PERSON) then
+		return m:SetAction(Action.METAL_WATER_STANDING)
+	end
+
 	if m.Input:Has(InputFlags.A_PRESSED) then
 		return m:SetAction(Action.METAL_WATER_JUMP)
 	end

@@ -1480,6 +1480,13 @@ function Mario.UpdateInputs(m: Mario)
 	m:UpdateJoystickInputs()
 	m:UpdateGeometryInputs()
 
+	-- TODO implement first person something control
+	--[[if cond then
+		if m.Action:Has(ActionFlags.ALLOW_FIRST_PERSON) then
+			m.Input:Add(InputFlags.FIRST_PERSON)
+		end
+	end]]
+
 	if not m.Input:Has(InputFlags.NONZERO_ANALOG, InputFlags.A_PRESSED) then
 		m.Input:Add(InputFlags.NO_MOVEMENT)
 	end
@@ -1565,6 +1572,43 @@ function Mario.UpdateModel(m: Mario)
 		m.HitboxHeight = 100
 	else
 		m.HitboxHeight = 160
+	end
+end
+
+--[[
+ * These are the scaling values for the x and z axis for Mario
+ * when he is close to unsquishing.
+]]
+-- stylua: ignore
+local SquishScaleOverTime = {
+	0x46, 0x32, 0x32, 0x3C,
+	0x46, 0x50, 0x50, 0x3C,
+	0x28, 0x14, 0x14, 0x1E,
+	0x32, 0x3C, 0x3C, 0x28 
+}
+
+--[[
+ * Applies the squish to Mario's model via scaling.
+ * Must be done manually
+]]
+function Mario.SquishModel(m: Mario)
+	if m.SquishTimer ~= 0xFF then
+		-- If no longer squished, scale back to default.
+		if m.SquishTimer == 0 then
+			m.GfxScale = Vector3.one
+		-- If timer is less than 16, rubber-band Mario's size scale up and down.
+		elseif m.SquishTimer <= 16 then
+			m.SquishTimer -= 1
+
+			m.GfxScale = Vector3.new(
+				((SquishScaleOverTime[(15 - m.SquishTimer) + 1] * 0.4) / 100.0) + 1.0,
+				1.0 - ((SquishScaleOverTime[(15 - m.SquishTimer) + 1] * 0.6) / 100.0),
+				m.GfxScale.Z
+			)
+		else
+			m.SquishTimer -= 1
+			m.GfxScale = Vector3.new(1.4, 0.4, 1.4)
+		end
 	end
 end
 
@@ -1764,10 +1808,6 @@ function Mario.ExecuteAction(m: Mario): number
 		m.AnimAccelAssist %= bit32.lshift(m.AnimFrameCount + 1, 0x10)
 	end
 
-	if m.SquishTimer > 0 then
-		m.SquishTimer -= 1
-	end
-
 	m.GfxAngle *= 0
 	m.AnimDirty = true
 	m.ThrowMatrix = nil
@@ -1931,7 +1971,7 @@ function Mario.ExecuteAction(m: Mario): number
 	end
 
 	m:SinkInQuicksand()
-	--	m:SquishModel()
+	m:SquishModel()
 	m:UpdateHealth()
 	m:UpdateModel()
 
@@ -2000,6 +2040,7 @@ function Mario.new(): Mario
 		ThrowMatrix = CFrame.identity,
 
 		GfxAngle = Vector3int16.new(),
+		GfxScale = Vector3.one,
 		GfxPos = Vector3.zero,
 
 		SlideYaw = 0,

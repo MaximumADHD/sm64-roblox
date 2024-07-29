@@ -523,6 +523,17 @@
 				"SoundId": ""
 			}
 		},
+
+		{
+			"name": "MARIO_DYING",
+			"className": "Sound",
+            
+			"properties": {
+				"RollOffMinDistance": 8,
+				"RollOffMaxDistance": 128,
+				"SoundId": ""
+			}
+		},
         
 		{
 			"name": "MARIO_DOH",

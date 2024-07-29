@@ -60,6 +60,7 @@ export type MarioState = {
 	ThrowMatrix: CFrame?,
 
 	GfxAngle: Vector3int16,
+	GfxScale: Vector3,
 	GfxPos: Vector3,
 
 	SlideYaw: number,

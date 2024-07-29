@@ -15,6 +15,8 @@ local InputFlags = Enums.InputFlags
 local MarioFlags = Enums.MarioFlags
 local ParticleFlags = Enums.ParticleFlags
 
+local GroundStep = Enums.GroundStep
+
 type Mario = System.Mario
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -201,8 +203,7 @@ DEF_ACTION(Action.SQUISHED, function(m: Mario)
 		if spaceUnderCeil >= 10.1 then
 			-- Mario becomes a pancake
 			squishAmount = spaceUnderCeil / 160.0
-			-- But due to unfortunate events, mario is unable to become a pancake...
-			-- vec3f_set(m->marioObj->header.gfx.scale, 2.0f - squishAmount, squishAmount, 2.0f - squishAmount);
+			m.GfxScale = Vector3.new(2.0 - squishAmount, squishAmount, 2.0 - squishAmount)
 		else
 			if not (m.Flags:Has(MarioFlags.METAL_CAP)) and m.InvincTimer == 0 then
 				-- cap on: 3 units; cap off: 4.5 units
@@ -210,7 +211,7 @@ DEF_ACTION(Action.SQUISHED, function(m: Mario)
 				m:PlaySoundIfNoFlag(Sounds.MARIO_ATTACKED, MarioFlags.MARIO_SOUND_PLAYED)
 			end
 
-			--  vec3f_set(m->marioObj->header.gfx.scale, 1.8, 0.05f, 1.8f);
+			m.GfxScale = Vector3.new(1.8, 0.05, 1.8)
 			m.ActionState = 1
 		end
 	elseif m.ActionState == 1 then

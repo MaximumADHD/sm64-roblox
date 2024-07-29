@@ -10,6 +10,7 @@ local Action = Enums.Action
 local MarioEyes = Enums.MarioEyes
 local InputFlags = Enums.InputFlags
 local MarioFlags = Enums.MarioFlags
+local ParticleFlags = Enums.ParticleFlags
 
 type Mario = System.Mario
 
@@ -40,6 +41,10 @@ local function checkCommonIdleCancels(m: Mario)
 
 	if m.Input:Has(InputFlags.ABOVE_SLIDE) then
 		return m:SetAction(Action.BEGIN_SLIDING)
+	end
+
+	if m.Input:Has(InputFlags.FIRST_PERSON) then
+		return m:SetAction(Action.FIRST_PERSON)
 	end
 
 	if m.Input:Has(InputFlags.NONZERO_ANALOG) then
@@ -83,6 +88,10 @@ local function checkCommonLandingCancels(m: Mario, action: number)
 		return m:SetAction(Action.SHOCKWAVE_BOUNCE)
 	end
 
+	if m.Input:Has(InputFlags.FIRST_PERSON) then
+		return m:SetAction(Action.IDLE)
+	end
+
 	if m.Input:Has(InputFlags.A_PRESSED) then
 		if action == 0 then
 			m:SetJumpFromLanding()
@@ -118,6 +127,10 @@ end
 DEF_ACTION(Action.IDLE, function(m: Mario)
 	if m.QuicksandDepth > 30.0 then
 		return m:SetAction(Action.IN_QUICKSAND, 0)
+	end
+
+	if m.Input:Has(InputFlags.IN_POISON_GAS) then
+		return m:SetAction(Action.COUGHING, 0)
 	end
 
 	if not bit32.btest(m.ActionArg, 1) and m.Health < 0x300 then
@@ -296,6 +309,88 @@ DEF_ACTION(Action.WAKING_UP, function(m: Mario)
 	return false
 end)
 
+DEF_ACTION(Action.SHIVERING, function(m: Mario)
+	local animFrame = 0
+
+	if m.Input:Has(InputFlags.STOMPED) then
+		return m:SetAction(Action.SHOCKWAVE_BOUNCE)
+	end
+
+	if m.Input:Has(InputFlags.OFF_FLOOR) then
+		return m:SetAction(Action.FREEFALL)
+	end
+
+	if m.Input:Has(InputFlags.ABOVE_SLIDE) then
+		return m:SetAction(Action.BEGIN_SLIDING)
+	end
+
+	if
+		m.Input:Has(
+			InputFlags.NONZERO_ANALOG,
+			InputFlags.A_PRESSED,
+			InputFlags.OFF_FLOOR,
+			InputFlags.ABOVE_SLIDE,
+			InputFlags.FIRST_PERSON,
+			InputFlags.STOMPED,
+			InputFlags.B_PRESSED,
+			InputFlags.Z_PRESSED
+		)
+	then
+		m.ActionState = 2
+	end
+
+	m:StationaryGroundStep()
+	if m.ActionState == 0 then
+		animFrame = m:SetAnimation(Animations.SHIVERING_WARMING_HAND)
+		if m.AnimFrame == 49 then
+			m.ParticleFlags:Add(ParticleFlags.BREATH)
+			m:PlaySound(Sounds.MARIO_PANTING_COLD)
+		elseif animFrame == 7 or animFrame == 81 then
+			m:PlaySound(Sounds.ACTION_CLAP_HANDS_COLD)
+		end
+
+		if m:IsAnimPastEnd() then
+			m.ActionState = 1
+		end
+	elseif m.ActionState == 1 then
+		animFrame = m:SetAnimation(Animations.SHIVERING)
+		if animFrame == 9 or animFrame == 25 or animFrame == 4 then
+			m:PlaySound(Sounds.ACTION_CLAP_HANDS_COLD)
+		end
+	elseif m.ActionState == 2 then
+		m:SetAnimation(Animations.SHIVERING_RETURN_TO_IDLE)
+		if m:IsAnimPastEnd() then
+			m:SetAction(Action.IDLE)
+		end
+	end
+
+	return false
+end)
+
+DEF_ACTION(Action.COUGHING, function(m: Mario)
+	local animFrame
+
+	if checkCommonIdleCancels(m) then
+		return true
+	end
+
+	m:StationaryGroundStep()
+	animFrame = m:SetAnimation(Animations.COUGHING)
+	if animFrame == 25 or animFrame == 35 then
+		m:PlaySound(Sounds.MARIO_COUGHING3)
+	end
+
+	if animFrame == 50 or animFrame == 58 then
+		m:PlaySound(Sounds.MARIO_COUGHING2)
+	end
+
+	if animFrame == 71 or animFrame == 80 then
+		m:PlaySound(Sounds.MARIO_COUGHING1)
+	end
+
+	return false
+end)
+
 DEF_ACTION(Action.STANDING_AGAINST_WALL, function(m: Mario)
 	if m.Input:Has(InputFlags.STOMPED) then
 		return m:SetAction(Action.SHOCKWAVE_BOUNCE)
@@ -303,6 +398,10 @@ DEF_ACTION(Action.STANDING_AGAINST_WALL, function(m: Mario)
 
 	if m.Input:Has(InputFlags.NONZERO_ANALOG, InputFlags.A_PRESSED, InputFlags.OFF_FLOOR, InputFlags.ABOVE_SLIDE) then
 		return m:CheckCommonActionExits()
+	end
+
+	if m.Input:Has(InputFlags.FIRST_PERSON) then
+		return m:SetAction(Action.FIRST_PERSON)
 	end
 
 	if m.Input:Has(InputFlags.B_PRESSED) then
@@ -330,6 +429,10 @@ DEF_ACTION(Action.CROUCHING, function(m: Mario)
 
 	if m.Input:Has(InputFlags.ABOVE_SLIDE) then
 		return m:SetAction(Action.BEGIN_SLIDING)
+	end
+
+	if m.Input:Has(InputFlags.FIRST_PERSON) then
+		return m:SetAction(Action.STOP_CROUCHING)
 	end
 
 	if not m.Input:Has(InputFlags.Z_DOWN) then
@@ -386,7 +489,10 @@ DEF_ACTION(Action.BRAKING_STOP, function(m: Mario)
 		return m:SetAction(Action.PUNCHING)
 	end
 
-	if m.Input:Has(InputFlags.NONZERO_ANALOG, InputFlags.A_PRESSED, InputFlags.OFF_FLOOR, InputFlags.ABOVE_SLIDE) then
+	if
+		not m.Input:Has(InputFlags.FIRST_PERSON)
+		and m.Input:Has(InputFlags.NONZERO_ANALOG, InputFlags.A_PRESSED, InputFlags.OFF_FLOOR, InputFlags.ABOVE_SLIDE)
+	then
 		return m:CheckCommonActionExits()
 	end
 
@@ -456,6 +562,10 @@ DEF_ACTION(Action.STOP_CROUCHING, function(m: Mario)
 end)
 
 DEF_ACTION(Action.START_CRAWLING, function(m: Mario)
+	if m.Input:Has(InputFlags.FIRST_PERSON) then
+		return m:SetAction(Action.STOP_CROUCHING)
+	end
+
 	if m.Input:Has(InputFlags.OFF_FLOOR) then
 		return m:SetAction(Action.FREEFALL)
 	end
@@ -695,6 +805,20 @@ DEF_ACTION(Action.IN_QUICKSAND, function(m: Mario)
 	end
 
 	m:StationaryGroundStep()
+	return false
+end)
+
+DEF_ACTION(Action.FIRST_PERSON, function(m: Mario)
+	local sp1C = m.Input:Has(InputFlags.OFF_FLOOR, InputFlags.ABOVE_SLIDE, InputFlags.STOMPED) ~= false
+
+	if m.ActionState == 0 then
+		m.ActionState = 1
+	elseif (not m.Input:Has(InputFlags.FIRST_PERSON)) or sp1C then
+		return m:SetAction(Action.IDLE)
+	end
+
+	m:StationaryGroundStep()
+	m:SetAnimation(Animations.FIRST_PERSON)
 	return false
 end)
 

@@ -816,6 +816,12 @@ reset.Event:Connect(onReset)
 RunService.Heartbeat:Connect(update)
 shared.LocalMario = mario
 
+player.CharacterAdded:Connect(function()
+	-- Reset loaded animations if a new character
+	-- has been loaded/replaced to
+	table.clear(loadedAnims)
+end)
+
 while task.wait(1) do
 	local success = pcall(function()
 		return StarterGui:SetCore("ResetButtonCallback", reset)

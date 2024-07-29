@@ -39,6 +39,8 @@ end
 local function playKnockbackSound(m: Mario)
 	if m.ActionArg == 0 and math.abs(m.ForwardVel) >= 28 then
 		m:PlaySoundIfNoFlag(Sounds.MARIO_DOH, MarioFlags.MARIO_SOUND_PLAYED)
+	elseif m.ActionArg == 2 then
+		m:PlaySoundIfNoFlag(Sounds.MARIO_ATTACKED, MarioFlags.MARIO_SOUND_PLAYED)
 	else
 		m:PlaySoundIfNoFlag(Sounds.MARIO_UH, MarioFlags.MARIO_SOUND_PLAYED)
 	end
