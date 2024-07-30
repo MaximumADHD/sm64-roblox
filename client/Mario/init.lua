@@ -368,24 +368,21 @@ function Mario.GetTerrainType(m: Mario): number
 	return TerrainType.DEFAULT
 end
 
-local function getSurfaceType(ray: RaycastResult?): number
+local function getSurfaceType(ray: RaycastResult?, rayType: number?): number
 	if not ray then
 		return 0
 	end
 
-	local instance = ray and ray.Instance
-	local material: Enum.Material = (instance :: BasePart).Material
+	local instance: BasePart = ray.Instance :: BasePart
+	local material: Enum.Material = instance.Material
 
 	if instance then
-		-- Manually defined SurfaceClass has top priority
-		local ManualDefine = instance:GetAttribute("SurfaceClass")
-		if SurfaceClass[ManualDefine] then
-			return SurfaceClass[ManualDefine]
-		end
-
 		do -- Floor surfaces
 			-- Quicksand check
-			if (string.match(string.lower(instance.Name), "quicksand")) or instance:HasTag("Quicksand") then
+			if
+				rayType == 0 and (string.match(string.lower(instance.Name), "quicksand"))
+				or instance:HasTag("Quicksand")
+			then
 				local QuicksandType = instance:GetAttribute("QuicksandType")
 				if
 					typeof(QuicksandType) == "string"
@@ -397,16 +394,16 @@ local function getSurfaceType(ray: RaycastResult?): number
 
 				return SurfaceClass.MOVING_QUICKSAND
 			end
+		end
 
-			-- Lava check
-			if material == Enum.Material.CrackedLava then
-				return SurfaceClass.BURNING
-			end
+		-- Lava check
+		if material == Enum.Material.CrackedLava then
+			return SurfaceClass.BURNING
 		end
 
 		do -- Ceil surfaces
 			-- Hangable ceiling check
-			if (instance:HasTag("Hangable")) or (material == Enum.Material.DiamondPlate) then
+			if rayType == 1 and (instance:HasTag("Hangable")) or (material == Enum.Material.DiamondPlate) then
 				return SurfaceClass.HANGABLE
 			end
 		end
@@ -416,11 +413,31 @@ local function getSurfaceType(ray: RaycastResult?): number
 end
 
 function Mario.GetFloorType(m: Mario): number
-	return getSurfaceType(m.Floor)
+	local floor: RaycastResult? = m.Floor
+	local instance: BasePart? = floor and floor.Instance :: BasePart
+
+	if floor and instance then
+		local ManualDefine = instance:GetAttribute("FloorSurfaceClass")
+		if SurfaceClass[ManualDefine] then
+			return SurfaceClass[ManualDefine]
+		end
+	end
+
+	return getSurfaceType(floor, 0)
 end
 
 function Mario.GetCeilType(m: Mario): number
-	return getSurfaceType(m.Ceil)
+	local ceil: RaycastResult? = m.Ceil
+	local instance: BasePart? = ceil and ceil.Instance :: BasePart
+
+	if ceil and instance then
+		local ManualDefine = instance:GetAttribute("CeilSurfaceClass")
+		if SurfaceClass[ManualDefine] then
+			return SurfaceClass[ManualDefine]
+		end
+	end
+
+	return getSurfaceType(ceil, 1)
 end
 
 function Mario.FacingDownhill(m: Mario, turnYaw: boolean?): boolean
@@ -1481,11 +1498,14 @@ function Mario.UpdateInputs(m: Mario)
 	m:UpdateGeometryInputs()
 
 	-- TODO implement first person something control
-	--[[if cond then
+	--[[
+	local camera = workspace.CurrentCamera
+	if camera and (camera.Focus.Position - camera.CFrame.Position).Magnitude < 1 then
 		if m.Action:Has(ActionFlags.ALLOW_FIRST_PERSON) then
 			m.Input:Add(InputFlags.FIRST_PERSON)
 		end
-	end]]
+	end
+	]]
 
 	if not m.Input:Has(InputFlags.NONZERO_ANALOG, InputFlags.A_PRESSED) then
 		m.Input:Add(InputFlags.NO_MOVEMENT)

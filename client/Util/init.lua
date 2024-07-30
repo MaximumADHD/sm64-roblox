@@ -218,7 +218,7 @@ end
 
 -- stylua: ignore
 function Util.RaycastSM64(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, worldRoot: WorldRoot?, extension: number?): RaycastResult?
-	local extension = math.max(math.ceil(tonumber(extension) or 1), 1) + 1
+	local extension = math.max(math.ceil(tonumber(extension) or 1), 1)
 	local result: RaycastResult?
 
 	for i = 1, extension do

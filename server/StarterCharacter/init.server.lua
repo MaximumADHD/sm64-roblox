@@ -34,6 +34,7 @@ newRoot.Anchored = false
 
 local humanoid = assert(character:FindFirstChildOfClass("Humanoid"))
 humanoid:BuildRigFromAttachments()
+humanoid.AutoRotate = false
 
 local dummyScripts = {
 	"Animate",

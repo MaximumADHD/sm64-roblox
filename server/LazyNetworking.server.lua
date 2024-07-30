@@ -8,7 +8,7 @@ local Core = script.Parent.Parent
 local Shared = require(Core.Shared)
 local Sounds = Shared.Sounds
 
-local lazy = Instance.new("RemoteEvent")
+local lazy = Instance.new("UnreliableRemoteEvent")
 lazy.Parent = ReplicatedStorage
 lazy.Name = "LazyNetwork"
 lazy.Archivable = false

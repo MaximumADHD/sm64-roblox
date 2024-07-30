@@ -258,7 +258,7 @@ local Commands = {}
 local soundDecay = {}
 
 local lazyNetwork = ReplicatedStorage:WaitForChild("LazyNetwork")
-assert(lazyNetwork:IsA("RemoteEvent"), "bad lazyNetwork!")
+assert(lazyNetwork:IsA("UnreliableRemoteEvent"), "bad lazyNetwork!")
 
 local function stepDecay(sound: Sound)
 	local decay = soundDecay[sound]
