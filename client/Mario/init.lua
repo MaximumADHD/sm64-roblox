@@ -368,62 +368,39 @@ function Mario.GetTerrainType(m: Mario): number
 	return TerrainType.DEFAULT
 end
 
-local function getSurfaceType(ray: RaycastResult?, rayType: number?): number
-	if not ray then
-		return 0
-	end
-
-	local instance: BasePart = ray.Instance :: BasePart
-	local material: Enum.Material = instance.Material
-
-	if instance then
-		do -- Floor surfaces
-			-- Quicksand check
-			if
-				rayType == 0 and (string.match(string.lower(instance.Name), "quicksand"))
-				or instance:HasTag("Quicksand")
-			then
-				local QuicksandType = instance:GetAttribute("QuicksandType")
-				if
-					typeof(QuicksandType) == "string"
-					and string.match(QuicksandType, "QUICKSAND")
-					and SurfaceClass[QuicksandType]
-				then
-					return SurfaceClass[QuicksandType]
-				end
-
-				return SurfaceClass.MOVING_QUICKSAND
-			end
-		end
-
-		-- Lava check
-		if material == Enum.Material.CrackedLava then
-			return SurfaceClass.BURNING
-		end
-
-		do -- Ceil surfaces
-			-- Hangable ceiling check
-			if rayType == 1 and (instance:HasTag("Hangable")) or (material == Enum.Material.DiamondPlate) then
-				return SurfaceClass.HANGABLE
-			end
-		end
-	end
-
-	return 0
-end
-
 function Mario.GetFloorType(m: Mario): number
-	local floor: RaycastResult? = m.Floor
-	local instance: BasePart? = floor and floor.Instance :: BasePart
+	local ray: RaycastResult? = m.Floor
+	local instance: BasePart? = ray and ray.Instance :: BasePart
 
-	if floor and instance then
+	if ray and instance then
+		local material: Enum.Material = instance.Material
+
 		local ManualDefine = instance:GetAttribute("FloorSurfaceClass")
 		if SurfaceClass[ManualDefine] then
 			return SurfaceClass[ManualDefine]
 		end
+
+		-- Lava surface check
+		if material == Enum.Material.CrackedLava then
+			return SurfaceClass.BURNING
+		end
+
+		-- Quicksand surface check
+		if (string.match(string.lower(instance.Name), "quicksand")) or instance:HasTag("Quicksand") then
+			local QuicksandType = instance:GetAttribute("QuicksandType")
+			if
+				typeof(QuicksandType) == "string"
+				and string.match(QuicksandType, "QUICKSAND")
+				and SurfaceClass[QuicksandType]
+			then
+				return SurfaceClass[QuicksandType]
+			end
+
+			return SurfaceClass.MOVING_QUICKSAND
+		end
 	end
 
-	return getSurfaceType(floor, 0)
+	return 0
 end
 
 function Mario.GetCeilType(m: Mario): number
@@ -431,13 +408,19 @@ function Mario.GetCeilType(m: Mario): number
 	local instance: BasePart? = ceil and ceil.Instance :: BasePart
 
 	if ceil and instance then
+		local material: Enum.Material = instance.Material
+
 		local ManualDefine = instance:GetAttribute("CeilSurfaceClass")
 		if SurfaceClass[ManualDefine] then
 			return SurfaceClass[ManualDefine]
 		end
+
+		if instance:HasTag("Hangable") or material == Enum.Material.DiamondPlate then
+			return SurfaceClass.HANGABLE
+		end
 	end
 
-	return getSurfaceType(ceil, 1)
+	return 0
 end
 
 function Mario.FacingDownhill(m: Mario, turnYaw: boolean?): boolean
@@ -1010,14 +993,6 @@ function Mario.StationaryGroundStep(m: Mario): number
 	m:SetForwardVel(0)
 	local stepResult = m:PerformGroundStep()
 
-	-- This should hopefully not cause any unexpected behavior.
-	-- Sometimes you won't slip off the ground when pushed off
-	-- by a conveyor or physics...
-	if stepResult == GroundStep.LEFT_GROUND then
-		m:SetAction(Action.FREEFALL)
-		m.Input:Add(InputFlags.OFF_FLOOR)
-	end
-
 	return stepResult
 end
 
@@ -1042,6 +1017,7 @@ function Mario.PerformGroundQuarterStep(m: Mario, nextPos: Vector3): number
 			return GroundStep.HIT_WALL_STOP_QSTEPS
 		end
 
+		m.Position = nextPos
 		m.Floor = floor
 		m.FloorHeight = floorHeight
 
@@ -1641,7 +1617,7 @@ function Mario.CheckKickOrPunchWall(m: Mario)
 			Util.Coss(m.FaceAngle.Y)
 		)
 
-		local detector = m.Position + (range * 50)
+		local detector = m.Position + (range * 49.5)
 		local _disp, wall = Util.FindWallCollisions(detector, 80, 5)
 
 		if wall then

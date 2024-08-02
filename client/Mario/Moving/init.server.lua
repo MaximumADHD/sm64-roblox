@@ -1511,12 +1511,7 @@ DEF_ACTION(Action.PUNCHING, function(m: Mario)
 	end
 
 	m:UpdatePunchSequence()
-	local step = m:PerformGroundStep()
-
-	-- Intentional behavior
-	if step == GroundStep.LEFT_GROUND then
-		m:SetAction(Action.FREEFALL)
-	end
+	m:PerformGroundStep()
 
 	return false
 end)
