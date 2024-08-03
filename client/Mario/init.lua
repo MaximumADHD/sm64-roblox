@@ -1061,6 +1061,7 @@ function Mario.StationaryGroundStep(m: Mario): number
 	else
 		--! This is responsible for several stationary downwarps.
 		m.Position = Util.SetY(m.Position, m.FloorHeight)
+		m:ApplyPlatformInertia(m.Floor, 1)
 
 		m.GfxPos = Vector3.zero
 		m.GfxAngle = Vector3int16.new(0, m.FaceAngle.Y, 0)
