@@ -361,6 +361,10 @@ function Util.SignedInt(x: number)
 	return -0x80000000 + math.floor(x + 0x80000000) % 0x100000000
 end
 
+function Util.SignedInt16(x: number)
+	return -0x8000 + math.floor((x + 0x8000) % 0x10000)
+end
+
 function Util.ApproachFloat(current: number, target: number, inc: number, dec: number?): number
 	if dec == nil then
 		dec = inc

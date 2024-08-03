@@ -577,6 +577,12 @@ DEF_ACTION(Action.LONG_JUMP, function(m: Mario)
 	local anim = if m.LongJumpIsSlow then Animations.SLOW_LONGJUMP else Animations.FAST_LONGJUMP
 
 	m:PlayMarioSound(Sounds.ACTION_TERRAIN_JUMP, Sounds.MARIO_YAHOO)
+
+	if m:GetFloorType() == SurfaceClass.VERTICAL_WIND and m.ActionState == 0 then
+		m:PlaySound(Sounds.MARIO_HERE_WE_GO)
+		m.ActionState = 1
+	end
+
 	commonAirActionStep(m, Action.LONG_JUMP_LAND, anim, AirStep.CHECK_LEDGE_GRAB)
 
 	return false
@@ -1294,6 +1300,41 @@ DEF_ACTION(Action.FLYING_TRIPLE_JUMP, function(m: Mario)
 		lavaBoostOnWall(m)
 	end
 
+	return false
+end)
+
+DEF_ACTION(Action.VERTICAL_WIND, function(m: Mario)
+	local intendedDYaw = Util.SignedInt16(m.IntendedYaw - m.FaceAngle.Y)
+	local intendedMag = m.IntendedMag / 32.0
+
+	m:PlaySoundIfNoFlag(Sounds.MARIO_HERE_WE_GO, MarioFlags.MARIO_SOUND_PLAYED)
+	if m.ActionState == 0 then
+		m:SetAnimation(Animations.FORWARD_SPINNING_FLIP)
+		if m.AnimFrame == 1 then
+			m:PlaySound(Sounds.ACTION_SPIN)
+		end
+
+		if m:IsAnimPastEnd() then
+			m.ActionState = 1
+		end
+	else
+		m:SetAnimation(Animations.AIRBORNE_ON_STOMACH)
+	end
+
+	updateAirWithoutTurn(m)
+
+	local airStep = m:PerformAirStep(0)
+	if airStep == AirStep.LANDED then
+		m:SetAction(Action.DIVE_SLIDE)
+	elseif airStep == AirStep.HIT_WALL then
+		m:SetForwardVel(-16.0)
+	end
+
+	m.GfxAngle = Vector3int16.new(
+		6144.0 * intendedMag * Util.Coss(intendedDYaw),
+		m.GfxAngle.Y,
+		-4096.0 * intendedMag * Util.Sins(intendedDYaw)
+	)
 	return false
 end)
 

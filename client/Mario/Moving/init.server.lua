@@ -268,6 +268,9 @@ local function updateSlidingAngle(m: Mario, accel: number, lossFactor: number)
 	m.FaceAngle = Util.SetY(m.FaceAngle, m.SlideYaw + newFacingDYaw)
 	m.Velocity = Vector3.new(m.SlideVelX, 0, m.SlideVelZ)
 
+	m:UpdateMovingSand()
+	m:UpdateWindyGround()
+
 	--! Speed is capped a frame late (butt slide HSG)
 	m.ForwardVel = math.sqrt(m.SlideVelX ^ 2 + m.SlideVelZ ^ 2)
 
@@ -380,6 +383,9 @@ local function applySlopeAccel(m: Mario)
 	m.SlideVelX = m.ForwardVel * Util.Sins(m.FaceAngle.Y)
 	m.SlideVelZ = m.ForwardVel * Util.Coss(m.FaceAngle.Y)
 	m.Velocity = Vector3.new(m.SlideVelX, 0, m.SlideVelZ)
+
+	m:UpdateMovingSand()
+	m:UpdateWindyGround()
 end
 
 local function applyLandingAccel(m: Mario, frictionFactor: number)
@@ -432,6 +438,9 @@ local function updateDeceleratingSpeed(m: Mario)
 	end
 
 	m:SetForwardVel(m.ForwardVel)
+	m:UpdateMovingSand()
+	m:UpdateWindyGround()
+
 	return stopped
 end
 

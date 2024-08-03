@@ -56,6 +56,8 @@ local FFLAG_USE_INERTIA = false
 
 local RAD_TO_SHORT = 0x10000 / (2 * math.pi)
 
+local sMovingSandSpeeds = { 12, 8, 4, 0 }
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- BINDINGS
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -954,6 +956,63 @@ function Mario.PushOffSteepFloor(m: Mario, action: number, actionArg: number?)
 	m:SetAction(action, actionArg)
 end
 
+function Mario.UpdateMovingSand(m: Mario): boolean
+	local floor = m.Floor
+	local floorType = m:GetFloorType()
+
+	if
+		floor
+		and (
+			floorType == SurfaceClass.DEEP_MOVING_QUICKSAND
+			or floorType == SurfaceClass.SHALLOW_MOVING_QUICKSAND
+			or floorType == SurfaceClass.MOVING_QUICKSAND
+			or floorType == SurfaceClass.INSTANT_MOVING_QUICKSAND
+		)
+	then
+		local force = tonumber(floor.Instance:GetAttribute("Force")) or 0
+		local pushAngle = bit32.lshift(force, 8)
+		local pushSpeed = sMovingSandSpeeds[bit32.rshift(force, 8) + 1]
+
+		m.Velocity += Vector3.new(pushSpeed * Util.Sins(pushAngle), 0, pushSpeed * Util.Coss(pushAngle))
+
+		return true
+	end
+
+	return false
+end
+
+function Mario.UpdateWindyGround(m: Mario): boolean
+	local floor = m.Floor
+	local floorType = m:GetFloorType()
+
+	if floor and floorType == SurfaceClass.HORIZONTAL_WIND then
+		local force = tonumber(floor.Instance:GetAttribute("Force")) or 0
+
+		local pushSpeed = 0
+		local pushAngle = bit32.lshift(force, 8)
+
+		if m.Action:Has(ActionFlags.MOVING) then
+			local pushDYaw = Util.SignedInt16(m.FaceAngle.Y - pushAngle)
+
+			pushSpeed = m.ForwardVel > 0 and -m.ForwardVel * 0.5 or -8.0
+
+			if pushDYaw > -0x4000 and pushDYaw < 0x4000 then
+				pushSpeed *= -1.0
+			end
+
+			pushSpeed *= Util.Coss(pushDYaw)
+		else
+			pushSpeed = 3.2 + (Util.GlobalTimer % 4)
+		end
+
+		m.Velocity += Vector3.new(pushSpeed * Util.Sins(pushAngle), 0, pushSpeed * Util.Coss(pushAngle))
+
+		return true
+	end
+
+	return false
+end
+
 function Mario.StopAndSetHeightToFloor(m: Mario)
 	m:SetForwardVel(0)
 	m.Velocity *= Vector3.new(1, 0, 1)
@@ -990,8 +1049,22 @@ function Mario.ApplyPlatformInertia(m: Mario, rayResult: RaycastResult?, div: nu
 end
 
 function Mario.StationaryGroundStep(m: Mario): number
+	local takeStep = true
+	local stepResult = GroundStep.NONE
+
 	m:SetForwardVel(0)
-	local stepResult = m:PerformGroundStep()
+
+	takeStep = m:UpdateMovingSand() and 1 or 0
+	takeStep = bit32.bor(takeStep, m:UpdateWindyGround() and 1 or 0)
+	if takeStep == 1 then
+		stepResult = m:PerformGroundStep()
+	else
+		--! This is responsible for several stationary downwarps.
+		m.Position = Util.SetY(m.Position, m.FloorHeight)
+
+		m.GfxPos = Vector3.zero
+		m.GfxAngle = Vector3int16.new(0, m.FaceAngle.Y, 0)
+	end
 
 	return stepResult
 end
@@ -1305,6 +1378,29 @@ function Mario.ApplyGravity(m: Mario)
 	end
 end
 
+function Mario.ApplyVerticalWind(m: Mario)
+	local maxVelY, offsetY = 0, 0
+
+	if m.Action() ~= Action.GROUND_POUND then
+		offsetY = m.Position.Y - -1500.0
+
+		if m:GetFloorType() == SurfaceClass.VERTICAL_WIND and -3000.0 < offsetY and offsetY < 2000.0 then
+			if offsetY >= 0.0 then
+				maxVelY = 10000.0 / (offsetY + 200.0)
+			else
+				maxVelY = 50.0
+			end
+
+			if m.Velocity.Y < maxVelY then
+				m.Velocity += Vector3.yAxis * (maxVelY / 8.0)
+				if m.Velocity.Y > maxVelY then
+					m.Velocity = Util.SetY(m.Velocity, maxVelY)
+				end
+			end
+		end
+	end
+end
+
 function Mario.PerformAirStep(m: Mario, maybeStepArg: number?)
 	local stepArg = maybeStepArg or 0
 	local stepResult = AirStep.NONE
@@ -1342,7 +1438,9 @@ function Mario.PerformAirStep(m: Mario, maybeStepArg: number?)
 	if m.Action() ~= Action.FLYING then
 		m:ApplyGravity()
 	end
+	m:ApplyVerticalWind()
 
+	m.GfxPos = Vector3.zero
 	m.GfxAngle = Vector3int16.new(0, m.FaceAngle.Y, 0)
 
 	return stepResult
@@ -1838,6 +1936,14 @@ function Mario.ExecuteAction(m: Mario): number
 							return m:DropAndSetAction(Action.SQUISHED, 0)
 						end
 
+						if
+							m:GetFloorType() == SurfaceClass.VERTICAL_WIND
+							and m.Action:Has(ActionFlags.ALLOW_VERTICAL_WIND_ACTION)
+						then
+							return m:DropAndSetAction(Action.VERTICAL_WIND, 0)
+						end
+
+						m.QuicksandDepth = 0.0
 						return nil
 					end
 
