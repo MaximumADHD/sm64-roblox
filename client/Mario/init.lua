@@ -53,9 +53,12 @@ local FFLAG_FLOOR_NEVER_SLIPPERY = false
 local FFLAG_DEGREELESSNESS_MODE = false
 -- (misc) use inertia velocity for airborne
 local FFLAG_USE_INERTIA = false
+-- the StationaryGroundStep function does not check for wall collisions in certain conds
+-- if you have weird geometry or pushing walls, keep this on
+local FFLAG_SGS_ALWAYS_PERFORMS_STEPS = false
 
+-- any
 local RAD_TO_SHORT = 0x10000 / (2 * math.pi)
-
 local sMovingSandSpeeds = { 12, 8, 4, 0 }
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -992,7 +995,7 @@ function Mario.UpdateWindyGround(m: Mario): boolean
 		local pushAngle = bit32.lshift(force, 8)
 
 		if m.Action:Has(ActionFlags.MOVING) then
-			local pushDYaw = Util.SignedInt16(m.FaceAngle.Y - pushAngle)
+			local pushDYaw = Util.SignedShort(m.FaceAngle.Y - pushAngle)
 
 			pushSpeed = m.ForwardVel > 0 and -m.ForwardVel * 0.5 or -8.0
 
@@ -1056,7 +1059,7 @@ function Mario.StationaryGroundStep(m: Mario): number
 
 	takeStep = m:UpdateMovingSand() and 1 or 0
 	takeStep = bit32.bor(takeStep, m:UpdateWindyGround() and 1 or 0)
-	if takeStep == 1 then
+	if takeStep == 1 or FFLAG_SGS_ALWAYS_PERFORMS_STEPS then
 		stepResult = m:PerformGroundStep()
 	else
 		--! This is responsible for several stationary downwarps.

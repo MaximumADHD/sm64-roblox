@@ -1304,7 +1304,7 @@ DEF_ACTION(Action.FLYING_TRIPLE_JUMP, function(m: Mario)
 end)
 
 DEF_ACTION(Action.VERTICAL_WIND, function(m: Mario)
-	local intendedDYaw = Util.SignedInt16(m.IntendedYaw - m.FaceAngle.Y)
+	local intendedDYaw = Util.SignedShort(m.IntendedYaw - m.FaceAngle.Y)
 	local intendedMag = m.IntendedMag / 32.0
 
 	m:PlaySoundIfNoFlag(Sounds.MARIO_HERE_WE_GO, MarioFlags.MARIO_SOUND_PLAYED)
