@@ -4,3 +4,4 @@
 # Syntax highlighting for Roblox XML files
 *.rbxmx linguist-language=XML
 *.rbxlx linguist-language=XML
+*.lua linguist-language=Luau
