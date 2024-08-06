@@ -32,27 +32,18 @@ focalPlane.Parent = waterPlane
 
 -- [!!] Photosensitivity warning for this debug util
 -- causes flashing colors sometimes
-local surfacePlane = Instance.new("Decal")
-surfacePlane.Texture = "rbxassetid://11996254337"
-surfacePlane.Name = "CollisionSurfacePlane"
-surfacePlane.Transparency = 0.5
-surfacePlane.ZIndex = 512
-local surfacePlanes: { [string]: Decal } = {
-	Wall = surfacePlane,
-	Ceil = surfacePlane:Clone(),
-	Floor = surfacePlane:Clone(),
-}
+local wallSurfacePlane = Instance.new("Decal")
+wallSurfacePlane.Texture = "rbxassetid://11996254337"
+wallSurfacePlane.Name = "CollisionSurfacePlane"
+wallSurfacePlane.Transparency = 0.5
+wallSurfacePlane.ZIndex = 512
+wallSurfacePlane.Color3 = Color3.fromRGB(128, 255, 0)
 
--- ignore allat sorry
-for planeName, color in
-	{
-		["Ceil"] = Color3.fromRGB(200, 0, 0),
-		["Wall"] = Color3.fromRGB(128, 255, 0),
-		["Floor"] = Color3.fromRGB(0, 64, 255),
-	}
-do
-	surfacePlanes[planeName :: string].Color3 = color :: Color3
-end
+local floorSurfacePlane = wallSurfacePlane:Clone()
+floorSurfacePlane.Color3 = Color3.fromRGB(0, 64, 255)
+
+local ceilSurfacePlane = wallSurfacePlane:Clone()
+ceilSurfacePlane.Color3 = Color3.fromRGB(200, 0, 0)
 
 local CARDINAL = {
 	-Vector3.xAxis,
@@ -163,15 +154,14 @@ function Util.DebugWater(waterLevel: number)
 end
 
 function Util.DebugCollisionFaces(wall: RaycastResult?, ceil: RaycastResult?, floor: RaycastResult?)
-	local colliding = {
-		Wall = wall,
-		Ceil = ceil,
-		Floor = floor,
-	}
-
-	for side, decal in surfacePlanes do
+	for hit, decal in
+		{
+			[wall] = wallSurfacePlane,
+			[ceil] = ceilSurfacePlane,
+			[floor] = floorSurfacePlane,
+		}
+	do
 		if script:GetAttribute("Debug") then
-			local hit: RaycastResult? = colliding[side]
 			local part: BasePart? = hit and hit.Instance :: BasePart
 
 			if
@@ -217,27 +207,21 @@ function Util.Raycast(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, w
 end
 
 -- stylua: ignore
-function Util.RaycastSM64(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, worldRoot: WorldRoot?, extension: number?): RaycastResult?
+function Util.RaycastSM64(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, worldRoot: WorldRoot?): RaycastResult?
     local extension = math.max(math.ceil(tonumber(extension) or 1), 1)
-    local result: RaycastResult?
+    local result: RaycastResult? = Util.Raycast(pos * Util.Scale, dir * Util.Scale, maybeParams or rayParams, worldRoot)
 
-	-- todo deal with 15,000 raycast direction limit with a wet mop
-    for i = 1, extension do
-        local off = dir * (i - 1)
-        result = Util.Raycast((pos + off) * Util.Scale, dir * Util.Scale, maybeParams or rayParams, worldRoot)
-
-        if result then
-            -- Cast back to SM64 unit scale.
-            result = {
-                Normal = result.Normal,
-                Material = result.Material,
-                Instance = result.Instance,
-                Distance = result.Distance / Util.Scale,
-                Position = result.Position / Util.Scale,
-            } :: any
-            break
-        end
-	end
+    if result then
+        -- Cast back to SM64 unit scale.
+        result = {
+            Normal = result.Normal,
+            Material = result.Material,
+            Instance = result.Instance,
+            Distance = result.Distance / Util.Scale,
+            Position = result.Position / Util.Scale,
+        } :: any
+        break
+    end
 
     return result
 end
@@ -272,8 +256,7 @@ function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 			newPos + (Vector3.yAxis * 100),
 			(-Vector3.yAxis * 15000 / Util.Scale),
 			rayParams,
-			workspace,
-			4
+			workspace
 		)
 		local _, ignored = shouldIgnoreSurface(result, "Floor")
 		local hit: BasePart? = result and (result.Instance :: BasePart)
