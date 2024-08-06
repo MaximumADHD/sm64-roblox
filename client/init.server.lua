@@ -590,8 +590,8 @@ local function update(dt: number)
 	end
 
 	subframe = math.min(subframe, 4) -- Prevent execution runoff
-
 	while subframe >= 1 do
+		Util.GlobalTimer += 1
 		subframe -= 1
 		updateCollisions()
 
@@ -603,7 +603,9 @@ local function update(dt: number)
 		gfxRot = Util.ToRotation(mario.GfxAngle)
 
 		if humanoid then
-			humanoid.CameraOffset = humanoid.CameraOffset:Lerp(-gfxPosOffset, dt * 16)
+			humanoid.CameraOffset = if gfxPosOffset == Vector3.zero
+				then humanoid.CameraOffset:Lerp(-gfxPosOffset, dt * 16)
+				else -gfxPosOffset
 		end
 
 		mario.GfxPos = Vector3.zero

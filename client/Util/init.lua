@@ -154,11 +154,11 @@ function Util.DebugWater(waterLevel: number)
 end
 
 function Util.DebugCollisionFaces(wall: RaycastResult?, ceil: RaycastResult?, floor: RaycastResult?)
-	for hit, decal in
+	for decal, hit in
 		{
-			[wall] = wallSurfacePlane,
-			[ceil] = ceilSurfacePlane,
-			[floor] = floorSurfacePlane,
+			[wallSurfacePlane] = wall,
+			[ceilSurfacePlane] = ceil,
+			[floorSurfacePlane] = floor,
 		}
 	do
 		if script:GetAttribute("Debug") then
@@ -220,7 +220,6 @@ function Util.RaycastSM64(pos: Vector3, dir: Vector3, maybeParams: RaycastParams
             Distance = result.Distance / Util.Scale,
             Position = result.Position / Util.Scale,
         } :: any
-        break
     end
 
     return result
