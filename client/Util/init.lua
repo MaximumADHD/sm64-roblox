@@ -198,8 +198,8 @@ function Util.Raycast(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, w
 		local color = Color3.new(result and 0 or 1, result and 1 or 0, 0)
 
 		local line = Instance.new("LineHandleAdornment")
+		line.Length = result and result.Distance or dir.Magnitude
 		line.CFrame = CFrame.new(pos, pos + dir)
-		line.Length = dir.Magnitude
 		line.Thickness = 3
 		line.Color3 = color
 		line.Adornee = workspace.Terrain
@@ -218,27 +218,28 @@ end
 
 -- stylua: ignore
 function Util.RaycastSM64(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, worldRoot: WorldRoot?, extension: number?): RaycastResult?
-	local extension = math.max(math.ceil(tonumber(extension) or 1), 1)
-	local result: RaycastResult?
+    local extension = math.max(math.ceil(tonumber(extension) or 1), 1)
+    local result: RaycastResult?
 
-	for i = 1, extension do
-		local off = dir * (i - 1)
-		result = Util.Raycast((pos + off) * Util.Scale, dir * Util.Scale, maybeParams or rayParams, worldRoot)
+	-- todo deal with 15,000 raycast direction limit with a wet mop
+    for i = 1, extension do
+        local off = dir * (i - 1)
+        result = Util.Raycast((pos + off) * Util.Scale, dir * Util.Scale, maybeParams or rayParams, worldRoot)
 
-		if result then
-			-- Cast back to SM64 unit scale.
-			result = {
-				Normal = result.Normal,
-				Material = result.Material,
-				Instance = result.Instance,
-				Distance = result.Distance / Util.Scale,
-				Position = result.Position / Util.Scale,
-			} :: any
-			break
-		end
+        if result then
+            -- Cast back to SM64 unit scale.
+            result = {
+                Normal = result.Normal,
+                Material = result.Material,
+                Instance = result.Instance,
+                Distance = result.Distance / Util.Scale,
+                Position = result.Position / Util.Scale,
+            } :: any
+            break
+        end
 	end
 
-	return result
+    return result
 end
 
 function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
@@ -267,7 +268,13 @@ function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 	local unqueried: { [BasePart]: any } = {}
 
 	for i = 1, 2 do
-		result = Util.RaycastSM64(newPos + (Vector3.yAxis * 100), -Vector3.yAxis * 10000, rayParams, workspace, 4)
+		result = Util.RaycastSM64(
+			newPos + (Vector3.yAxis * 100),
+			(-Vector3.yAxis * 15000 / Util.Scale),
+			rayParams,
+			workspace,
+			4
+		)
 		local _, ignored = shouldIgnoreSurface(result, "Floor")
 		local hit: BasePart? = result and (result.Instance :: BasePart)
 

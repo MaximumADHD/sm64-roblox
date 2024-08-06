@@ -2,6 +2,7 @@
 
 local Flags = {}
 Flags.__index = Flags
+Flags.__type = "BitmaskFlag"
 
 export type Flags = { Value: number }
 export type Class = typeof(setmetatable({} :: Flags, Flags))
