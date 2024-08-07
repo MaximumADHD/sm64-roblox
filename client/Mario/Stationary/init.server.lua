@@ -772,6 +772,30 @@ DEF_ACTION(Action.GROUND_POUND_LAND, function(m: Mario)
 	return false
 end)
 
+DEF_ACTION(Action.COUGHING, function(m: Mario)
+	local animFrame
+
+	if checkCommonIdleCancels(m) then
+		return true
+	end
+
+	m:StationaryGroundStep()
+	animFrame = m:SetAnimation(Animations.COUGHING)
+	if animFrame == 25 or animFrame == 35 then
+		m:PlaySound(Sounds.MARIO_COUGHING3)
+	end
+
+	if animFrame == 50 or animFrame == 58 then
+		m:PlaySound(Sounds.MARIO_COUGHING2)
+	end
+
+	if animFrame == 71 or animFrame == 80 then
+		m:PlaySound(Sounds.MARIO_COUGHING1)
+	end
+
+	return false
+end)
+
 DEF_ACTION(Action.STOMACH_SLIDE_STOP, function(m: Mario)
 	if m.Input:Has(InputFlags.STOMPED) then
 		return m:SetAction(Action.SHOCKWAVE_BOUNCE)

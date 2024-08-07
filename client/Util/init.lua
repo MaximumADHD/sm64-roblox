@@ -1,4 +1,5 @@
 --!strict
+local CollectionService = game:GetService("CollectionService")
 local RunService = game:GetService("RunService")
 local Core = script.Parent.Parent
 
@@ -56,6 +57,58 @@ local CONSTRUCTORS = {
 	Vector3 = Vector3.new,
 	Vector3int16 = Vector3int16.new,
 }
+
+-- Hopefully this isn't harsh on mem usage
+local TagParams: { [string]: RaycastParams } = {}
+local GetTagParams: (string) -> RaycastParams
+do
+	-- Add new parts to filters
+	workspace.DescendantAdded:Connect(function(part)
+		for tag, params in TagParams do
+			if part:HasTag(tag) and part:IsA("BasePart") then
+				params:AddToFilter(part)
+			end
+		end
+	end)
+
+	GetTagParams = function(tag: string): RaycastParams
+		if TagParams[tag] then
+			return TagParams[tag]
+		end
+
+		local new = RaycastParams.new()
+		new.FilterType = Enum.RaycastFilterType.Include
+		TagParams[tag] = new
+
+		local function append(object: Instance)
+			if object:IsA("BasePart") and object:HasTag(tag) then
+				new:AddToFilter(object)
+
+				local removing: RBXScriptConnection
+				removing = object.AncestryChanged:Connect(function()
+					if object:IsDescendantOf(workspace) then
+						return
+					end
+
+					-- :(
+					local filter = new.FilterDescendantsInstances
+					table.remove(filter, table.find(filter, object))
+					new.FilterDescendantsInstances = filter
+
+					-- Goodbye.
+					removing:Disconnect()
+					removing = nil
+				end)
+			end
+		end
+
+		for _, object: Instance in CollectionService:GetTagged(tag) do
+			append(object)
+		end
+
+		return new
+	end
+end
 
 -- To assist with making proper BLJ-able staircases.
 -- (or just plain ignoring some collision types)
@@ -156,20 +209,22 @@ end
 function Util.DebugCollisionFaces(wall: RaycastResult?, ceil: RaycastResult?, floor: RaycastResult?)
 	for decal, hit in
 		{
-			[wallSurfacePlane] = wall,
-			[ceilSurfacePlane] = ceil,
-			[floorSurfacePlane] = floor,
+			[wallSurfacePlane] = wall or false,
+			[ceilSurfacePlane] = ceil or false,
+			[floorSurfacePlane] = floor or false,
 		}
 	do
 		if script:GetAttribute("Debug") then
-			local part: BasePart? = hit and hit.Instance :: BasePart
+			local part: BasePart? = if type(hit) ~= "boolean"
+				then hit :: RaycastResult and hit.Instance :: BasePart
+				else nil
 
 			if
 				(hit and part)
 				and part ~= workspace.Terrain
 				and (RunService:IsStudio() and true or part.Transparency < 1)
 			then
-				decal.Face = normalIdFromRaycast(hit)
+				decal.Face = normalIdFromRaycast(hit :: RaycastResult)
 				decal.Parent = part
 				continue
 			end
@@ -208,7 +263,6 @@ end
 
 -- stylua: ignore
 function Util.RaycastSM64(pos: Vector3, dir: Vector3, maybeParams: RaycastParams?, worldRoot: WorldRoot?): RaycastResult?
-    local extension = math.max(math.ceil(tonumber(extension) or 1), 1)
     local result: RaycastResult? = Util.Raycast(pos * Util.Scale, dir * Util.Scale, maybeParams or rayParams, worldRoot)
 
     if result then
@@ -251,12 +305,8 @@ function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 	local unqueried: { [BasePart]: any } = {}
 
 	for i = 1, 2 do
-		result = Util.RaycastSM64(
-			newPos + (Vector3.yAxis * 100),
-			(-Vector3.yAxis * 15000 / Util.Scale),
-			rayParams,
-			workspace
-		)
+		result =
+			Util.RaycastSM64(newPos + (Vector3.yAxis * 100), -Vector3.yAxis * 15000 / Util.Scale, rayParams, workspace)
 		local _, ignored = shouldIgnoreSurface(result, "Floor")
 		local hit: BasePart? = result and (result.Instance :: BasePart)
 
@@ -340,6 +390,22 @@ function Util.FindWallCollisions(pos: Vector3, offset: number, radius: number): 
 	end
 
 	return pos + disp, lastWall
+end
+
+-- stylua: ignore
+function Util.FindTaggedPlane(pos: Vector3, tag: string): (number, RaycastResult?)
+	local height = -11000
+	local result = Util.RaycastSM64(
+		pos + (Vector3.yAxis * 5000),
+		Vector3.yAxis * -10000,
+		GetTagParams(tag)
+	)
+
+	if result then
+		height = result.Position.Y
+	end
+
+	return height, result
 end
 
 function Util.SignedShort(x: number)

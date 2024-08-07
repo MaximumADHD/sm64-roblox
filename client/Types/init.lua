@@ -83,6 +83,7 @@ export type MarioState = {
 	FloorHeight: number,
 	FloorAngle: number,
 	WaterLevel: number,
+	GasLevel: number,
 
 	BodyState: BodyState,
 	Controller: Controller,

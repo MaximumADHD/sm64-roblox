@@ -943,6 +943,8 @@ function Mario.BonkReflection(m: Mario, negateSpeed: boolean?)
 	else
 		m.FaceAngle += Vector3int16.new(0, 0x8000, 0)
 	end
+
+	m.Inertia = Vector3.zero
 end
 
 function Mario.PushOffSteepFloor(m: Mario, action: number, actionArg: number?)
@@ -1523,6 +1525,9 @@ function Mario.UpdateGeometryInputs(m: Mario)
 	m.Ceil = ceil
 
 	if floor then
+		local gasLevel = Util.FindTaggedPlane(m.Position, "PoisonGasCloud")
+		m.GasLevel = gasLevel
+
 		m.FloorAngle = Util.Atan2s(floor.Normal.Z, floor.Normal.X)
 		m.TerrainType = m:GetTerrainType()
 
@@ -1562,6 +1567,10 @@ function Mario.UpdateGeometryInputs(m: Mario)
 
 		if m.Position.Y < m.WaterLevel - 10 then
 			m.Input:Add(InputFlags.IN_WATER)
+		end
+
+		if m.Position.Y < m.GasLevel - 100 then
+			m.Input:Add(InputFlags.IN_POISON_GAS)
 		end
 	end
 end
@@ -2163,7 +2172,8 @@ function Mario.new(): Mario
 		CeilHeight = 0,
 		FloorHeight = 0,
 		FloorAngle = 0,
-		WaterLevel = 0,
+		WaterLevel = -11000,
+		GasLevel = -11000,
 
 		Health = 0x880,
 		HurtCounter = 0,

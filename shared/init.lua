@@ -326,6 +326,7 @@ setmetatable(SoundTable, {
 		end
 
 		warn("UNKNOWN SOUND:", k)
+		return nil
 	end,
 })
 
