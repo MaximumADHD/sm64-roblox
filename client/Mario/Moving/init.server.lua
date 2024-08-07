@@ -163,7 +163,13 @@ end
 
 local function checkLedgeClimbDown(m: Mario)
 	if m.ForwardVel < 10 then
-		local pos, wall = Util.FindWallCollisions(m.Position, -10, 10)
+		-- Not the best fix possible...
+		-- But if the fix fixes the fix-required trouble,
+		-- then the day's fixed.
+		local climbDownRange = Vector3.new(Util.Sins(m.FaceAngle.Y), 0, Util.Coss(m.FaceAngle.Y))
+
+		local detector = m.Position + (climbDownRange * 10)
+		local pos, wall = Util.FindWallCollisions(detector, -10, 10)
 
 		if wall then
 			local floorHeight, floor = Util.FindFloor(pos)
@@ -261,6 +267,9 @@ local function updateSlidingAngle(m: Mario, accel: number, lossFactor: number)
 
 	m.FaceAngle = Util.SetY(m.FaceAngle, m.SlideYaw + newFacingDYaw)
 	m.Velocity = Vector3.new(m.SlideVelX, 0, m.SlideVelZ)
+
+	m:UpdateMovingSand()
+	m:UpdateWindyGround()
 
 	--! Speed is capped a frame late (butt slide HSG)
 	m.ForwardVel = math.sqrt(m.SlideVelX ^ 2 + m.SlideVelZ ^ 2)
@@ -374,6 +383,9 @@ local function applySlopeAccel(m: Mario)
 	m.SlideVelX = m.ForwardVel * Util.Sins(m.FaceAngle.Y)
 	m.SlideVelZ = m.ForwardVel * Util.Coss(m.FaceAngle.Y)
 	m.Velocity = Vector3.new(m.SlideVelX, 0, m.SlideVelZ)
+
+	m:UpdateMovingSand()
+	m:UpdateWindyGround()
 end
 
 local function applyLandingAccel(m: Mario, frictionFactor: number)
@@ -426,6 +438,9 @@ local function updateDeceleratingSpeed(m: Mario)
 	end
 
 	m:SetForwardVel(m.ForwardVel)
+	m:UpdateMovingSand()
+	m:UpdateWindyGround()
+
 	return stopped
 end
 
@@ -434,6 +449,10 @@ local function updateWalkingSpeed(m: Mario)
 	local floor = m.Floor
 
 	local targetSpeed = if m.IntendedMag < maxTargetSpeed then m.IntendedMag else maxTargetSpeed
+
+	if m.QuicksandDepth > 10 then
+		targetSpeed *= 6.25 / m.QuicksandDepth
+	end
 
 	if m.ForwardVel < 0 then
 		m.ForwardVel += 1.1
@@ -510,63 +529,70 @@ local function animAndAudioForWalk(m: Mario)
 	local targetPitch = 0
 	local accel
 
-	while true do
-		if m.ActionTimer == 0 then
-			if baseAccel > 8 then
-				m.ActionTimer = 2
-			else
-				accel = baseAccel / 4 * 0x10000
-
-				if accel < 0x1000 then
-					accel = 0x1000
-				end
-
-				m:SetAnimationWithAccel(Animations.START_TIPTOE, accel)
-				playStepSound(m, 7, 22)
-
-				if m:IsAnimPastFrame(23) then
+	if m.QuicksandDepth > 50 then
+		accel = (baseAccel / 4 * 0x10000)
+		m:SetAnimationWithAccel(Animations.MOVE_IN_QUICKSAND, accel)
+		playStepSound(m, 19, 93)
+		m.ActionTimer = 0
+	else
+		while true do
+			if m.ActionTimer == 0 then
+				if baseAccel > 8 then
 					m.ActionTimer = 2
+				else
+					accel = baseAccel / 4 * 0x10000
+
+					if accel < 0x1000 then
+						accel = 0x1000
+					end
+
+					m:SetAnimationWithAccel(Animations.START_TIPTOE, accel)
+					playStepSound(m, 7, 22)
+
+					if m:IsAnimPastFrame(23) then
+						m.ActionTimer = 2
+					end
+
+					break
 				end
+			elseif m.ActionTimer == 1 then
+				if baseAccel > 8 then
+					m.ActionTimer = 2
+				else
+					accel = baseAccel * 0x10000
 
-				break
-			end
-		elseif m.ActionTimer == 1 then
-			if baseAccel > 8 then
-				m.ActionTimer = 2
-			else
-				accel = baseAccel * 0x10000
+					if accel < 0x1000 then
+						accel = 0x1000
+					end
 
-				if accel < 0x1000 then
-					accel = 0x1000
+					m:SetAnimationWithAccel(Animations.TIPTOE, accel)
+					playStepSound(m, 14, 72)
+
+					break
 				end
+			elseif m.ActionTimer == 2 then
+				if baseAccel < 5 then
+					m.ActionTimer = 1
+				elseif baseAccel > 22 then
+					m.ActionTimer = 3
+				else
+					accel = baseAccel / 4 * 0x10000
+					m:SetAnimationWithAccel(Animations.WALKING, accel)
+					playStepSound(m, 10, 49)
+					break
+				end
+			elseif m.ActionTimer == 3 then
+				if baseAccel < 18 then
+					m.ActionTimer = 2
+				else
+					accel = baseAccel / 4 * 0x10000
+					m:SetAnimationWithAccel(Animations.RUNNING, accel)
 
-				m:SetAnimationWithAccel(Animations.TIPTOE, accel)
-				playStepSound(m, 14, 72)
+					playStepSound(m, 9, 45)
+					targetPitch = tiltBodyRunning(m)
 
-				break
-			end
-		elseif m.ActionTimer == 2 then
-			if baseAccel < 5 then
-				m.ActionTimer = 1
-			elseif baseAccel > 22 then
-				m.ActionTimer = 3
-			else
-				accel = baseAccel / 4 * 0x10000
-				m:SetAnimationWithAccel(Animations.WALKING, accel)
-				playStepSound(m, 10, 49)
-				break
-			end
-		elseif m.ActionTimer == 3 then
-			if baseAccel < 18 then
-				m.ActionTimer = 2
-			else
-				accel = baseAccel / 4 * 0x10000
-				m:SetAnimationWithAccel(Animations.RUNNING, accel)
-
-				playStepSound(m, 9, 45)
-				targetPitch = tiltBodyRunning(m)
-
-				break
+					break
+				end
 			end
 		end
 	end
@@ -845,6 +871,11 @@ local function commonLandingAction(m: Mario, anim: Animation)
 
 	m:SetAnimation(anim)
 	m:PlayLandingSoundOnce(Sounds.ACTION_TERRAIN_LANDING)
+
+	local floorType = m:GetFloorType()
+	if floorType >= SurfaceClass.SHALLOW_QUICKSAND and floorType <= SurfaceClass.MOVING_QUICKSAND then
+		m.QuicksandDepth += (4 - m.ActionTimer) * 3.5 - 0.5
+	end
 
 	return stepResult
 end
@@ -1492,4 +1523,41 @@ DEF_ACTION(Action.PUNCHING, function(m: Mario)
 	m:PerformGroundStep()
 
 	return false
+end)
+
+local function QuicksandJumpLandAction(m: Mario, animation1, animation2, endAction, airAction)
+	m.ActionTimer += 1
+	if m.ActionTimer < 6 then
+		m.QuicksandDepth -= (7 - m.ActionTimer) * 0.8
+		if m.QuicksandDepth < 1.0 then
+			m.QuicksandDepth = 1.1
+		end
+
+		m:PlayJumpSound()
+		m:SetAnimation(animation1)
+	else
+		if m.ActionTimer >= 13 then
+			return m:SetAction(endAction, 0)
+		end
+
+		m:SetAnimation(animation1)
+	end
+
+	applyLandingAccel(m, 0.95)
+	if m:PerformGroundStep() == GroundStep.LEFT_GROUND then
+		m:SetAction(airAction, 0)
+	end
+
+	return false
+end
+
+DEF_ACTION(Action.QUICKSAND_JUMP_LAND, function(m: Mario)
+	local cancel = QuicksandJumpLandAction(
+		m,
+		Animations.SINGLE_JUMP,
+		Animations.LAND_FROM_SINGLE_JUMP,
+		Action.JUMP_LAND_STOP,
+		Action.FREEFALL
+	)
+	return cancel
 end)

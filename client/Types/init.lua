@@ -60,6 +60,7 @@ export type MarioState = {
 	ThrowMatrix: CFrame?,
 
 	GfxAngle: Vector3int16,
+	GfxScale: Vector3,
 	GfxPos: Vector3,
 
 	SlideYaw: number,
@@ -68,6 +69,7 @@ export type MarioState = {
 	Position: Vector3,
 	Velocity: Vector3,
 
+	Inertia: Vector3,
 	ForwardVel: number,
 	SlideVelX: number,
 	SlideVelZ: number,
@@ -76,10 +78,12 @@ export type MarioState = {
 	Ceil: RaycastResult?,
 	Floor: RaycastResult?,
 
+	CeilHeightSquish: number?,
 	CeilHeight: number,
 	FloorHeight: number,
 	FloorAngle: number,
 	WaterLevel: number,
+	GasLevel: number,
 
 	BodyState: BodyState,
 	Controller: Controller,

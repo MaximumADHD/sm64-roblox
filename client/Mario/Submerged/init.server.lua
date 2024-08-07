@@ -9,9 +9,11 @@ local AirStep = Enums.AirStep
 local WaterStep = Enums.WaterStep
 local GroundStep = Enums.GroundStep
 local InputFlags = Enums.InputFlags
-local MarioFlags = Enums.MarioFlags
 local ActionFlags = Enums.ActionFlags
 local ParticleFlags = Enums.ParticleFlags
+
+local MarioFlags = Enums.MarioFlags
+local MarioEyes = Enums.MarioEyes
 
 local MIN_SWIM_STRENGTH = 160
 local MIN_SWIM_SPEED = 16
@@ -135,7 +137,7 @@ local function performWaterStep(m: Mario)
 
 	local stepResult = performWaterFullStep(m, nextPos)
 	m.GfxAngle = m.FaceAngle * Vector3int16.new(-1, 1, 1)
-	m.GfxPos = m.Position
+	m.GfxPos = Vector3.zero
 
 	return stepResult
 end
@@ -447,6 +449,22 @@ local function updateMetalWaterJumpSpeed(m: Mario)
 
 	return false
 end
+
+local function commonWaterKnockbackStep(m: Mario, animation: Animation, endAction: s32, arg3: s32)
+	stationarySlowDown(m)
+	performWaterStep(m)
+	m:SetAnimation(animation)
+
+	m.BodyState.HeadAngle = Util.SetX(m.BodyState.HeadAngle, 0)
+
+	if m:IsAnimAtEnd() then
+		if arg3 > 0 then
+			m.InvincTimer = 30
+		end
+
+		m:SetAction(m.Health >= 0x100 and endAction or Action.WATER_DEATH, 0)
+	end
+end
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 local DEF_ACTION: (number, (Mario) -> boolean) -> () = System.RegisterAction
@@ -742,6 +760,10 @@ DEF_ACTION(Action.METAL_WATER_WALKING, function(m: Mario)
 		return m:SetAction(Action.WATER_IDLE)
 	end
 
+	if m.Input:Has(InputFlags.FIRST_PERSON) then
+		return m:SetAction(Action.METAL_WATER_STANDING)
+	end
+
 	if m.Input:Has(InputFlags.A_PRESSED) then
 		return m:SetAction(Action.METAL_WATER_JUMP)
 	end
@@ -852,6 +874,60 @@ DEF_ACTION(Action.METAL_WATER_FALL_LAND, function(m: Mario)
 	if m:IsAnimAtEnd() then
 		return m:SetAction(Action.METAL_WATER_STANDING)
 	end
+
+	return false
+end)
+
+DEF_ACTION(Action.BACKWARD_WATER_KB, function(m: Mario)
+	commonWaterKnockbackStep(m, Animations.BACKWARDS_WATER_KB, Action.WATER_IDLE, m.ActionArg)
+	return false
+end)
+
+DEF_ACTION(Action.FORWARD_WATER_KB, function(m: Mario)
+	commonWaterKnockbackStep(m, Animations.WATER_FORWARD_KB, Action.WATER_IDLE, m.ActionArg)
+	return false
+end)
+
+DEF_ACTION(Action.WATER_SHOCKED, function(m: Mario)
+	m:PlaySoundIfNoFlag(Sounds.MARIO_WAAAOOOW, MarioFlags.ACTION_SOUND_PLAYED)
+	m:PlaySound(Sounds.MOVING_SHOCKED)
+
+	if m:SetAnimation(Animations.SHOCKED) == 0 then
+		m.InvincTimer = 30
+		m:SetAction(m.Health < 0x100 and Action.WATER_DEATH or Action.WATER_IDLE, 0)
+	end
+
+	stationarySlowDown(m)
+	performWaterStep(m)
+	m.BodyState.HeadAngle = Util.SetX(m.BodyState.HeadAngle, 0)
+	return false
+end)
+
+DEF_ACTION(Action.DROWNING, function(m: Mario)
+	if m.ActionState == 0 then
+		m:SetAnimation(Animations.DROWNING_PART1)
+		m.BodyState.EyeState = MarioEyes.HALF_CLOSED
+		if m:IsAnimAtEnd() then
+			m.ActionState = 1
+		end
+	elseif m.ActionState == 1 then
+		m:SetAnimation(Animations.DROWNING_PART2)
+		m.BodyState.EyeState = MarioEyes.DEAD
+	end
+
+	m:PlaySoundIfNoFlag(Sounds.MARIO_DROWNING, MarioFlags.ACTION_SOUND_PLAYED)
+	stationarySlowDown(m)
+	performWaterStep(m)
+
+	return false
+end)
+
+DEF_ACTION(Action.WATER_DEATH, function(m: Mario)
+	stationarySlowDown(m)
+	performWaterStep(m)
+
+	m.BodyState.EyeState = MarioEyes.DEAD
+	m:SetAnimation(Animations.WATER_DYING)
 
 	return false
 end)

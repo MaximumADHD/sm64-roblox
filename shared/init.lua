@@ -319,7 +319,14 @@ end)
 
 setmetatable(SoundTable, {
 	__index = function(_, k)
+		local Existing = Sounds:FindFirstChild(k)
+		if Existing then
+			rawset(SoundTable, k, Existing)
+			return Existing
+		end
+
 		warn("UNKNOWN SOUND:", k)
+		return nil
 	end,
 })
 

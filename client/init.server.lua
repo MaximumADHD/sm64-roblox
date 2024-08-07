@@ -32,6 +32,8 @@ local Buttons = Enums.Buttons
 local MarioFlags = Enums.MarioFlags
 local ParticleFlags = Enums.ParticleFlags
 
+local SurfaceClass = Enums.SurfaceClass
+
 type InputType = Enum.UserInputType | Enum.KeyCode
 type Controller = Types.Controller
 type Mario = Mario.Class
@@ -72,6 +74,7 @@ local AUTO_STATS = {
 	"CeilHeight",
 	"FloorHeight",
 	"WaterLevel",
+	"QuicksandDepth",
 }
 
 local ControlModule: {
@@ -98,6 +101,7 @@ end
 
 local BUTTON_FEED = {}
 local BUTTON_BINDS = {}
+local TAS_INPUT_OVERRIDE = false
 
 local function toStrictNumber(str: string): number
 	local result = tonumber(str)
@@ -113,6 +117,11 @@ local function processAction(id: string, state: Enum.UserInputState, input: Inpu
 				local isDebug = not character:GetAttribute("Debug")
 				character:SetAttribute("Debug", isDebug)
 			end
+		end
+	elseif id == "TASInputForceToggle" then
+		if state == Enum.UserInputState.Begin then
+			TAS_INPUT_OVERRIDE = not TAS_INPUT_OVERRIDE
+			print(`<- TAS input override {TAS_INPUT_OVERRIDE and "ON" or "OFF"} ->`)
 		end
 	else
 		local button = toStrictNumber(id:sub(5))
@@ -214,9 +223,15 @@ local function updateController(controller: Controller, humanoid: Humanoid?)
 	controller.ButtonPressed:Band(bit32.bxor(buttonValue, lastButtonValue))
 
 	local character = humanoid.Parent
-	if (character and character:GetAttribute("TAS")) or Core:GetAttribute("ToolAssistedInput") then
-		if not mario.Action:Has(Enums.ActionFlags.SWIMMING) then
-			if controller.ButtonDown:Has(Buttons.A_BUTTON) then
+	if
+		((character and character:GetAttribute("TAS")) or Core:GetAttribute("ToolAssistedInput"))
+		and not TAS_INPUT_OVERRIDE
+	then
+		if not mario.Action:Has(Enums.ActionFlags.SWIMMING, Enums.ActionFlags.HANGING) then
+			if
+				controller.ButtonDown:Has(Buttons.A_BUTTON)
+				and not (controller.ButtonDown:Has(Buttons.B_BUTTON) or controller.ButtonPressed:Has(Buttons.Z_TRIG))
+			then
 				controller.ButtonPressed:Set(Buttons.A_BUTTON)
 			end
 		end
@@ -224,6 +239,7 @@ local function updateController(controller: Controller, humanoid: Humanoid?)
 end
 
 ContextActionService:BindAction("MarioDebug", processAction, false, Enum.KeyCode.P)
+ContextActionService:BindAction("TASInputForceToggle", processAction, false, Enum.KeyCode.RightControl)
 bindInput(Buttons.B_BUTTON, "B", Enum.UserInputType.MouseButton1, Enum.KeyCode.ButtonX)
 bindInput(
 	Buttons.Z_TRIG,
@@ -242,7 +258,7 @@ local Commands = {}
 local soundDecay = {}
 
 local lazyNetwork = ReplicatedStorage:WaitForChild("LazyNetwork")
-assert(lazyNetwork:IsA("RemoteEvent"), "bad lazyNetwork!")
+assert(lazyNetwork:IsA("UnreliableRemoteEvent"), "bad lazyNetwork!")
 
 local function stepDecay(sound: Sound)
 	local decay = soundDecay[sound]
@@ -354,6 +370,17 @@ function Commands.SetHeadAngle(player: Player, angle: Vector3int16)
 	end
 end
 
+function Commands.SetHealth(player: Player, health: number)
+	local character = player.Character
+	local humanoid = character and character:FindFirstChildWhichIsA("Humanoid")
+	local health = math.max(health, 0.01)
+
+	if humanoid then
+		humanoid.MaxHealth = 8
+		humanoid.Health = health
+	end
+end
+
 function Commands.SetCamera(player: Player, cf: CFrame?)
 	local camera = workspace.CurrentCamera
 
@@ -395,6 +422,7 @@ lazyNetwork.OnClientEvent:Connect(onNetworkReceive)
 local lastUpdate = os.clock()
 local lastHeadAngle: Vector3int16?
 local lastTorsoAngle: Vector3int16?
+local lastHealth: number?
 
 local activeScale = 1
 local subframe = 0 -- 30hz subframe
@@ -408,6 +436,9 @@ local reset = Instance.new("BindableEvent")
 reset.Archivable = false
 reset.Parent = script
 reset.Name = "Reset"
+
+-- To not reach the 256 tracks limit warning
+local loadedAnims: { [string]: AnimationTrack } = {}
 
 if RunService:IsStudio() then
 	local dummySequence = Instance.new("KeyframeSequence")
@@ -432,7 +463,12 @@ local function setDebugStat(key: string, value: any)
 	elseif typeof(value) == "Vector3int16" then
 		value = string.format("%i, %i, %i", value.X, value.Y, value.Z)
 	elseif type(value) == "number" then
-		value = string.format("%.3f", value)
+		if math.abs(value) == math.huge then
+			local sign = math.sign(value) == -1 and "-" or ""
+			value = `{sign}∞`
+		else
+			value = string.format("%.3f", value)
+		end
 	end
 
 	debugStats:SetAttribute(key, value)
@@ -462,6 +498,13 @@ local function onReset()
 	mario.ForwardVel = 0
 	mario.IntendedYaw = 0
 
+	mario.HealCounter = 0
+	mario.HurtCounter = 0
+	mario.Health = 0x880
+	mario.SquishTimer = 0
+
+	mario.QuicksandDepth = 0
+
 	mario.Position = sm64
 	mario.Velocity = Vector3.zero
 	mario.FaceAngle = Vector3int16.new()
@@ -470,6 +513,15 @@ local function onReset()
 end
 
 local function getWaterLevel(pos: Vector3)
+	-- Get water height from part planes.
+	-- Note that even if you're not inside of them, you'll still
+	-- swim there, since it's just based on the position the Raycast
+	-- landed on.
+	local waterHeightFromPlane, waterPlane = Util.FindTaggedPlane(Util.ToSM64(pos), "Water")
+	if waterPlane then
+		return waterHeightFromPlane
+	end
+
 	local terrain = workspace.Terrain
 	local voxelPos = terrain:WorldToCellPreferSolid(pos)
 
@@ -493,7 +545,7 @@ local function getWaterLevel(pos: Vector3)
 	return waterLevel
 end
 
-local function update()
+local function update(dt: number)
 	local character = player.Character
 
 	if not character then
@@ -501,6 +553,7 @@ local function update()
 	end
 
 	local now = os.clock()
+	local dt = math.min(dt, 0.1)
 	local gfxRot = CFrame.identity
 	local scale = character:GetScale()
 
@@ -528,6 +581,7 @@ local function update()
 	local robloxPos = Util.ToRoblox(mario.Position)
 	mario.WaterLevel = getWaterLevel(robloxPos)
 	Util.DebugWater(mario.WaterLevel)
+	Util.DebugCollisionFaces(mario.Wall, mario.Ceil, mario.Floor)
 
 	subframe += (now - lastUpdate) * (STEP_RATE * simSpeed)
 	lastUpdate = now
@@ -545,16 +599,26 @@ local function update()
 	end
 
 	subframe = math.min(subframe, 4) -- Prevent execution runoff
-
 	while subframe >= 1 do
+		Util.GlobalTimer += 1
 		subframe -= 1
 		updateCollisions()
 
 		updateController(mario.Controller, humanoid)
 		mario:ExecuteAction()
 
-		local gfxPos = Util.ToRoblox(mario.Position)
+		local gfxPosOffset = Util.ToRoblox(mario.GfxPos)
+		local gfxPos = Util.ToRoblox(mario.Position) + gfxPosOffset
 		gfxRot = Util.ToRotation(mario.GfxAngle)
+
+		if humanoid then
+			humanoid.CameraOffset = if gfxPosOffset == Vector3.zero
+				then humanoid.CameraOffset:Lerp(-gfxPosOffset, dt * 16)
+				else -gfxPosOffset
+		end
+
+		mario.GfxPos = Vector3.zero
+		mario.GfxAngle = Vector3int16.new()
 
 		prevCF = goalCF
 		goalCF = CFrame.new(gfxPos) * FLIP * gfxRot
@@ -590,9 +654,13 @@ local function update()
 					anim.AnimationId = emptyId
 				end
 
-				local track = animator:LoadAnimation(anim)
+				local track = loadedAnims[anim.Name] or animator:LoadAnimation(anim)
 				track:Play(animSpeed, 1, 0)
 				activeTrack = track
+
+				if loadedAnims[anim.Name] == nil then
+					loadedAnims[anim.Name] = track
+				end
 			end
 
 			if activeTrack then
@@ -621,6 +689,8 @@ local function update()
 
 			local actionId = mario.Action()
 			local throw = mario.ThrowMatrix
+
+			local health = bit32.rshift(mario.Health, 8)
 
 			if throw then
 				local throwPos = Util.ToRoblox(throw.Position)
@@ -659,10 +729,19 @@ local function update()
 				setDebugStat("Wall", wall and wall.Instance.Name or NULL_TEXT)
 
 				local floor = mario.Floor
-				setDebugStat("Floor", floor and floor.Instance.Name or NULL_TEXT)
+				local floorType = floor and ` (SurfaceClass.{Enums.GetName(SurfaceClass, mario:GetFloorType())})` or ""
+				setDebugStat("Floor", floor and floor.Instance.Name .. floorType or NULL_TEXT)
 
 				local ceil = mario.Ceil
-				setDebugStat("Ceiling", ceil and ceil.Instance.Name or NULL_TEXT)
+				local ceilType = ceil and ` (SurfaceClass.{Enums.GetName(SurfaceClass, mario:GetCeilType())})` or ""
+				setDebugStat("Ceiling", ceil and ceil.Instance.Name .. ceilType or NULL_TEXT)
+
+				setDebugStat(
+					"Health",
+					`{health} ({string.format("0x%X", mario.Health)}, {mario.Health}) (INC {mario.HealCounter} | DEC {mario.HurtCounter})`
+				)
+
+				setDebugStat("SquishTimer", mario.SquishTimer)
 			end
 
 			for _, name in AUTO_STATS do
@@ -692,6 +771,11 @@ local function update()
 				lastHeadAngle = headAngle
 			end
 
+			if health ~= lastHealth then
+				networkDispatch("SetHealth", health)
+				lastHealth = health
+			end
+
 			if particles then
 				for name, flag in pairs(ParticleFlags) do
 					local inst = particles:FindFirstChild(name, true)
@@ -700,10 +784,6 @@ local function update()
 						local particle = inst :: ParticleEmitter
 						local emit = particle:GetAttribute("Emit")
 						local hasFlag = mario.ParticleFlags:Has(flag)
-
-						if hasFlag then
-							print("SetParticle", name)
-						end
 
 						if emit then
 							if hasFlag then
@@ -745,6 +825,13 @@ end
 
 reset.Event:Connect(onReset)
 RunService.Heartbeat:Connect(update)
+shared.LocalMario = mario
+
+player.CharacterAdded:Connect(function()
+	-- Reset loaded animations if a new character
+	-- has been loaded/replaced to
+	table.clear(loadedAnims)
+end)
 
 while task.wait(1) do
 	local success = pcall(function()

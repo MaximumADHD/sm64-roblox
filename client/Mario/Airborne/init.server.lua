@@ -8,6 +8,7 @@ local Util = System.Util
 
 local Action = Enums.Action
 local ActionFlags = Enums.ActionFlags
+local SurfaceClass = Enums.SurfaceClass
 
 local AirStep = Enums.AirStep
 local MarioEyes = Enums.MarioEyes
@@ -38,6 +39,8 @@ end
 local function playKnockbackSound(m: Mario)
 	if m.ActionArg == 0 and math.abs(m.ForwardVel) >= 28 then
 		m:PlaySoundIfNoFlag(Sounds.MARIO_DOH, MarioFlags.MARIO_SOUND_PLAYED)
+	elseif m.ActionArg == 2 then
+		m:PlaySoundIfNoFlag(Sounds.MARIO_ATTACKED, MarioFlags.MARIO_SOUND_PLAYED)
 	else
 		m:PlaySoundIfNoFlag(Sounds.MARIO_UH, MarioFlags.MARIO_SOUND_PLAYED)
 	end
@@ -67,14 +70,14 @@ local function checkFallDamage(m: Mario, hardFallAction: number): boolean
 	local fallHeight = m.PeakHeight - m.Position.Y
 	local damageHeight = 1150
 
-	if m.Action() == Action.TWIRLING then
+	if m.Action() == Action.TWIRLING or m:GetFloorType() == SurfaceClass.BURNING then
 		return false
 	end
 
 	if m.Velocity.Y < -55 and fallHeight > 3000 then
 		m.HurtCounter += if m.Flags:Has(MarioFlags.CAP_ON_HEAD) then 16 else 24
 		m:PlaySound(Sounds.MARIO_ATTACKED)
-		m:SetAction(hardFallAction, 4)
+		return m:SetAction(hardFallAction, 4)
 	elseif fallHeight > damageHeight and not m:FloorIsSlippery() then
 		m.HurtCounter += if m.Flags:Has(MarioFlags.CAP_ON_HEAD) then 8 else 12
 		m:PlaySound(Sounds.MARIO_ATTACKED)
@@ -82,6 +85,34 @@ local function checkFallDamage(m: Mario, hardFallAction: number): boolean
 	end
 
 	return false
+end
+
+local function shouldGetStuckInGround(m: Mario)
+	local terrainType = m.TerrainType
+	local floor = m.Floor
+	local type = m:GetFloorType()
+
+	if floor ~= nil and (floor.Material == Enum.Material.Snow or floor.Material == Enum.Material.Sand) then
+		--&& type != SURFACE_BURNING && SURFACE_IS_NOT_HARD(type)) {
+		if (m.PeakHeight - m.Position.Y > 1000) and (floor.Normal.Y > 0.8660254) then
+			return true
+		end
+	end
+
+	return false
+end
+
+local function checkFallDamageOrGetStuck(m: Mario, hardFallAction: number)
+	if shouldGetStuckInGround(m) then
+		if shouldGetStuckInGround(m) then
+			m:PlaySound(Sounds.MARIO_OOOF)
+		end
+
+		m:SetAction(Action.FEET_STUCK_IN_GROUND, 0)
+		return true
+	end
+
+	return checkFallDamage(m, hardFallAction)
 end
 
 local function checkKickOrDiveInAir(m: Mario): boolean
@@ -291,7 +322,7 @@ local function commonAirActionStep(m: Mario, landAction: number, anim: Animation
 	if stepResult == AirStep.NONE then
 		m:SetAnimation(anim)
 	elseif stepResult == AirStep.LANDED then
-		if not checkFallDamage(m, Action.HARD_BACKWARD_GROUND_KB) then
+		if not checkFallDamageOrGetStuck(m, Action.HARD_BACKWARD_GROUND_KB) then
 			m:SetAction(landAction)
 		end
 	elseif stepResult == AirStep.HIT_WALL then
@@ -383,7 +414,7 @@ local function commonAirKnockbackStep(
 	if stepResult == AirStep.NONE then
 		m:SetAnimation(anim)
 	elseif stepResult == AirStep.LANDED then
-		if not checkFallDamage(m, hardFallAction) then
+		if not checkFallDamageOrGetStuck(m, hardFallAction) then
 			local action = m.Action()
 
 			if action == Action.THROWN_FORWARD or action == Action.THROWN_BACKWARD then
@@ -410,6 +441,7 @@ local function checkWallKick(m: Mario)
 		if m.Input:Has(InputFlags.A_PRESSED) then
 			if m.PrevAction() == Action.AIR_HIT_WALL then
 				m.FaceAngle += Vector3int16.new(0, 0x8000, 0)
+				return m:SetAction(Action.WALL_KICK_AIR)
 			end
 		end
 	end
@@ -545,6 +577,12 @@ DEF_ACTION(Action.LONG_JUMP, function(m: Mario)
 	local anim = if m.LongJumpIsSlow then Animations.SLOW_LONGJUMP else Animations.FAST_LONGJUMP
 
 	m:PlayMarioSound(Sounds.ACTION_TERRAIN_JUMP, Sounds.MARIO_YAHOO)
+
+	if m:GetFloorType() == SurfaceClass.VERTICAL_WIND and m.ActionState == 0 then
+		m:PlaySound(Sounds.MARIO_HERE_WE_GO)
+		m.ActionState = 1
+	end
+
 	commonAirActionStep(m, Action.LONG_JUMP_LAND, anim, AirStep.CHECK_LEDGE_GRAB)
 
 	return false
@@ -610,7 +648,7 @@ DEF_ACTION(Action.DIVE, function(m: Mario)
 
 		m.GfxAngle = Util.SetX(m.GfxAngle, -m.FaceAngle.X)
 	elseif airStep == AirStep.LANDED then
-		if not checkFallDamage(m, Action.HARD_FORWARD_GROUND_KB) then
+		if not checkFallDamageOrGetStuck(m, Action.HARD_FORWARD_GROUND_KB) then
 			m:SetAction(Action.DIVE_SLIDE)
 		end
 
@@ -666,7 +704,7 @@ DEF_ACTION(Action.STEEP_JUMP, function(m: Mario)
 	airStep = m:PerformAirStep()
 
 	if airStep == AirStep.LANDED then
-		if not checkFallDamage(m, Action.HARD_BACKWARD_GROUND_KB) then
+		if not checkFallDamageOrGetStuck(m, Action.HARD_BACKWARD_GROUND_KB) then
 			m.FaceAngle *= Vector3int16.new(0, 1, 1)
 			m:SetAction(if m.ForwardVel < 0 then Action.BEGIN_SLIDING else Action.JUMP_LAND)
 		end
@@ -700,6 +738,7 @@ DEF_ACTION(Action.GROUND_POUND, function(m: Mario)
 
 		m.Velocity = Util.SetY(m.Velocity, -50)
 		m:SetForwardVel(0)
+		m.Inertia = Vector3.zero
 
 		m:SetAnimation(if m.ActionArg == 0 then Animations.START_GROUND_POUND else Animations.TRIPLE_JUMP_GROUND_POUND)
 
@@ -721,7 +760,7 @@ DEF_ACTION(Action.GROUND_POUND, function(m: Mario)
 		if stepResult == AirStep.LANDED then
 			m:PlayHeavyLandingSound(Sounds.ACTION_HEAVY_LANDING)
 
-			if not checkFallDamage(m, Action.HARD_BACKWARD_GROUND_KB) then
+			if not checkFallDamageOrGetStuck(m, Action.HARD_BACKWARD_GROUND_KB) then
 				m.ParticleFlags:Add(ParticleFlags.MIST_CIRCLE, ParticleFlags.HORIZONTAL_STAR)
 				m:SetAction(Action.GROUND_POUND_LAND)
 			end
@@ -988,13 +1027,9 @@ DEF_ACTION(Action.LAVA_BOOST, function(m: Mario)
 
 	if stepResult == AirStep.LANDED then
 		local floor = m.Floor
-		local floorType: Enum.Material?
+		local floorType = m:GetFloorType()
 
-		if floor then
-			floorType = floor.Material
-		end
-
-		if floorType == Enum.Material.CrackedLava then
+		if floorType == SurfaceClass.BURNING then
 			m.ActionState = 0
 
 			if not m.Flags:Has(MarioFlags.METAL_CAP) then
@@ -1108,7 +1143,7 @@ DEF_ACTION(Action.JUMP_KICK, function(m: Mario)
 	stepResult = m:PerformAirStep()
 
 	if stepResult == AirStep.LANDED then
-		if not checkFallDamage(m, Action.HARD_BACKWARD_GROUND_KB) then
+		if not checkFallDamageOrGetStuck(m, Action.HARD_BACKWARD_GROUND_KB) then
 			m:SetAction(Action.FREEFALL_LAND)
 		end
 	elseif stepResult == AirStep.HIT_WALL then
@@ -1256,7 +1291,7 @@ DEF_ACTION(Action.FLYING_TRIPLE_JUMP, function(m: Mario)
 	end
 
 	if stepResult == AirStep.LANDED then
-		if not checkFallDamage(m, Action.HARD_BACKWARD_GROUND_KB) then
+		if not checkFallDamageOrGetStuck(m, Action.HARD_BACKWARD_GROUND_KB) then
 			m:SetAction(Action.DOUBLE_JUMP_LAND)
 		end
 	elseif stepResult == AirStep.HIT_WALL then
@@ -1268,34 +1303,38 @@ DEF_ACTION(Action.FLYING_TRIPLE_JUMP, function(m: Mario)
 	return false
 end)
 
-DEF_ACTION(Action.SPAWN_SPIN_AIRBORNE, function(m: Mario)
-	m:SetForwardVel(m.ForwardVel)
+DEF_ACTION(Action.VERTICAL_WIND, function(m: Mario)
+	local intendedDYaw = Util.SignedShort(m.IntendedYaw - m.FaceAngle.Y)
+	local intendedMag = m.IntendedMag / 32.0
 
-	if m:PerformAirStep() == AirStep.LANDED then
-		m:PlayLandingSound(Sounds.ACTION_TERRAIN_LANDING)
-		m:SetAction(Action.SPAWN_SPIN_LANDING)
-	end
-
-	if m.ActionState == 0 and m.Position.Y - m.FloorHeight > 300 then
-		if m:SetAnimation(Animations.FORWARD_SPINNING) == 0 then
+	m:PlaySoundIfNoFlag(Sounds.MARIO_HERE_WE_GO, MarioFlags.MARIO_SOUND_PLAYED)
+	if m.ActionState == 0 then
+		m:SetAnimation(Animations.FORWARD_SPINNING_FLIP)
+		if m.AnimFrame == 1 then
 			m:PlaySound(Sounds.ACTION_SPIN)
 		end
+
+		if m:IsAnimPastEnd() then
+			m.ActionState = 1
+		end
 	else
-		m.ActionState = 1
-		m:SetAnimation(Animations.GENERAL_FALL)
+		m:SetAnimation(Animations.AIRBORNE_ON_STOMACH)
 	end
 
-	return false
-end)
+	updateAirWithoutTurn(m)
 
-DEF_ACTION(Action.SPAWN_SPIN_LANDING, function(m: Mario)
-	m:StopAndSetHeightToFloor()
-	m:SetAnimation(Animations.GENERAL_LAND)
-
-	if m:IsAnimAtEnd() then
-		m:SetAction(Action.IDLE)
+	local airStep = m:PerformAirStep(0)
+	if airStep == AirStep.LANDED then
+		m:SetAction(Action.DIVE_SLIDE)
+	elseif airStep == AirStep.HIT_WALL then
+		m:SetForwardVel(-16.0)
 	end
 
+	m.GfxAngle = Vector3int16.new(
+		6144.0 * intendedMag * Util.Coss(intendedDYaw),
+		m.GfxAngle.Y,
+		-4096.0 * intendedMag * Util.Sins(intendedDYaw)
+	)
 	return false
 end)
 

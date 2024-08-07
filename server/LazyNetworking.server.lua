@@ -8,7 +8,7 @@ local Core = script.Parent.Parent
 local Shared = require(Core.Shared)
 local Sounds = Shared.Sounds
 
-local lazy = Instance.new("RemoteEvent")
+local lazy = Instance.new("UnreliableRemoteEvent")
 lazy.Parent = ReplicatedStorage
 lazy.Name = "LazyNetwork"
 lazy.Archivable = false
@@ -49,6 +49,10 @@ end
 
 function Validators.SetHeadAngle(player: Player, angle: Vector3int16)
 	return typeof(angle) == "Vector3int16"
+end
+
+function Validators.SetHealth(player: Player, health: number)
+	return typeof(health) == "number" and (health > 0 and health < 8)
 end
 
 local function onNetworkReceive(player: Player, cmd: string, ...)
