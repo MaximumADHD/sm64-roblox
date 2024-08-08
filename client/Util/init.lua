@@ -300,6 +300,7 @@ function Util.FindFloor(pos: Vector3): (number, RaycastResult?)
 	-- Odd solution for parts that have their floor ignored
 	-- while being above a floor that you can stand on
 	-- (exposed ceiling stuff)
+	-- Behavior is technically similar to SURFACE_INTANGIBLE
 
 	local result
 	local unqueried: { [BasePart]: any } = {}
